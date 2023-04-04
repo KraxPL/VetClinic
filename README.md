@@ -17,13 +17,13 @@ Prerequisites
 
 Installation
 
-    Clone the repository:
+Clone the repository:
 
   bash
 
-git clone https://github.com/KraxPL/VetClinic.git
+    git clone https://github.com/KraxPL/VetClinic.git
 
-    Create a MySQL database named VetClinic:
+Create a MySQL database named VetClinic:
 
   sql
 
@@ -37,9 +37,9 @@ Configure the database connection in application.yaml:
     spring.datasource.username=yourusername
     spring.datasource.password=yourpassword
 
-  Build and run the application:
+Build and run the application:
 
-arduino
+  arduino
 
     mvn spring-boot:run
 
