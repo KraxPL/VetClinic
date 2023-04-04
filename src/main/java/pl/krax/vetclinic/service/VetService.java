@@ -1,5 +1,6 @@
 package pl.krax.vetclinic.service;
 
+import pl.krax.vetclinic.dto.VetDto;
 import pl.krax.vetclinic.entities.Animal;
 import pl.krax.vetclinic.entities.Vet;
 
@@ -8,9 +9,9 @@ import java.util.List;
 public interface VetService {
     void save(Vet vet);
 
-    Vet findById(Long vetId);
+    VetDto findById(Long vetId);
 
-    List<Vet> findAll();
+    List<VetDto> findAll();
 
     void update(Vet vet);
 }

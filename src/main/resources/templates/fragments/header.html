@@ -1,0 +1,30 @@
+<header>
+  <link th:href="@{/css/headerStyles.css}" rel="stylesheet" />
+  <div class="logo">
+    <img src="logo.png" alt="Vet Clinic">
+  </div>
+  <div class="user-menu">
+    <div class="user-info">
+      <p>Welcome, John Doe!</p>
+    </div>
+    <button class="menu-button">Menu</button>
+    <div class="menu-options">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+<script>
+  const menuButton = document.querySelector('.menu-button');
+  const menuOptions = document.querySelector('.menu-options');
+
+  menuButton.addEventListener('click', () => {
+    menuOptions.classList.toggle('show-menu');
+  });
+</script>
+</header>
