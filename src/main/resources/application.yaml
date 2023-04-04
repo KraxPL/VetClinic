@@ -1,0 +1,17 @@
+server:
+  port: 2020
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+  datasource:
+    url: jdbc:mysql://localhost:3306/VetClinic?serverTimezone=UTC
+    username: admin
+    password: vetclinic23
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
