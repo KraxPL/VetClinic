@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Vet Clinic</title>
+  <link rel="stylesheet" href="/css/listStyles.css" th:href="@{/css/listStyles.css}">
+</head>
+<body>
+
+<div th:replace="~{/fragments/header :: header}"></div>
+
+
+<main>
+  <div class="container">
+    <div class="vet-list">
+      <h1>List of Vets</h1>
+      <div class="add-vet-btn-container">
+        <button class="add-vet-btn">Add Vet</button>
+      </div>
+      <table>
+        <thead>
+        <tr>
+          <th>Degree</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="vet : ${vets}">
+          <td th:text="${vet.degree}"></td>
+          <td th:text="${vet.name}"></td>
+          <td th:text="${vet.email}"></td>
+          <td>
+            <button class="edit-vet-btn">Edit</button>
+            <button class="show-records-btn">Show records</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<div th:replace="~{/fragments/footer :: footer}"></div>
+
+</body>
+</html>
