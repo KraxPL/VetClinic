@@ -1,10 +1,12 @@
 package pl.krax.vetclinic.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "medicalRecords")
+@Data
 public class MedicalHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

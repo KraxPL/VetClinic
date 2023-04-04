@@ -1,0 +1,1 @@
+INSERT INTO VetClinic.veterinarians (degree, email, name, password) VALUES ('lek. wet', 'jan.kowalski@onet.pl', 'Jan Kowalski', 'haslo'), ('dr n. wet.', 'adamkowal@wp.pl', 'Adam Kowal', '123');
