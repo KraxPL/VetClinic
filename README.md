@@ -21,7 +21,7 @@ Installation
 
   bash
 
-git clone https://github.com/yourusername/VetClinic.git
+git clone https://github.com/KraxPL/VetClinic.git
 
     Create a MySQL database named VetClinic:
 
