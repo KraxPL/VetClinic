@@ -34,7 +34,9 @@
           <td th:text="${vet.name}"></td>
           <td th:text="${vet.email}"></td>
           <td>
+            <a th:href="@{'/vets/edit/' + ${vet.id}}">
             <button class="edit-vet-btn">Edit</button>
+            </a>
             <button class="show-records-btn">Show records</button>
           </td>
         </tr>

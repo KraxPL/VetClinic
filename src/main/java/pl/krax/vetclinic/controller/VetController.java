@@ -24,13 +24,13 @@ public class VetController {
         model.addAttribute("vets", vetService.findAll());
         return "/vet/list";
     }
-    @GetMapping(name = "/add")
+    @GetMapping("/add")
     public String addNewVetForm(Model model){
         model.addAttribute("newVet", new Vet());
-        model.addAttribute("degrees", degrees);
+        model.addAttribute("degrees", this.degrees);
         return "/vet/add";
     }
-    @PostMapping(name = "/add")
+    @PostMapping("/add")
     public String addNewVet(@Valid Vet vet, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "/vet/add";
@@ -38,12 +38,12 @@ public class VetController {
         vetService.save(vet);
         return "redirect:/vets";
     }
-    @GetMapping(name = "/edit/{vetId}")
+    @GetMapping("/edit/{vetId}")
     public String editVetForm(@PathVariable Long vetId, Model model){
         VetDto vetDto = vetService.findById(vetId);
         if (vetDto != null) { //try with resources needed in the future
             model.addAttribute("vet", vetDto);
-            model.addAttribute("degrees", degrees);
+            model.addAttribute("degrees", this.degrees);
         }
         return "/vet/edit";
     }
