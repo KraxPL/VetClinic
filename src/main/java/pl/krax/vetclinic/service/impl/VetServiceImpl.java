@@ -39,7 +39,7 @@ public class VetServiceImpl implements VetService {
     }
 
     @Override
-    public void update(Vet vet) {
-        vetRepository.save(vet);
+    public void update(VetDto vetDto) {
+        vetRepository.save(vetMapper.dtoToVet(vetDto));
     }
 }
