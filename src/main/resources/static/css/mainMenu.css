@@ -1,0 +1,81 @@
+.tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    transition: all 0.3s ease-in-out;
+}
+
+.pet-owner-tile {
+    background-color: #007bff;
+}
+
+.pet-tile {
+    background-color: #6c757d;
+}
+
+.visit-tile {
+    background-color: #28a745;
+}
+
+.vet-tile {
+    background-color: #17a2b8;
+}
+
+.specialty-tile {
+    background-color: #ffc107;
+}
+
+.search-tile {
+    background-color: #dc3545;
+}
+
+.tile:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.tile-label {
+    text-shadow: 1px 1px black;
+    z-index: 1;
+}
+
+.tile-icon {
+    position: absolute;
+    font-size: 60px;
+    z-index: 0;
+}
+
+.pet-owner-icon {
+    color: #007bff;
+}
+
+.pet-icon {
+    color: #6c757d;
+}
+
+.visit-icon {
+    color: #28a745;
+}
+
+.vet-icon {
+    color: #17a2b8;
+}
+
+.specialty-icon {
+    color: #ffc107;
+}
+
+.search-icon {
+    color: #dc3545;
+}
+
+@media only screen and (max-width: 600px) {
+    .tiles-container {
+        grid-template-columns: 1fr;
+    }
+}

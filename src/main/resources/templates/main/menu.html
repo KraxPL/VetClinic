@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vet Clinic</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/mainMenu.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<main class="container">
+    <h1 class="text-center">Main Menu</h1>
+    <div class="row justify-content-center">
+        <div class="col-sm-3 my-3">
+            <a th:href="@{#}">
+                <div class="tile pet-owner-tile">
+                    <span class="tile-label">New visit</span>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-3 my-3">
+            <a th:href="@{#}">
+                <div class="tile pet-tile">
+                    <span class="tile-label">Customers</span>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-3 my-3">
+            <a th:href="@{#}">
+                <div class="tile visit-tile">
+                    <span class="tile-label">Pets</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-3 my-3">
+            <a th:href="@{#}">
+                <div class="tile vet-tile">
+                    <span class="tile-label">Visits</span>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-3 my-3">
+            <a th:href="@{#}">
+                <div class="tile specialty-tile">
+                    <span class="tile-label">Documents</span>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-3 my-3">
+            <a th:href="@{#}">
+                <div class="tile search-tile">
+                    <span class="tile-label">My schedule</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
