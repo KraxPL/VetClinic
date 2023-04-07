@@ -8,33 +8,37 @@ import pl.krax.vetclinic.repository.PetOwnerRepository;
 import pl.krax.vetclinic.service.PetOwnerService;
 
 import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class PetOwnerServiceImpl implements PetOwnerService {
     private final PetOwnerRepository petOwnerRepository;
+
     @Override
     public void save(PetOwner petOwner) {
-
+        petOwnerRepository.save(petOwner);
     }
 
     @Override
     public PetOwner findById(Long ownerId) {
-        return null;
+        PetOwner petOwner = petOwnerRepository.findById(ownerId)
+                .orElseThrow(() -> new RuntimeException("Pet Owner not found"));
+        return petOwner;
     }
 
     @Override
     public List<PetOwner> findAll() {
-        return null;
+        return petOwnerRepository.findAll();
     }
 
     @Override
     public void update(PetOwner petOwner) {
-
+        petOwnerRepository.save(petOwner);
     }
 
     @Override
     public void deleteById(Long ownerId) {
-
+        petOwnerRepository.deleteById(ownerId);
     }
 }

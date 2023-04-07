@@ -1,12 +1,14 @@
 package pl.krax.vetclinic.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "animals")
+@Data
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

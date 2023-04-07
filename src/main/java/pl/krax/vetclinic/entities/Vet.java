@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.List;
 
@@ -22,4 +23,5 @@ public class Vet {
     private String password;
     @OneToMany
     private List<MedicalHistory> medicalHistoryList;
+    private boolean activeAccount;
 }
