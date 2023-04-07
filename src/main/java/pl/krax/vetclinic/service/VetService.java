@@ -13,5 +13,5 @@ public interface VetService {
 
     List<VetDto> findAll();
 
-    void update(Vet vet);
+    void update(VetDto vetDto);
 }

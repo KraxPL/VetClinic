@@ -5,9 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import pl.krax.vetclinic.dto.VetDto;
 import pl.krax.vetclinic.entities.Vet;
 import pl.krax.vetclinic.service.VetService;
 
@@ -19,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VetController {
     private final VetService vetService;
+    private final List<String> degrees = Arrays.asList("tech. wet.", "lek. wet.", "dr n. wet.", "dr hab. n. wet.", "prof. dr hab.");
     @GetMapping
     public String listAll(Model model){
         model.addAttribute("vets", vetService.findAll());
@@ -27,8 +27,7 @@ public class VetController {
     @GetMapping("/add")
     public String addNewVetForm(Model model){
         model.addAttribute("newVet", new Vet());
-        List<String> degrees = Arrays.asList("tech. wet.", "lek. wet.", "dr n. wet.", "dr hab. n. wet.", "prof. dr hab.");
-        model.addAttribute("degrees", degrees);
+        model.addAttribute("degrees", this.degrees);
         return "/vet/add";
     }
     @PostMapping("/add")
@@ -37,6 +36,23 @@ public class VetController {
             return "/vet/add";
         }
         vetService.save(vet);
+        return "redirect:/vets";
+    }
+    @GetMapping("/edit/{vetId}")
+    public String editVetForm(@PathVariable Long vetId, Model model){
+        VetDto vetDto = vetService.findById(vetId);
+        if (vetDto != null) { //try with resources needed in the future
+            model.addAttribute("vet", vetDto);
+            model.addAttribute("degrees", this.degrees);
+        }
+        return "/vet/edit";
+    }
+    @PostMapping("/edit")
+    public String editVet(@Valid VetDto vetDto, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "/vet/edit";
+        }
+        vetService.update(vetDto);
         return "redirect:/vets";
     }
 }

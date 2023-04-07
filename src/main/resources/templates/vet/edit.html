@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Vet</title>
+  <link rel="stylesheet" href="/css/addStyles.css" th:href="@{/css/addStyles.css}">
+
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="form-container">
+  <h1>Edit Vet</h1>
+  <form method="POST" th:action="@{/vets/edit}" th:object="${vet}">
+    <div>
+      <label>Degree:</label>
+      <select th:field="*{degree}">
+        <option th:each="degree : ${degrees}" th:value="${degree}" th:text="${degree}"></option>
+      </select>
+    </div>
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" th:field="*{name}" required>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" th:field="*{email}" required>
+    </div>
+    <input type="hidden" th:field="*{id}">
+    <button type="submit">Edit User</button>
+  </form>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
