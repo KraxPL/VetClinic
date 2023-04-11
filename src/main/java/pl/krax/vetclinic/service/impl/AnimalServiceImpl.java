@@ -42,8 +42,8 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public void update(Animal animal) {
-        animalRepository.save(animal);
+    public void update(AnimalDto animalDto) {
+        animalRepository.save(animalMapper.fromDto(animalDto));
     }
 
     @Override

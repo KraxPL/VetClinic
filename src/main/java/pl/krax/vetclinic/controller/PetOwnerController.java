@@ -76,7 +76,7 @@ public class PetOwnerController {
         }
         return "redirect:/owners";
     }
-    @PostMapping("/edit/{ownerId}")
+    @PostMapping("/edit")
     public String editPetOwner(@Valid PetOwnerDto petOwnerDto, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "/petOwner/edit";

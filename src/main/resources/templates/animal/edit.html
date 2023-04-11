@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit Animal</title>
+  <link rel="stylesheet" href="/css/editOwner.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<form th:action="@{/animals/edit}" method="POST" th:object="${pet}">
+  <input type="hidden" th:field="*{id}"/>
+  <input type="hidden" th:field="*{owner.id}"/>
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" id="name" required/>
+  </div>
+  <div>
+    <label for="dateOfBirth">Date of Birth:</label>
+    <input type="date" th:field="*{dateOfBirth}" id="dateOfBirth" required/>
+  </div>
+  <div>
+    <label>Species:</label>
+    <input type="radio" th:field="*{species}" value="Dog"/>Dog
+    <input type="radio" th:field="*{species}" value="Cat"/>Cat
+  </div>
+  <div>
+    <label for="breed">Breed:</label>
+    <input type="text" th:field="*{breed}" id="breed"/>
+  </div>
+  <div>
+    <label >Gender:</label>
+    <input type="radio" th:field="*{gender}" value="Tom"/>Tom(M)
+    <input type="radio" th:field="*{gender}" value="Dam"/>Dam(F)
+  </div>
+  <div>
+    <label for="distinctiveMarks">Distinctive Marks:</label>
+    <input type="text" id="distinctiveMarks" th:field="*{distinctiveMarks}"/>
+  </div>
+  <div>
+    <label for="colour">Colour:</label>
+    <input type="text" id="colour" th:field="*{colour}"/>
+  </div>
+  <div>
+    <label>Animal Kind:</label>
+    <input type="radio" th:field="*{animalKind}" value="Domestic"/>Domestic animal
+    <input type="radio" th:field="*{animalKind}" value="Wild"/>Wild animal
+  </div>
+  <div>
+    <label for="chipNumber">Chip Number:</label>
+    <input type="text" id="chipNumber" th:field="*{chipNumber}"/>
+  </div>
+  <div>
+    <label for="weight">Weight:</label>
+    <input type="number" id="weight" th:field="*{weight}" required/>
+  </div>
+  <button type="submit">Save</button>
+</form>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
