@@ -27,9 +27,10 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     private final PaymentRecordRepository paymentRecordRepository;
 
     @Override
-    public void save(PetOwnerDto petOwnerDto) {
+    public Long save(PetOwnerDto petOwnerDto) {
         PetOwner petOwner = ownerMapper.fromDto(petOwnerDto, animalRepository, medicalHistoryRepository, paymentRecordRepository);
         petOwnerRepository.save(petOwner);
+        return petOwner.getId();
     }
 
     @Override

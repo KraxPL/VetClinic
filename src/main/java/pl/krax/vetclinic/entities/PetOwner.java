@@ -2,6 +2,7 @@ package pl.krax.vetclinic.entities;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;

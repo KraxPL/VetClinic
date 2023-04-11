@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+main {
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.tiles {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.tile {
+    width: 45%;
+    padding: 50px;
+    background-color: #f0f0f0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.tile:hover {
+    transform: scale(1.05);
+}
+
+h2 {
+    margin: 0;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+}

@@ -1,9 +1,6 @@
 package pl.krax.vetclinic.mappers;
 
-import org.mapstruct.Context;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import pl.krax.vetclinic.dto.PetOwnerDto;
 import pl.krax.vetclinic.entities.Animal;
@@ -41,10 +38,37 @@ public interface PetOwnerMapper {
                 .map(MedicalHistory::getId)
                 .toList();
     }
-    @Mapping(target = "animalList", source = "animalsIds")
-    @Mapping(target = "medicalHistoryList", source = "medicalHistoryIds")
-    @Mapping(target = "paymentRecords", source = "paymentRecordsIds")
+    @Mapping(target = "animalList", ignore = true)
+    @Mapping(target = "medicalHistoryList", ignore = true)
+    @Mapping(target = "paymentRecords", ignore = true)
     PetOwner fromDto(PetOwnerDto petOwnerDto, @Context AnimalRepository animalRepository,
                      @Context MedicalHistoryRepository medicalHistoryRepository,
                      @Context PaymentRecordRepository paymentRecordRepository);
+
+    @AfterMapping
+    default void mapAnimalListIdsToAnimals(@MappingTarget PetOwner petOwner, PetOwnerDto petOwnerDto,
+                                           @Context AnimalRepository animalRepository) {
+        if (petOwnerDto.getAnimalsIds() != null) {
+            List<Animal> animals = animalRepository.findAllById(petOwnerDto.getAnimalsIds());
+            petOwner.setAnimalList(animals);
+        }
+    }
+
+    @AfterMapping
+    default void mapHistoryIdsToMedicalHistoryList(@MappingTarget PetOwner petOwner, PetOwnerDto petOwnerDto,
+                                                   @Context MedicalHistoryRepository medicalHistoryRepository) {
+        if (petOwnerDto.getMedicalHistoryIds() != null) {
+            List<MedicalHistory> medicalHistory = medicalHistoryRepository.findAllById(petOwnerDto.getMedicalHistoryIds());
+            petOwner.setMedicalHistoryList(medicalHistory);
+        }
+    }
+
+    @AfterMapping
+    default void mapPaymentRecordsIdsToPaymentRecords(@MappingTarget PetOwner petOwner, PetOwnerDto petOwnerDto,
+                                                      @Context PaymentRecordRepository paymentRecordRepository) {
+        if (petOwnerDto.getPaymentRecordsIds() != null) {
+            List<PaymentRecord> paymentRecords = paymentRecordRepository.findAllById(petOwnerDto.getPaymentRecordsIds());
+            petOwner.setPaymentRecords(paymentRecords);
+        }
+    }
 }
