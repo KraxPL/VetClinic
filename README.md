@@ -52,3 +52,6 @@ Technologies Used
     MySQL
     Hibernate
     Maven
+    Lombok
+    Thymeleaf
+    MapStruct
