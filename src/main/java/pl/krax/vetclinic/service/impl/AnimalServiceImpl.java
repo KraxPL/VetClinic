@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.krax.vetclinic.dto.AnimalDto;
-import pl.krax.vetclinic.dto.PetOwnerDto;
 import pl.krax.vetclinic.entities.Animal;
 import pl.krax.vetclinic.mappers.AnimalMapper;
 import pl.krax.vetclinic.repository.AnimalRepository;
@@ -25,14 +24,21 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public Animal findById(Long animalId) {
-        return animalRepository.findById(animalId)
+    public AnimalDto findById(Long animalId) {
+        Animal animal = animalRepository.findById(animalId)
                 .orElse(null);
+        if (animal != null) {
+            return animalMapper.toDto(animal);
+        }
+        return new AnimalDto();
     }
 
     @Override
-    public List<Animal> findAll() {
-        return animalRepository.findAll();
+    public List<AnimalDto> findAll() {
+        List<Animal> animals = animalRepository.findAll();
+        return animals.stream()
+                .map(animalMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override

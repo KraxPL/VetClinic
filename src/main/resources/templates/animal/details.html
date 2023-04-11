@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet Details</title>
+  <link rel="stylesheet" href="/css/ownerDetails.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+  <div class="header">
+    <h1>Pet Details</h1>
+    <div th:if="${errorMessage}" class="error-message">
+      <p th:text="${errorMessage}"></p>
+    </div>
+    <div class="buttons">
+      <form method="post" th:action="@{/animals/delete/{petId}(petId=${pet.id})}">
+        <input type="hidden" name="_method" value="DELETE"/>
+        <button type="submit" class="delete-pet-owner"
+                onclick="return confirm('Are you sure you want to delete this pet?')">
+          Delete Pet
+        </button>
+      </form>
+      <form th:action="@{/animals/edit/{petId}(petId=${pet.id})}">
+        <button type="submit" class="edit-pet-owner">Edit Pet</button>
+      </form>
+    </div>
+  </div>
+  <div class="pet-owner-info">
+    <p><span class="info-label"><b>Name:</b></span> <span class="info-value" th:text="${pet.name}"></span></p>
+    <p><span class="info-label"><b>Species:</b></span> <span class="info-value" th:text="${pet.species}"></span>
+    </p>
+    <p><span class="info-label"><b>Breed:</b></span> <span class="info-value" th:text="${pet.breed}"></span></p>
+    <p><span class="info-label"><b>Gender:</b></span> <span class="info-value" th:text="${pet.gender}"></span></p>
+    <p><span class="info-label"><b>Birth Date:</b></span> <span class="info-value" th:text="${pet.dateOfBirth}"></span></p>
+    <p><span class="info-label"><b>Colour:</b></span> <span class="info-value"
+                                                                  th:text="${pet.colour}"></span></p>
+    <p><span class="info-label"><b>Distinctive Marks:</b></span> <span class="info-value" th:text="${pet.distinctiveMarks}"></span></p>
+    <p><span class="info-label"><b>Chip No.:</b></span> <span class="info-value"
+                                                                th:text="${pet.chipNumber}"></span></p>
+    <p><span class="info-label"><b>Weight:</b></span> <span class="info-value"
+                                                                th:text="${pet.weight} + 'kg'"></span></p>
+    <p><span class="info-label"><b>Animal Kind:</b></span> <span class="info-value"
+                                                                th:text="${pet.animalKind}"></span></p>
+    <p><span class="info-label"><b>Owner:</b></span>
+        <td th:text="${pet.owner?.getName() ?: ''} + ', '"></td>
+        <td th:text="${pet.owner?.getStreet() ?: ''}"></td>
+        <td th:text="${pet.owner?.getCity() ?: ''} + ', '"></td>
+        <td th:text="${pet.owner?.getPhoneNumber() ?: ''} + ', '"></td>
+        <td th:text="${pet.owner?.getEmail() ?: ''}"></td>
+    </p>
+<!--    <button class="add-animal">Add Owner</button>-->
+    <p><span class="info-label"><b>Medical History:</b></span>
+      <button class="details-button">Details</button>
+    </p>
+    <p><span class="info-label"><b>Payment Records:</b></span>
+      <button class="details-button">Details</button>
+    </p>
+  </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

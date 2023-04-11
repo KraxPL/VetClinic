@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet Owners List</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/ownersList.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<div class="container">
+  <h1>Pets List</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Species</th>
+      <th>Breed</th>
+      <th>Gender</th>
+      <th>Birth Date</th>
+      <th>Colour</th>
+      <th>Distinctive Marks</th>
+      <th>Chip No.</th>
+      <th>Weight</th>
+      <th>Kind</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pet : ${pets}">
+      <td th:hidden="${pet.id}"></td>
+      <td th:text="${pet.name}"></td>
+      <td th:text="${pet.species}"></td>
+      <td th:text="${pet.breed}"/>
+      <td th:text="${pet.gender}"/>
+      <td th:text="${pet.dateOfBirth}"></td>
+      <td th:text="${pet.colour}"></td>
+      <td th:text="${pet.distinctiveMarks}"></td>
+      <td th:text="${pet.chipNumber}"></td>
+      <td th:text="${pet.weight} + 'kg'"></td>
+      <td th:text="${pet.animalKind}"></td>
+      <td><a th:href="@{/animals/{animalId}(animalId=${pet.id})}">Details</a></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

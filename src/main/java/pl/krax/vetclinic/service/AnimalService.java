@@ -8,9 +8,9 @@ import java.util.List;
 public interface AnimalService {
     void save(Animal animal);
 
-    Animal findById(Long animalId);
+    AnimalDto findById(Long animalId);
 
-    List<Animal> findAll();
+    List<AnimalDto> findAll();
 
     void update(Animal animal);
 
