@@ -14,6 +14,7 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_owner_id")
     private PetOwner owner;
     private String name;
     private LocalDate dateOfBirth;

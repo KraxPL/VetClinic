@@ -1,11 +1,9 @@
 package pl.krax.vetclinic.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.krax.vetclinic.entities.MedicalHistory;
 import pl.krax.vetclinic.entities.PetOwner;
 
 import java.time.LocalDate;

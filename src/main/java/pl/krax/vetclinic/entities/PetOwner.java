@@ -24,7 +24,7 @@ public class PetOwner {
     private String extraInfo;
     private int visitCount;
     private LocalDate lastVisit;
-    @OneToMany
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Animal> animalList;
     @OneToMany
     private List<MedicalHistory> medicalHistoryList;
