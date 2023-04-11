@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface VetMapper {
-    VetMapper MAPPER = Mappers.getMapper(VetMapper.class);
+    VetMapper VET_MAPPER = Mappers.getMapper(VetMapper.class);
     @Mapping(target = "medicalHistoryIds", source = "medicalHistoryList", qualifiedByName = "historyToHistoryIds")
     VetDto vetToDto(Vet vet);
     @Named("historyToHistoryIds")

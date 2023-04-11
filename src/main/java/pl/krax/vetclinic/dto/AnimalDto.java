@@ -1,19 +1,21 @@
-package pl.krax.vetclinic.entities;
+package pl.krax.vetclinic.dto;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import pl.krax.vetclinic.entities.MedicalHistory;
+import pl.krax.vetclinic.entities.PetOwner;
 
 import java.time.LocalDate;
 import java.util.List;
-
-@Entity
-@Table(name = "animals")
 @Data
-public class Animal {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class AnimalDto {
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
     private PetOwner owner;
     private String name;
     private LocalDate dateOfBirth;
@@ -24,9 +26,6 @@ public class Animal {
     private String colour;
     private String animalKind;
     private String chipNumber;
-    @OneToMany
-    private List<MedicalHistory> medicalHistoryList;
+    private List<Long> medicalHistoryIds;
     private double weight;
-    private int visitCount;
-    private LocalDate lastVisit;
 }

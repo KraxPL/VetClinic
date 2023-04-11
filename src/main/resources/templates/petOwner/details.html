@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Owner Details</title>
+    <link rel="stylesheet" href="/css/ownerDetails.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <div class="header">
+        <h1>Pet Owner Details</h1>
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+        <div class="buttons">
+            <form method="post" th:action="@{/owners/delete/{ownerId}(ownerId=${owner.id})}">
+                <input type="hidden" name="_method" value="DELETE"/>
+                <button type="submit" class="delete-pet-owner"
+                        onclick="return confirm('Are you sure you want to delete this pet owner?')">
+                    Delete Pet Owner
+                </button>
+            </form>
+            <form th:action="@{/owners/edit/{ownerId}(ownerId=${owner.id})}">
+                <button type="submit" class="edit-pet-owner">Edit Pet Owner</button>
+            </form>
+        </div>
+    </div>
+    <div class="pet-owner-info">
+        <p><span class="info-label"><b>Name:</b></span> <span class="info-value" th:text="${owner.name}"></span></p>
+        <p><span class="info-label"><b>Postcode:</b></span> <span class="info-value" th:text="${owner.postCode}"></span>
+        </p>
+        <p><span class="info-label"><b>City:</b></span> <span class="info-value" th:text="${owner.city}"></span></p>
+        <p><span class="info-label"><b>Street:</b></span> <span class="info-value" th:text="${owner.street}"></span></p>
+        <p><span class="info-label"><b>NIP:</b></span> <span class="info-value" th:text="${owner.nip}"></span></p>
+        <p><span class="info-label"><b>Phone Number:</b></span> <span class="info-value"
+                                                                      th:text="${owner.phoneNumber}"></span></p>
+        <p><span class="info-label"><b>Email:</b></span> <span class="info-value" th:text="${owner.email}"></span></p>
+        <p><span class="info-label"><b>Extra Info:</b></span> <span class="info-value"
+                                                                    th:text="${owner.extraInfo}"></span></p>
+        <p><span class="info-label"><b>Animals:</b></span></p>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Birth Date</th>
+                <th>Breed</th>
+                <th>Weight</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(owner.animalsIds)}">
+                <td colspan="4">No animals found.</td>
+            </tr>
+            <tr th:each="animalId : ${owner.animalsIds}">
+                <td><span th:text="${animalService.findById(animalId)?.getName() ?: ''}"></span></td>
+                <td><span th:text="${animalService.findById(animalId)?.getDateOfBirth() ?: ''}"></span></td>
+                <td><span th:text="${animalService.findById(animalId)?.getBreed() ?: ''}"></span></td>
+                <td><span th:text="${animalService.findById(animalId)?.getWeight() ?: ''} + 'kg'"></span></td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="add-animal">Add Animal</button>
+        <p><span class="info-label"><b>Medical History:</b></span>
+            <button class="details-button">Details</button>
+        </p>
+        <p><span class="info-label"><b>Payment Records:</b></span>
+            <button class="details-button">Details</button>
+        </p>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

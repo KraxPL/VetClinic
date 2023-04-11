@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet Owners List</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/ownersList.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<div class="container">
+  <h1>Pet Owners List</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>Post Code</th>
+      <th>NIP</th>
+      <th>Phone Number</th>
+      <th>Email</th>
+      <th>Extra Info</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="petOwner : ${petOwners}">
+      <td th:hidden="${petOwner.id}"></td>
+      <td th:text="${petOwner.name}"></td>
+      <td th:text="${petOwner.street}"></td>
+      <td th:text="${petOwner.city}"/>
+      <td th:text="${petOwner.postCode}"/>
+      <td th:text="${petOwner.nip}"></td>
+      <td th:text="${petOwner.phoneNumber}"></td>
+      <td th:text="${petOwner.email}"></td>
+      <td th:text="${petOwner.extraInfo}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
