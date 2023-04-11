@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.krax.vetclinic.dto.AnimalDto;
 import pl.krax.vetclinic.dto.PetOwnerDto;
-import pl.krax.vetclinic.mappers.AnimalMapper;
 import pl.krax.vetclinic.service.AnimalService;
 import pl.krax.vetclinic.service.PetOwnerService;
 
@@ -22,7 +21,6 @@ public class PetOwnerController {
     private static final String CANNOT_DELETE_PET_OWNER_WITH_PETS_ASSIGNED = "Cannot delete pet owner with pets assigned to him/her.";
     private final PetOwnerService petOwnerService;
     private final AnimalService animalService;
-    private final AnimalMapper animalMapper;
 
     @GetMapping
     public String listAll(Model model, @RequestParam(required = false) Long ownerId) {

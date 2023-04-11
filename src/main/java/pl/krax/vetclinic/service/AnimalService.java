@@ -6,11 +6,11 @@ import pl.krax.vetclinic.entities.Animal;
 import java.util.List;
 
 public interface AnimalService {
-    void save(Animal animal);
+    void save(AnimalDto animaldto);
 
-    Animal findById(Long animalId);
+    AnimalDto findById(Long animalId);
 
-    List<Animal> findAll();
+    List<AnimalDto> findAll();
 
     void update(Animal animal);
 

@@ -60,7 +60,8 @@
             </tr>
             </tbody>
         </table>
-        <button class="add-animal">Add Animal</button>
+        <a th:href="@{/animals/add/{ownerId}(ownerId=${owner.id})}">
+        <button class="add-animal">Add Animal</button></a>
         <p><span class="info-label"><b>Medical History:</b></span>
             <button class="details-button">Details</button>
         </p>

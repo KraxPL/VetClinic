@@ -21,6 +21,7 @@
       <th>Phone Number</th>
       <th>Email</th>
       <th>Extra Info</th>
+      <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -34,6 +35,7 @@
       <td th:text="${petOwner.phoneNumber}"></td>
       <td th:text="${petOwner.email}"></td>
       <td th:text="${petOwner.extraInfo}"></td>
+      <td><a th:href="@{/owners/{ownerId}(ownerId=${petOwner.id})}">Details</a></td>
     </tr>
     </tbody>
   </table>
