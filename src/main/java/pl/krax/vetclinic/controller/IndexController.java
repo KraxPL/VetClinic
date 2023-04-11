@@ -9,4 +9,8 @@ public class IndexController {
     public String index(){
         return "/main/menu";
     }
+    @GetMapping("/newVisit")
+    public String visitTypeSelect() {
+        return "/main/newVisitSelect";
+    }
 }

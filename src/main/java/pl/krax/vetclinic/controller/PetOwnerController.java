@@ -41,8 +41,8 @@ public class PetOwnerController {
         if (bindingResult.hasErrors()){
             return "/petOwner/add";
         }
-        petOwnerService.save(petOwnerDto);
-        return "redirect:/owners/" + petOwnerDto.getId();
+        Long ownerId = petOwnerService.save(petOwnerDto);
+        return "redirect:/owners/" + ownerId;
     }
     @GetMapping("/{ownerId}")
     public String showOwnerDetails(@PathVariable Long ownerId, Model model){
@@ -76,7 +76,7 @@ public class PetOwnerController {
         }
         return "redirect:/owners";
     }
-    @PostMapping("/edit/{ownerId}")
+    @PostMapping("/edit")
     public String editPetOwner(@Valid PetOwnerDto petOwnerDto, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "/petOwner/edit";

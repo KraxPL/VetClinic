@@ -12,7 +12,7 @@ public interface AnimalService {
 
     List<AnimalDto> findAll();
 
-    void update(Animal animal);
+    void update(AnimalDto animalDto);
 
     void deleteById(Long animalId);
 

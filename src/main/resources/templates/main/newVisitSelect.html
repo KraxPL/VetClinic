@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Visit Page</title>
+  <link rel="stylesheet" th:href="@{/css/visitSelectPage.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main>
+  <h1>New Visit</h1>
+  <div class="tiles">
+    <a href="/owners/save">
+      <div class="tile">
+        <h2>New Customer</h2>
+      </div>
+    </a>
+    <a href="/animals">
+      <div class="tile">
+        <h2>Another Visit</h2>
+      </div>
+    </a>
+  </div>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

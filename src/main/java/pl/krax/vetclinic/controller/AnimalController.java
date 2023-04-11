@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.krax.vetclinic.dto.AnimalDto;
 import pl.krax.vetclinic.dto.PetOwnerDto;
-import pl.krax.vetclinic.entities.PetOwner;
 import pl.krax.vetclinic.mappers.PetOwnerMapper;
 import pl.krax.vetclinic.repository.AnimalRepository;
 import pl.krax.vetclinic.repository.MedicalHistoryRepository;
@@ -57,5 +56,22 @@ public class AnimalController {
         animalDto.setOwner(ownerMapper.fromDto(ownerDto, animalRepository, medicalHistoryRepository, paymentRecordRepository));
         animalService.save(animalDto);
         return "redirect:/owners/" + animalDto.getOwner().getId();
+    }
+    @GetMapping("/edit/{petId}")
+    public String editPetForm(@PathVariable Long petId, Model model){
+        AnimalDto animalDto = animalService.findById(petId);
+        if (animalDto != null){
+            model.addAttribute("pet", animalDto);
+            return "/animal/edit";
+        }
+        return "redirect:/animals/" + petId;
+    }
+    @PostMapping("/edit")
+    public String editPet(@Valid AnimalDto animalDto, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "/animal/edit";
+        }
+        animalService.update(animalDto);
+        return "redirect:/animals/" + animalDto.getOwner().getId();
     }
 }

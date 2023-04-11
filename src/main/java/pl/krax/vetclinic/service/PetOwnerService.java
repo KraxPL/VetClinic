@@ -6,7 +6,7 @@ import pl.krax.vetclinic.entities.PetOwner;
 import java.util.List;
 
 public interface PetOwnerService {
-    void save(PetOwnerDto petOwnerDto);
+    Long save(PetOwnerDto petOwnerDto);
 
     PetOwnerDto findById(Long ownerId);
 
