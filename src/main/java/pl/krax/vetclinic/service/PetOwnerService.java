@@ -1,17 +1,18 @@
 package pl.krax.vetclinic.service;
 
+import pl.krax.vetclinic.dto.PetOwnerDto;
 import pl.krax.vetclinic.entities.PetOwner;
 
 import java.util.List;
 
 public interface PetOwnerService {
-    void save(PetOwner petOwner);
+    void save(PetOwnerDto petOwnerDto);
 
-    PetOwner findById(Long ownerId);
+    PetOwnerDto findById(Long ownerId);
 
-    List<PetOwner> findAll();
+    List<PetOwnerDto> findAll();
 
-    void update(PetOwner petOwner);
+    void update(PetOwnerDto petOwnerDto);
 
     void deleteById(Long ownerId);
 }

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Pet Owner</title>
+    <link rel="stylesheet" href="/css/addOwner.css" th:href="@{/css/addOwner.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <h2>Add New Pet Owner</h2>
+    <form th:object="${owner}" th:action="@{/owners/save}" method="post">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" th:field="*{name}" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="postCode">Post Code:</label>
+                    <input type="text" id="postCode" th:field="*{postCode}" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" th:field="*{city}" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="street">Street:</label>
+                    <input type="text" id="street" th:field="*{street}" class="form-control" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="nip">NIP:</label>
+                    <input type="text" id="nip" th:field="*{nip}" class="form-control">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" th:field="*{email}" class="form-control">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="extraInfo">Extra Info:</label>
+                    <textarea id="extraInfo" th:field="*{extraInfo}" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

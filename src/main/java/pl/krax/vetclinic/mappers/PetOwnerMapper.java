@@ -1,5 +1,6 @@
 package pl.krax.vetclinic.mappers;
 
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -9,10 +10,12 @@ import pl.krax.vetclinic.entities.Animal;
 import pl.krax.vetclinic.entities.MedicalHistory;
 import pl.krax.vetclinic.entities.PaymentRecord;
 import pl.krax.vetclinic.entities.PetOwner;
-
+import pl.krax.vetclinic.repository.AnimalRepository;
+import pl.krax.vetclinic.repository.MedicalHistoryRepository;
+import pl.krax.vetclinic.repository.PaymentRecordRepository;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {AnimalRepository.class, MedicalHistoryRepository.class, PaymentRecordRepository.class})
 public interface PetOwnerMapper {
     PetOwnerMapper PET_OWNER_MAPPER = Mappers.getMapper(PetOwnerMapper.class);
 
@@ -38,4 +41,10 @@ public interface PetOwnerMapper {
                 .map(MedicalHistory::getId)
                 .toList();
     }
+    @Mapping(target = "animalList", source = "animalsIds")
+    @Mapping(target = "medicalHistoryList", source = "medicalHistoryIds")
+    @Mapping(target = "paymentRecords", source = "paymentRecordsIds")
+    PetOwner fromDto(PetOwnerDto petOwnerDto, @Context AnimalRepository animalRepository,
+                     @Context MedicalHistoryRepository medicalHistoryRepository,
+                     @Context PaymentRecordRepository paymentRecordRepository);
 }

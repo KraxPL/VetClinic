@@ -23,5 +23,5 @@ public class Vet {
     private String password;
     @OneToMany
     private List<MedicalHistory> medicalHistoryList;
-    private boolean activeAccount;
+    private int activeAccount;
 }

@@ -1,0 +1,53 @@
+/* Style for the form */
+.container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+/* Style for form labels */
+.form-group label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+
+/* Style for form input fields */
+.form-group input,
+.form-group textarea {
+    display: inline-block;
+    width: 300px;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Style for the form submit button */
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Style for the form submit button when hovering */
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+/* Style for form input fields when focused */
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    box-shadow: 0 0 5px #4CAF50;
+}
+
+/* Style for the form input fields with errors */
+.form-group input.form-input-error {
+    border: 1px solid red;
+}
