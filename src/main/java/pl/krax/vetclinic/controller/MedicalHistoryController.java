@@ -6,9 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.krax.vetclinic.dto.AnimalDto;
 import pl.krax.vetclinic.dto.MedicalHistoryDto;
-import pl.krax.vetclinic.entities.PetOwner;
 import pl.krax.vetclinic.service.AnimalService;
 import pl.krax.vetclinic.service.MedicalHistoryService;
 import pl.krax.vetclinic.service.VetService;
@@ -61,9 +59,22 @@ public class MedicalHistoryController {
         if (bindingResult.hasErrors()){
             return "/visit/new";
         }
-        AnimalDto animalDto = animalService.findById(historyDto.getAnimalId());
-        animalDto.getOwner();
         medicalHistoryService.save(historyDto);
+        return "redirect:/visit/date";
+    }
+    @GetMapping("/edit/{visitId}")
+    public String editVisitForm(@PathVariable Long visitId, Model model){
+        MedicalHistoryDto historyDto = medicalHistoryService.findById(visitId);
+        model.addAttribute("visit", historyDto);
+        model.addAttribute("petId", historyDto.getAnimalId());
+        return "/visit/edit";
+    }
+    @PostMapping("/edit")
+    public String editVisit(@Valid MedicalHistoryDto historyDto, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "/visit/edit";
+        }
+        medicalHistoryService.update(historyDto);
         return "redirect:/visit/date";
     }
 

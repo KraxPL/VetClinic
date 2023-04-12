@@ -5,14 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.krax.vetclinic.dto.AnimalDto;
 import pl.krax.vetclinic.dto.MedicalHistoryDto;
-import pl.krax.vetclinic.dto.PetOwnerDto;
 import pl.krax.vetclinic.entities.MedicalHistory;
 import pl.krax.vetclinic.entities.PetOwner;
 import pl.krax.vetclinic.mappers.MedicalHistoryMapper;
-import pl.krax.vetclinic.mappers.PetOwnerMapper;
-import pl.krax.vetclinic.repository.AnimalRepository;
 import pl.krax.vetclinic.repository.MedicalHistoryRepository;
-import pl.krax.vetclinic.repository.PaymentRecordRepository;
 import pl.krax.vetclinic.service.AnimalService;
 import pl.krax.vetclinic.service.MedicalHistoryService;
 import pl.krax.vetclinic.service.PetOwnerService;
@@ -59,7 +55,7 @@ public class MedicalServiceImpl implements MedicalHistoryService {
 
     @Override
     public void update(MedicalHistoryDto historyDto) {
-        medicalHistoryRepository.save(medicalHistoryMapper.fromDto(historyDto));
+                medicalHistoryRepository.save(medicalHistoryMapper.fromDto(historyDto));
     }
 
     @Override
