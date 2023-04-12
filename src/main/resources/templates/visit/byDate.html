@@ -38,7 +38,9 @@
     <td th:text="${visit.id}"></td>
     <td th:text="${visit.diagnosis ?: ''}"></td>
     <td th:text="${vetService.findById(visit.vetId)?.degree ?: ''} + ' ' + ${vetService.findById(visit.vetId)?.name ?: ''}"></td>
-    <td><a th:href="@{/visit/{visitId} (visitId=${visit.id})}"><button type="button">Details</button></a></td>
+    <td><a th:href="@{/visit/{visitId} (visitId=${visit.id})}"><button type="button">Details</button></a>
+      <a th:href="@{/visit/edit/{visitId} (visitId=${visit.id})}"><button type="button">Edit</button></a>
+    </td>
   </tr>
   </tbody>
 </table>
