@@ -57,4 +57,15 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     public void deleteById(Long ownerId) {
         petOwnerRepository.deleteById(ownerId);
     }
+
+    @Override
+    public void update(PetOwner petOwner) {
+        petOwnerRepository.save(petOwner);
+    }
+
+    @Override
+    public PetOwner findEntityById(Long ownerId) {
+        return petOwnerRepository.findById(ownerId)
+                .orElse(null);
+    }
 }

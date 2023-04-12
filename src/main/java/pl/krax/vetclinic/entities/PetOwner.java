@@ -9,7 +9,7 @@ import lombok.ToString;
 import java.time.LocalDate;
 import java.util.List;
 @Entity
-@Table(name = "petOwners")
+@Table(name = "pet_owners")
 @Data
 public class PetOwner {
     @Id
@@ -27,10 +27,9 @@ public class PetOwner {
     private int visitCount;
     private LocalDate lastVisit;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    @ToString.Exclude
     private List<Animal> animalList;
-    @OneToMany
+    @OneToMany(mappedBy = "petOwner", cascade = CascadeType.ALL)
     private List<MedicalHistory> medicalHistoryList;
-    @OneToMany
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<PaymentRecord> paymentRecords;
 }

@@ -25,7 +25,7 @@ public class Animal {
     private String colour;
     private String animalKind;
     private String chipNumber;
-    @OneToMany
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
     private List<MedicalHistory> medicalHistoryList;
     private double weight;
     private int visitCount;

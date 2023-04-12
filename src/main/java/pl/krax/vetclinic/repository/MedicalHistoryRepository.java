@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.krax.vetclinic.entities.MedicalHistory;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,4 +16,6 @@ public interface MedicalHistoryRepository extends JpaRepository<MedicalHistory, 
     @Query("SELECT h FROM MedicalHistory h WHERE h.dateTimeOfVisit BETWEEN :dateTimeStart AND :dateTimeEnd")
     List<MedicalHistory> findMedicalHistoriesByDate(@Param("dateTimeStart") LocalDateTime dateTimeStart,
                                                     @Param("dateTimeEnd") LocalDateTime dateTimeEnd);
+    @Query("SELECT h FROM MedicalHistory h WHERE h.petOwner.id = :ownerId")
+    List<MedicalHistory> findMedicalHistoriesByOwnerId(@Param("ownerId")Long ownerId);
 }
