@@ -49,12 +49,9 @@
         <td th:text="${pet.owner?.getPhoneNumber() ?: ''} + ', '"></td>
         <td th:text="${pet.owner?.getEmail() ?: ''}"></td>
     </p>
-<!--    <button class="add-animal">Add Owner</button>-->
     <p><span class="info-label"><b>Medical History:</b></span>
-      <button class="details-button">Details</button>
-    </p>
-    <p><span class="info-label"><b>Payment Records:</b></span>
-      <button class="details-button">Details</button>
+      <a th:href="@{/visit/all/{petId}(petId=${pet.id})}">
+      <button class="details-button">Details</button></a>
     </p>
   </div>
 </div>

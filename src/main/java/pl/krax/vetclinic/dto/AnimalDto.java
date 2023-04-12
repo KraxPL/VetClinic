@@ -1,9 +1,6 @@
 package pl.krax.vetclinic.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.krax.vetclinic.entities.PetOwner;
 
 import java.time.LocalDate;

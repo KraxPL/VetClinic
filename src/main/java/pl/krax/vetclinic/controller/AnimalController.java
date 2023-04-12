@@ -15,10 +15,12 @@ import pl.krax.vetclinic.repository.PaymentRecordRepository;
 import pl.krax.vetclinic.service.AnimalService;
 import pl.krax.vetclinic.service.PetOwnerService;
 
+
 @Controller
 @RequestMapping("/animals")
 @RequiredArgsConstructor
 public class AnimalController {
+    public static final String RECORDS_ARE_ASSOCIATED_WITH_THIS_ANIMAL = "Deletion of animal not permitted: Medical records are associated with this animal";
     private final AnimalService animalService;
     private final PetOwnerService ownerService;
     private final PetOwnerMapper ownerMapper;
@@ -73,5 +75,19 @@ public class AnimalController {
         }
         animalService.update(animalDto);
         return "redirect:/animals/" + animalDto.getOwner().getId();
+    }
+    @PostMapping("/delete/{petId}")
+    public String deletePetOwner(@PathVariable Long petId, Model model){
+        AnimalDto animalDto = animalService.findById(petId);
+        if (animalDto == null){
+            return "redirect:/animals/" + petId;
+        }
+        if ((animalDto.getMedicalHistoryIds().size()) > 0) {
+            model.addAttribute("errorMessage", RECORDS_ARE_ASSOCIATED_WITH_THIS_ANIMAL);
+            model.addAttribute("pet", animalDto);
+            return "/animal/details";
+        }
+        animalService.deleteById(petId);
+        return "redirect:/animals";
     }
 }

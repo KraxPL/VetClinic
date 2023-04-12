@@ -1,17 +1,21 @@
 package pl.krax.vetclinic.service;
 
+import pl.krax.vetclinic.dto.MedicalHistoryDto;
 import pl.krax.vetclinic.entities.MedicalHistory;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface MedicalHistoryService {
-    void save(MedicalHistory history);
+    MedicalHistoryDto save(MedicalHistoryDto historyDto);
 
-    MedicalHistory findById(Long historyId);
+    MedicalHistoryDto findById(Long historyId);
 
-    List<MedicalHistory> findAll();
+    List<MedicalHistoryDto> findAll();
 
-    void update(MedicalHistory history);
+    void update(MedicalHistoryDto historyDto);
 
     void deleteById(Long historyId);
+    List<MedicalHistoryDto> findMedicalHistoriesByAnimalId(Long animalId);
+    List<MedicalHistoryDto> findMedicalHistoriesByDate(LocalDate date);
 }

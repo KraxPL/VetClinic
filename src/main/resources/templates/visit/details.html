@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Visit Details</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/visitDetails.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<h1>Visit Details</h1>
+<table>
+  <tr>
+    <td>ID:</td>
+    <td th:text="${visit.id ?: ''}"></td>
+  </tr>
+  <tr>
+    <td>Date/Time of Visit:</td>
+    <td th:text="${visit.dateTimeOfVisit ?: ''}"></td>
+  </tr>
+  <tr>
+    <td>Animal:</td>
+    <td th:text="${animalService.findById(visit.animalId)?.name ?: ''} + ', ' +
+    ${animalService.findById(visit.animalId)?.gender ?: ''} + ', ' +
+    ${animalService.findById(visit.animalId)?.breed ?: ''} + ', ' +
+    ${animalService.findById(visit.animalId)?.dateOfBirth ?: ''} + ', ' +
+    ${animalService.findById(visit.animalId)?.species ?: ''}"></td>
+  </tr>
+  <tr>
+    <td>Vet:</td>
+    <td th:text="${vetService.findById(visit.vetId)?.degree ?: ''} + ' ' + ${vetService.findById(visit.vetId)?.name ?: ''}"></td>
+  </tr>
+  <tr>
+    <td>Anamnesis:</td>
+    <td th:text="${visit.anamnesis ?: ''}"></td>
+  </tr>
+  <tr>
+    <td>Vet Examination:</td>
+    <td th:text="${visit.vetExamination ?: ''}"></td>
+  </tr>
+  <tr>
+    <td>Diagnosis:</td>
+    <td th:text="${visit.diagnosis ?: ''}"></td>
+  </tr>
+  <tr>
+    <td>Used Medication:</td>
+    <td th:text="${visit.usedMedication ?: ''}"></td>
+  </tr>
+  <tr>
+    <td>Prescription:</td>
+    <td th:text="${visit.prescription ?: ''}"></td>
+  </tr>
+</table>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
