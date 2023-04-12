@@ -63,7 +63,8 @@
         <a th:href="@{/animals/add/{ownerId}(ownerId=${owner.id})}">
         <button class="add-animal">Add Animal</button></a>
         <p><span class="info-label"><b>Medical History:</b></span>
-            <button class="details-button">Details</button>
+            <a th:href="@{/visit/all/owner/{ownerId}(ownerId=${owner.id})}">
+                <button class="details-button">Details</button></a>
         </p>
         <p><span class="info-label"><b>Payment Records:</b></span>
             <button class="details-button">Details</button>

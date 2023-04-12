@@ -32,6 +32,12 @@ public class MedicalHistoryController {
         vetAndAnimalServicesIntoModel(model);
         return "/visit/all";
     }
+    @GetMapping("/all/owner/{ownerId}")
+    public String listAllForOwnerById(@PathVariable Long ownerId, Model model){
+        model.addAttribute("visits", medicalHistoryService.findMedicalHistoriesByOwnerId(ownerId));
+        vetAndAnimalServicesIntoModel(model);
+        return "/visit/all";
+    }
     @GetMapping("/date")
     public String listAllVisitsBySelectedDate(@RequestParam(value = "date", required = false) LocalDate date,
                                               Model model){

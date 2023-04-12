@@ -76,8 +76,9 @@ public class MedicalServiceImpl implements MedicalHistoryService {
     }
 
     @Override
-    public List<MedicalHistoryDto> findMedicalHistoriesByIdList(List<Long> ids) {
-        return null;
+    public List<MedicalHistoryDto> findMedicalHistoriesByOwnerId(Long ownerId) {
+        List<MedicalHistory> histories = medicalHistoryRepository.findMedicalHistoriesByOwnerId(ownerId);
+        return getHistoryDtos(histories);
     }
 
     private List<MedicalHistoryDto> getHistoryDtos(List<MedicalHistory> historyList) {

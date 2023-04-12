@@ -17,5 +17,5 @@ public interface MedicalHistoryService {
     void deleteById(Long historyId);
     List<MedicalHistoryDto> findMedicalHistoriesByAnimalId(Long animalId);
     List<MedicalHistoryDto> findMedicalHistoriesByDate(LocalDate date);
-    List<MedicalHistoryDto> findMedicalHistoriesByIdList(List<Long> ids);
+    List<MedicalHistoryDto> findMedicalHistoriesByOwnerId(Long ownerId);
 }
