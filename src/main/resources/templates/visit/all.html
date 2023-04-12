@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>All Visits</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/visitList.css}">
+    <link rel="stylesheet" href="/css/visitList.css">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 
-<h1>All Visits</h1>
+<h1 style="align-content: center">All Visits</h1>
 
 <div class="medical-history-list">
     <div class="medical-history-item" th:each="visit : ${visits}">
         <div class="medical-history-item__header">
             <h2>Visit ID: <span th:text="${visit.id}"></span></h2>
-            <h3>Date and Time: <span th:text="${visit.dateTimeOfVisit}"></span></h3>
+            <h2>Date and Time: <span th:text="${visit.dateTimeOfVisit}"></span></h2>
         </div>
         <div class="medical-history-item__details">
             <p>Animal: <span th:text="${animalService.findById(visit.animalId)?.name ?:''} + ', ' + ${animalService.findById(visit.animalId)?.breed ?:''} + ', ' + ${animalService.findById(visit.animalId)?.dateOfBirth ?:''} + ', ' + ${animalService.findById(visit.animalId)?.gender ?:''}"></span></p>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Visits</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/byDate.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<h1>Visits on Chosen Day</h1>
+
+<form method="get" th:action="@{/visit/date}">
+  <label for="date">Choose a date:</label>
+  <input type="date" id="date" name="date">
+  <button type="submit">Load Visits</button>
+  <a th:href="@{/newVisit}">
+    <button type="button">New visit</button></a>
+</form>
+
+<table>
+  <thead>
+  <tr>
+    <th>Date and Time</th>
+    <th>Owner</th>
+    <th>Animal</th>
+    <th>Visit ID</th>
+    <th>Diagnosis</th>
+    <th>Vet</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="visit, index : ${visits}">
+    <td th:text="${visit.dateTimeOfVisit}"></td>
+    <td th:text="${animalService.findById(visit.animalId)?.owner?.name ?: ''}"></td>
+    <td th:text="${animalService.findById(visit.animalId)?.name ?: ''}"></td>
+    <td th:text="${visit.id}"></td>
+    <td th:text="${visit.diagnosis ?: ''}"></td>
+    <td th:text="${vetService.findById(visit.vetId)?.degree ?: ''} + ' ' + ${vetService.findById(visit.vetId)?.name ?: ''}"></td>
+    <td><button type="button">Details</button> </td>
+  </tr>
+  </tbody>
+</table>
+
+<p>Total visits: <span th:text="${#lists.size(visits)}"></span></p>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
