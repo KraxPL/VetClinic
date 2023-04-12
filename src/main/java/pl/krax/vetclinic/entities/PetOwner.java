@@ -4,6 +4,7 @@ package pl.krax.vetclinic.entities;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,6 +27,7 @@ public class PetOwner {
     private int visitCount;
     private LocalDate lastVisit;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Animal> animalList;
     @OneToMany
     private List<MedicalHistory> medicalHistoryList;
