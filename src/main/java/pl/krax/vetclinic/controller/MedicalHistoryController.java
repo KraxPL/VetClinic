@@ -52,6 +52,7 @@ public class MedicalHistoryController {
     public String addNewVisitForm(@PathVariable Long petId, Model model){
         model.addAttribute("petId", petId);
         model.addAttribute("visit", new MedicalHistoryDto());
+        model.addAttribute("animalService", animalService);
         return "/visit/new";
     }
     @PostMapping("/new")

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.List;
 
@@ -21,7 +20,8 @@ public class Vet {
     private String name;
     private String email;
     private String password;
-    @OneToMany
+    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
     private List<MedicalHistory> medicalHistoryList;
     private int activeAccount;
 }
+

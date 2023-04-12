@@ -19,4 +19,11 @@ public class PaymentRecord {
     private BigDecimal charge;
     @OneToOne(fetch = FetchType.LAZY)
     private MedicalHistory visit;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_owner_id")
+    private PetOwner owner;
 }
+

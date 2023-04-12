@@ -75,6 +75,11 @@ public class MedicalServiceImpl implements MedicalHistoryService {
         return getHistoryDtos(historyList);
     }
 
+    @Override
+    public List<MedicalHistoryDto> findMedicalHistoriesByIdList(List<Long> ids) {
+        return null;
+    }
+
     private List<MedicalHistoryDto> getHistoryDtos(List<MedicalHistory> historyList) {
         return historyList.stream()
                 .map(medicalHistoryMapper::toDto)

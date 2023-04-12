@@ -12,6 +12,7 @@
     <h1>New Visit Record</h1>
     <form method="post" th:action="@{/visit/new}">
         <input type="hidden" id="animalId" th:value="${petId}" name="animalId">
+        <input type="hidden" id="ownerId" th:value="${animalService.findById(petId)?.owner?.id ?: ''}" name="ownerId">
         <div class="form-group">
             <label for="vetId">Vet ID:</label>
             <input type="number" id="vetId" th:field="${visit.vetId}" required="required" placeholder="will be automated"/>

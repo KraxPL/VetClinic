@@ -1,7 +1,6 @@
 package pl.krax.vetclinic.service;
 
 import pl.krax.vetclinic.dto.MedicalHistoryDto;
-import pl.krax.vetclinic.entities.MedicalHistory;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,4 +17,5 @@ public interface MedicalHistoryService {
     void deleteById(Long historyId);
     List<MedicalHistoryDto> findMedicalHistoriesByAnimalId(Long animalId);
     List<MedicalHistoryDto> findMedicalHistoriesByDate(LocalDate date);
+    List<MedicalHistoryDto> findMedicalHistoriesByIdList(List<Long> ids);
 }

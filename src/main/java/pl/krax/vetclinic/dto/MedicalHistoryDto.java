@@ -16,6 +16,7 @@ public class MedicalHistoryDto {
     private LocalDateTime dateTimeOfVisit;
     private Long animalId;
     private Long vetId;
+    private Long ownerId;
     private String anamnesis;
     private String vetExamination;
     private String diagnosis;

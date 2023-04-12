@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "medicalRecords")
+@Table(name = "medical_records")
 @Data
 public class MedicalHistory {
     @Id
@@ -23,4 +24,7 @@ public class MedicalHistory {
     private String diagnosis;
     private String usedMedication;
     private String prescription;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_owner_id")
+    private PetOwner petOwner;
 }
