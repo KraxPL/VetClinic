@@ -15,4 +15,6 @@ public interface PetOwnerService {
     void update(PetOwnerDto petOwnerDto);
 
     void deleteById(Long ownerId);
+    void update(PetOwner petOwner);
+    PetOwner findEntityById(Long ownerId);
 }

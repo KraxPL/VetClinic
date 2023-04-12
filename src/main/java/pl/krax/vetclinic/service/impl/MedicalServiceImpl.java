@@ -3,12 +3,19 @@ package pl.krax.vetclinic.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.krax.vetclinic.dto.AnimalDto;
 import pl.krax.vetclinic.dto.MedicalHistoryDto;
-import pl.krax.vetclinic.entities.Animal;
+import pl.krax.vetclinic.dto.PetOwnerDto;
 import pl.krax.vetclinic.entities.MedicalHistory;
+import pl.krax.vetclinic.entities.PetOwner;
 import pl.krax.vetclinic.mappers.MedicalHistoryMapper;
+import pl.krax.vetclinic.mappers.PetOwnerMapper;
+import pl.krax.vetclinic.repository.AnimalRepository;
 import pl.krax.vetclinic.repository.MedicalHistoryRepository;
+import pl.krax.vetclinic.repository.PaymentRecordRepository;
+import pl.krax.vetclinic.service.AnimalService;
 import pl.krax.vetclinic.service.MedicalHistoryService;
+import pl.krax.vetclinic.service.PetOwnerService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,10 +28,19 @@ import java.util.stream.Collectors;
 public class MedicalServiceImpl implements MedicalHistoryService {
     private final MedicalHistoryRepository medicalHistoryRepository;
     private final MedicalHistoryMapper medicalHistoryMapper;
+    private final PetOwnerService petOwnerService;
+    private final AnimalService animalService;
 
     @Override
     public MedicalHistoryDto save(MedicalHistoryDto historyDto) {
+        LocalDateTime time = LocalDateTime.now();
+        historyDto.setDateTimeOfVisit(time);
         MedicalHistory history = medicalHistoryRepository.save(medicalHistoryMapper.fromDto(historyDto));
+        AnimalDto animalDto = animalService.findById(history.getAnimal().getId());
+        PetOwner owner = petOwnerService.findEntityById(animalDto.getOwner().getId());
+        owner.setLastVisit(time.toLocalDate());
+        owner.setVisitCount(owner.getVisitCount() + 1);
+        petOwnerService.update(owner);
         return medicalHistoryMapper.toDto(history);
     }
 

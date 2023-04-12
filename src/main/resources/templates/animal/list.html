@@ -23,7 +23,8 @@
       <th>Chip No.</th>
       <th>Weight</th>
       <th>Kind</th>
-      <th>Action</th>
+      <th>Details</th>
+      <th>New Visit</th>
     </tr>
     </thead>
     <tbody>
@@ -39,7 +40,8 @@
       <td th:text="${pet.chipNumber}"></td>
       <td th:text="${pet.weight} + 'kg'"></td>
       <td th:text="${pet.animalKind}"></td>
-      <td><a th:href="@{/animals/{animalId}(animalId=${pet.id})}">Details</a></td>
+      <td><a th:href="@{/animals/{animalId}(animalId=${pet.id})}"><button>Details</button></a></td>
+      <td><a th:href="@{/visit/new/{animalId}(animalId=${pet.id})}"><button>New Visit</button></a></td>
     </tr>
     </tbody>
   </table>

@@ -1,9 +1,14 @@
 package pl.krax.vetclinic.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.krax.vetclinic.dto.AnimalDto;
+import pl.krax.vetclinic.dto.MedicalHistoryDto;
+import pl.krax.vetclinic.entities.PetOwner;
 import pl.krax.vetclinic.service.AnimalService;
 import pl.krax.vetclinic.service.MedicalHistoryService;
 import pl.krax.vetclinic.service.VetService;
@@ -44,6 +49,22 @@ public class MedicalHistoryController {
         model.addAttribute("visit", medicalHistoryService.findById(visitId));
         vetAndAnimalServicesIntoModel(model);
         return "/visit/details";
+    }
+    @GetMapping("/new/{petId}")
+    public String addNewVisitForm(@PathVariable Long petId, Model model){
+        model.addAttribute("petId", petId);
+        model.addAttribute("visit", new MedicalHistoryDto());
+        return "/visit/new";
+    }
+    @PostMapping("/new")
+    public String addNewVisitForm(@Valid MedicalHistoryDto historyDto, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "/visit/new";
+        }
+        AnimalDto animalDto = animalService.findById(historyDto.getAnimalId());
+        animalDto.getOwner();
+        medicalHistoryService.save(historyDto);
+        return "redirect:/visit/date";
     }
 
     private void vetAndAnimalServicesIntoModel(Model model) {
