@@ -15,7 +15,6 @@ import pl.krax.vetclinic.repository.PaymentRecordRepository;
 import pl.krax.vetclinic.service.AnimalService;
 import pl.krax.vetclinic.service.PetOwnerService;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/animals")
