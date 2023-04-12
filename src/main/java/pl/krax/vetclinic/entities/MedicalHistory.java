@@ -13,8 +13,10 @@ public class MedicalHistory {
     private Long id;
     private LocalDateTime dateTimeOfVisit;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "animal_id")
     private Animal animal;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vet_id")
     private Vet vet;
     private String anamnesis;
     private String vetExamination;
