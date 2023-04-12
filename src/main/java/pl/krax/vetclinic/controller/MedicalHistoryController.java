@@ -20,25 +20,34 @@ public class MedicalHistoryController {
     @GetMapping("/all")
     public String listAll(Model model){
         model.addAttribute("visits", medicalHistoryService.findAll());
-        model.addAttribute("vetService", vetService);
-        model.addAttribute("animalService", animalService);
+        vetAndAnimalServicesIntoModel(model);
         return "/visit/all";
     }
     @GetMapping("/all/{petId}")
     public String listAllForAnimalById(@PathVariable Long petId, Model model){
         model.addAttribute("visits", medicalHistoryService.findMedicalHistoriesByAnimalId(petId));
-        model.addAttribute("vetService", vetService);
-        model.addAttribute("animalService", animalService);
+        vetAndAnimalServicesIntoModel(model);
         return "/visit/all";
     }
     @GetMapping("/date")
-    public String listAllVisitsBySelectedDate(@RequestParam(value = "date", required = false) LocalDate date, Model model){
+    public String listAllVisitsBySelectedDate(@RequestParam(value = "date", required = false) LocalDate date,
+                                              Model model){
         if (date == null) {
             date = LocalDate.now();
         }
         model.addAttribute("visits", medicalHistoryService.findMedicalHistoriesByDate(date));
+        vetAndAnimalServicesIntoModel(model);
+        return "/visit/byDate";
+    }
+    @GetMapping("/{visitId}")
+    public String showVisitDetails(@PathVariable Long visitId, Model model){
+        model.addAttribute("visit", medicalHistoryService.findById(visitId));
+        vetAndAnimalServicesIntoModel(model);
+        return "/visit/details";
+    }
+
+    private void vetAndAnimalServicesIntoModel(Model model) {
         model.addAttribute("vetService", vetService);
         model.addAttribute("animalService", animalService);
-        return "/visit/byDate";
     }
 }
