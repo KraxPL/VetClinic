@@ -55,4 +55,14 @@ public class VetController {
         vetService.update(vetDto);
         return "redirect:/vets";
     }
+    @GetMapping("/create-vet")
+    @ResponseBody
+    public String createUser() {
+        Vet vet = new Vet();
+        vet.setEmail("admin@vetclinic.com");
+        vet.setPassword("admin");
+        vetService.save(vet);
+        return "admin created";
+    }
+
 }
