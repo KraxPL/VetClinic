@@ -87,6 +87,7 @@
             <button type="submit">Login</button>
         </div>
         <p th:if="${param.error}" class="error-message">Invalid username and/or password</p>
+        <p th:if="${param.logout}"><b>You have successfully logged out!</b></p>
     </form>
     <div class="forgot-password">
         <a th:href="@{/#}">Forgot Username / Password?</a>

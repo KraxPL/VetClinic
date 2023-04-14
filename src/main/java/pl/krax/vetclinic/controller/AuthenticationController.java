@@ -10,11 +10,6 @@ public class AuthenticationController {
     String loginForm(){
         return "login";
     }
-    @PostMapping
-    String login(){
-
-        return "/main/menu";
-    }
     @GetMapping("/logout")
     String logout(){
         return "redirect:/log-out";

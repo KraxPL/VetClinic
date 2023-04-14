@@ -19,18 +19,18 @@ class SpringSecurityConfiguration {
         httpSecurity
                 .csrf().disable()
                 .authorizeHttpRequests().shouldFilterAllDispatcherTypes(false).and()
-//                .authorizeHttpRequests(authorization ->
-//                        authorization
-//                                .anyRequest()
-//                                .authenticated())
-                .authorizeHttpRequests().anyRequest().permitAll().and()
+                .authorizeHttpRequests(authorization ->
+                        authorization
+                                .requestMatchers("/vets/**").hasRole("ADMIN")
+                                .anyRequest()
+                                .authenticated())
                 .formLogin(form ->
                         form
                                 .loginPage("/login")
                                 .usernameParameter("email")
                                 .defaultSuccessUrl("/index")
                                 .permitAll())
-                .logout().logoutSuccessUrl("/login")
+                .logout().logoutSuccessUrl("/login?logout")
                 .and().exceptionHandling().accessDeniedPage("/403");
         return httpSecurity.build();
     }
@@ -38,12 +38,12 @@ class SpringSecurityConfiguration {
     public UserDetailsService users() {
         UserDetails user = User.builder()
                 .username("user")
-                .password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
+                .password("$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
                 .roles("USER")
                 .build();
         UserDetails admin = User.builder()
                 .username("admin")
-                .password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
+                .password("$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
                 .roles("USER", "ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user, admin);
