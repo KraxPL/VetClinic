@@ -13,4 +13,8 @@ public class IndexController {
     public String visitTypeSelect() {
         return "/main/newVisitSelect";
     }
+    @GetMapping("/")
+    public String redirectToIndex() {
+        return "redirect:/index";
+    }
 }

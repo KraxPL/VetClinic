@@ -25,7 +25,7 @@ public class Vet {
     @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
     private List<MedicalHistory> medicalHistoryList;
     private int activeAccount;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "veterinarians_roles", joinColumns = @JoinColumn(name = "vet_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;

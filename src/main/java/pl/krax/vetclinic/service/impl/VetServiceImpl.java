@@ -5,15 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.krax.vetclinic.dto.VetDto;
-import pl.krax.vetclinic.entities.Role;
 import pl.krax.vetclinic.entities.Vet;
 import pl.krax.vetclinic.mappers.VetMapper;
-import pl.krax.vetclinic.repository.RoleRepository;
 import pl.krax.vetclinic.repository.VetRepository;
 import pl.krax.vetclinic.service.VetService;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,14 +19,12 @@ import java.util.stream.Collectors;
 public class VetServiceImpl implements VetService {
     private final VetRepository vetRepository;
     private final VetMapper vetMapper;
-    private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     @Override
     public void save(Vet vet) {
         vet.setPassword(passwordEncoder.encode(vet.getPassword()));
         vet.setActiveAccount(1);
-        Role vetRole = roleRepository.findByName("ROLE_USER");
-        vet.setRoles(new HashSet<>(Arrays.asList(vetRole)));
+        vet.setRoles(vet.getRoles());
         vetRepository.save(vet);
     }
 
@@ -51,7 +45,9 @@ public class VetServiceImpl implements VetService {
 
     @Override
     public void update(VetDto vetDto) {
-        vetRepository.save(vetMapper.dtoToVet(vetDto));
+        Vet vet = vetMapper.dtoToVet(vetDto);
+        vet.setPassword(passwordEncoder.encode(vet.getPassword()));
+        vetRepository.save(vet);
     }
 
     @Override

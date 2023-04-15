@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>pl.krax</groupId>
 	<artifactId>vetclinic</artifactId>
-	<version>0.3.1-SNAPSHOT</version>
+	<version>0.3.2-SNAPSHOT</version>
 	<name>VetClinic</name>
 	<description>Vet Clinic project</description>
 	<properties>
