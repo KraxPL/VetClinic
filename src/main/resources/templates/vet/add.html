@@ -20,6 +20,12 @@
       </select>
     </div>
     <div>
+      <label>Role:</label>
+      <select th:field="*{roles}" multiple>
+        <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}"></option>
+      </select>
+    </div>
+    <div>
       <label for="name">Name:</label>
       <input type="text" id="name" th:field="*{name}" required>
     </div>

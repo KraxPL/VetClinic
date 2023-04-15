@@ -14,4 +14,5 @@ public interface VetService {
 
     void update(VetDto vetDto);
     Vet findByVetEmail(String email);
+    Vet findEntityById(Long vetId);
 }
