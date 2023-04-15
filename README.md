@@ -5,8 +5,8 @@ Features
 
     Manage appointments
     Manage patient records
-    Manage billing
-    Manage inventory
+    Manage owner's records
+    Manage veterinarians
 
 Getting Started
 Prerequisites
