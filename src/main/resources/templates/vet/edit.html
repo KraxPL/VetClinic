@@ -20,9 +20,9 @@
       </select>
     </div>
     <div>
-      <label>User role:</label>
-      <select th:field="*{roles}">
-        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+      <label>Role:</label>
+      <select th:field="*{roles}" multiple>
+        <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}"></option>
       </select>
     </div>
     <div>

@@ -13,9 +13,7 @@ import pl.krax.vetclinic.repository.RoleRepository;
 import pl.krax.vetclinic.service.VetService;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/vets")
@@ -32,8 +30,6 @@ public class VetController {
     @GetMapping("/add")
     public String addNewVetForm(Model model){
         model.addAttribute("newVet", new Vet());
-        List<Role> roles = roleRepository.findAll();
-        model.addAttribute("roleList", roles);
         degreesAndRolesInModel(model);
         return "/vet/add";
     }
@@ -67,7 +63,8 @@ public class VetController {
     }
     private void degreesAndRolesInModel(Model model) {
         model.addAttribute("degrees", this.degrees);
-//        model.addAttribute("roleList", this.roleList);
+        List<Role> roles = roleRepository.findAll();
+        model.addAttribute("roleList", roles);
     }
 
 

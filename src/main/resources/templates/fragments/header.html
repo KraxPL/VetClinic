@@ -1,6 +1,6 @@
 <header>
   <link th:href="@{/css/headerStyles.css}" rel="stylesheet" />
-  <html xmlns:sec="http://www.springframework.org/security/tags">
+  <html>
   <div class="logo">
     <a th:href="@{/index}">
     <img src="logo.png" alt="Vet Clinic">
@@ -8,14 +8,14 @@
   </div>
   <div class="user-menu">
     <div class="user-info">
-      <p>Welcome, <sec:authentication property="name" />!</p>
+      <p>Welcome, <span th:text="${#authentication.principal.user.name}"></span>!</p>
     </div>
     <button class="menu-button">Menu</button>
     <div class="menu-options">
       <ul>
         <li><a href="/index">Main menu</a></li>
         <li><a href="#">Settings</a></li>
-        <li><a href="/vets">Users</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/vets">Users</a></li>
         <li><a>
           <form th:action="@{/logout}" method="post">
           <input class="fa fa-id-badge" type="submit" value="Log out">

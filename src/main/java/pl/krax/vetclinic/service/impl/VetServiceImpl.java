@@ -45,13 +45,22 @@ public class VetServiceImpl implements VetService {
 
     @Override
     public void update(VetDto vetDto) {
-        Vet vet = vetMapper.dtoToVet(vetDto);
-        vet.setPassword(passwordEncoder.encode(vet.getPassword()));
-        vetRepository.save(vet);
+        Vet editedVet = vetMapper.dtoToVet(vetDto);
+        Vet vet = findEntityById(editedVet.getId());
+        editedVet.setPassword(vet.getPassword());
+        editedVet.setActiveAccount(vet.getActiveAccount());
+        editedVet.setRoles(vet.getRoles());
+        vetRepository.save(editedVet);
     }
 
     @Override
     public Vet findByVetEmail(String email) {
         return vetRepository.findByEmail(email);
+    }
+
+    @Override
+    public Vet findEntityById(Long vetId) {
+        return vetRepository.findById(vetId)
+                .orElse(null);
     }
 }

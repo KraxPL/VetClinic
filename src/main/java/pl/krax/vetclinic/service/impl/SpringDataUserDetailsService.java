@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.krax.vetclinic.entities.Vet;
+import pl.krax.vetclinic.security.CurrentUser;
 import pl.krax.vetclinic.service.VetService;
 
 import java.util.HashSet;
@@ -27,12 +28,11 @@ public class SpringDataUserDetailsService implements UserDetailsService {
         if (vet == null) {
             throw new UsernameNotFoundException(email);
         }
-        boolean active = vet.getActiveAccount() == 1;
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         vet.getRoles().forEach(r ->
                 grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
-        return new User(
-                vet.getEmail(), vet.getPassword(), active, true, true, true, grantedAuthorities);
+        return new CurrentUser(
+                vet.getEmail(), vet.getPassword(),
+                grantedAuthorities, vet);
     }
-
 }
