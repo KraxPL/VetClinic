@@ -39,7 +39,7 @@ Build and run the application:
 
     mvn spring-boot:run
 
-Open http://localhost:2020/ index in your web browser.
+Open http://localhost:2020/index in your web browser.
 
 To log in to the Veterinary Clinic web application, you can go to the following address: http://localhost:2020/login.
 
@@ -62,6 +62,7 @@ Technologies Used
     Java
     Spring Boot
     Spring MVC
+    Spring Data
     Spring Security
     MySQL
     Hibernate
