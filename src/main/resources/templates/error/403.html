@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Access Denied</title>
+  <link rel="stylesheet" href="/css/listStyles.css" th:href="@{/css/errorStyles.css}">
+</head>
+<body>
+<h2>Error 403</h2>
+<h3>Access Denied</h3>
+<p>You are not authorized to access this resource.</p>
+<div th:replace="~{/fragments/footer :: footer}"></div>
+</body>
+</html>
