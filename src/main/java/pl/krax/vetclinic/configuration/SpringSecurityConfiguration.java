@@ -22,7 +22,6 @@ class SpringSecurityConfiguration {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
-                .csrf().disable()
                 .authorizeHttpRequests().shouldFilterAllDispatcherTypes(false).and()
                 .authorizeHttpRequests(authorization ->
                         authorization
