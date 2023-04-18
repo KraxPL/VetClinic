@@ -84,6 +84,15 @@ public class PetOwnerController {
         petOwnerService.update(petOwnerDto);
         return "redirect:/owners/" + petOwnerDto.getId();
     }
+    @PostMapping
+    public String searchedPetOwnerList(@RequestParam(defaultValue = "name") String searchField,
+                                       @RequestParam(required = false) String searchPhrase,
+                                       @RequestParam(defaultValue = "50")int limit,
+                                       Model model){
+        List<PetOwnerDto> searchedOwners = petOwnerService.findBySearchedPhraseAndField(searchPhrase, searchField, limit);
+        model.addAttribute("petOwners", searchedOwners);
+        return "/petOwner/list";
+    }
 
 
     @ModelAttribute("animalIdsList")

@@ -3,6 +3,7 @@ package pl.krax.vetclinic.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.krax.vetclinic.dto.PetOwnerDto;
 import pl.krax.vetclinic.entities.PetOwner;
@@ -67,5 +68,20 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     public PetOwner findEntityById(Long ownerId) {
         return petOwnerRepository.findById(ownerId)
                 .orElse(null);
+    }
+
+    @Override
+    public List<PetOwnerDto> findBySearchedPhraseAndField(String searchPhrase, String searchField, int limit) {
+        List<PetOwner> foundResults = switch (searchField) {
+            case "name" -> petOwnerRepository.findByNameSearchedPhrase(searchPhrase, PageRequest.of(0, limit));
+            case "email" -> petOwnerRepository.findByEmailSearchedPhrase(searchPhrase, PageRequest.of(0, limit));
+            case "address" -> petOwnerRepository.findByAddressSearchedPhrase(searchPhrase, PageRequest.of(0, limit));
+            case "nip" -> petOwnerRepository.findByNipSearchedPhrase(searchPhrase, PageRequest.of(0, limit));
+            case "phoneNumber" -> petOwnerRepository.findByPhoneNumberSearchedPhrase(searchPhrase, PageRequest.of(0, limit));
+            default -> throw new IllegalArgumentException("Invalid search field: " + searchField);
+        };
+        return foundResults.stream()
+                .map(ownerMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

@@ -17,4 +17,5 @@ public interface PetOwnerService {
     void deleteById(Long ownerId);
     void update(PetOwner petOwner);
     PetOwner findEntityById(Long ownerId);
+    List<PetOwnerDto> findBySearchedPhraseAndField(String searchPhrase, String searchField, int limit);
 }
