@@ -58,17 +58,26 @@ public class MedicalHistoryController {
     public String addNewVisitForm(@PathVariable Long petId, Model model){
         model.addAttribute("petId", petId);
         model.addAttribute("visit", new MedicalHistoryDto());
-        model.addAttribute("animalService", animalService);
+        ownerIdFromPetIdIntoModel(model, petId);
         return "/visit/new";
     }
     @PostMapping("/new")
-    public String addNewVisitForm(@Valid MedicalHistoryDto historyDto, BindingResult bindingResult){
+    public String addNewVisitForm(@ModelAttribute("visit") @Valid MedicalHistoryDto historyDto,
+                                  BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
+            Long petId = historyDto.getAnimalId();
+            model.addAttribute("petId", petId);
+            ownerIdFromPetIdIntoModel(model, petId);
             return "/visit/new";
         }
         medicalHistoryService.save(historyDto);
         return "redirect:/visit/date";
     }
+
+    private void ownerIdFromPetIdIntoModel(Model model, Long petId) {
+        model.addAttribute("ownerId", animalService.findById(petId).getOwner().getId());
+    }
+
     @GetMapping("/edit/{visitId}")
     public String editVisitForm(@PathVariable Long visitId, Model model){
         MedicalHistoryDto historyDto = medicalHistoryService.findById(visitId);
@@ -77,8 +86,10 @@ public class MedicalHistoryController {
         return "/visit/edit";
     }
     @PostMapping("/edit")
-    public String editVisit(@Valid MedicalHistoryDto historyDto, BindingResult bindingResult){
+    public String editVisit(@ModelAttribute("visit") @Valid MedicalHistoryDto historyDto,
+                            BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
+            model.addAttribute("petId", historyDto.getAnimalId());
             return "/visit/edit";
         }
         medicalHistoryService.update(historyDto);
