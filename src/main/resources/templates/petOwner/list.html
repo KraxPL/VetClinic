@@ -10,37 +10,65 @@
 
 <div class="container">
   <h1>Pet Owners List</h1>
-  <table class="table">
+  <form method="POST" th:action="@{/owners}">
+    <div class="form-group">
+      <label for="searchPhrase">Search Phrase:</label>
+      <input type="text" id="searchPhrase" name="searchPhrase" placeholder="Enter search phrase">
+    </div>
+    <div class="form-group">
+      <label for="searchField">Search Field:</label>
+      <select id="searchField" name="searchField">
+        <option value="name">Name</option>
+        <option value="address">Address</option>
+        <option value="phoneNumber">Phone Number</option>
+        <option value="email">Email</option>
+        <option value="nip">NIP</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="limit">Results Limit:</label>
+      <select id="limit" name="limit">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="500">500</option>
+      </select>
+    </div>
+    <button type="submit">Search</button>
+  </form>
+  <br>
+  <table class="table" id="table">
     <thead>
     <tr>
-      <th>Name</th>
-      <th>Address</th>
-      <th>City</th>
-      <th>Post Code</th>
-      <th>NIP</th>
-      <th>Phone Number</th>
-      <th>Email</th>
-      <th>Extra Info</th>
+      <th data-sort="name">Name</th>
+      <th data-sort="street">Address</th>
+      <th data-sort="city">City</th>
+      <th data-sort="postCode">Post Code</th>
+      <th data-sort="nip">NIP</th>
+      <th data-sort="phoneNumber">Phone Number</th>
+      <th data-sort="email">Email</th>
+      <th data-sort="extraInfo">Extra Info</th>
       <th>Action</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="petOwner : ${petOwners}">
       <td th:hidden="${petOwner.id}"></td>
-      <td th:text="${petOwner.name}"></td>
-      <td th:text="${petOwner.street}"></td>
-      <td th:text="${petOwner.city}"/>
-      <td th:text="${petOwner.postCode}"/>
-      <td th:text="${petOwner.nip}"></td>
-      <td th:text="${petOwner.phoneNumber}"></td>
-      <td th:text="${petOwner.email}"></td>
-      <td th:text="${petOwner.extraInfo}"></td>
+      <td data-sort="name" th:text="${petOwner.name}"></td>
+      <td data-sort="street" th:text="${petOwner.street}"></td>
+      <td data-sort="city" th:text="${petOwner.city}"/>
+      <td data-sort="postCode" th:text="${petOwner.postCode}"/>
+      <td data-sort="nip" th:text="${petOwner.nip}"></td>
+      <td data-sort="phoneNumber" th:text="${petOwner.phoneNumber}"></td>
+      <td data-sort="email" th:text="${petOwner.email}"></td>
+      <td data-sort="extraInfo" th:text="${petOwner.extraInfo}"></td>
       <td><a th:href="@{/owners/{ownerId}(ownerId=${petOwner.id})}">Details</a></td>
     </tr>
     </tbody>
   </table>
 </div>
-
 <footer th:replace="fragments/footer :: footer"></footer>
+<script th:src="@{/js/sortByColumn.js}"></script>
 </body>
 </html>
