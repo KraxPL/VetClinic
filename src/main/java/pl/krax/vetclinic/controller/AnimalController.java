@@ -15,6 +15,8 @@ import pl.krax.vetclinic.repository.PaymentRecordRepository;
 import pl.krax.vetclinic.service.AnimalService;
 import pl.krax.vetclinic.service.PetOwnerService;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/animals")
@@ -89,5 +91,14 @@ public class AnimalController {
         }
         animalService.deleteById(petId);
         return "redirect:/animals";
+    }
+    @PostMapping
+    public String searchedAnimalList(@RequestParam(defaultValue = "name") String searchField,
+                                       @RequestParam(required = false) String searchPhrase,
+                                       @RequestParam(defaultValue = "50")int limit,
+                                       Model model){
+        List<AnimalDto> searchedAnimals = animalService.findBySearchedPhraseAndField(searchPhrase, searchField, limit);
+        model.addAttribute("pets", searchedAnimals);
+        return "/animal/list";
     }
 }

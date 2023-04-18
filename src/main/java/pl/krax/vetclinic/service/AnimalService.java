@@ -1,6 +1,7 @@
 package pl.krax.vetclinic.service;
 
 import pl.krax.vetclinic.dto.AnimalDto;
+import pl.krax.vetclinic.dto.PetOwnerDto;
 import pl.krax.vetclinic.entities.Animal;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface AnimalService {
     void deleteById(Long animalId);
 
     List<AnimalDto> findByOwnerId(Long ownerId);
+
+    List<AnimalDto> findBySearchedPhraseAndField(String searchPhrase, String searchField, int limit);
 }
