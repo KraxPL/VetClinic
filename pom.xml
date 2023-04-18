@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>pl.krax</groupId>
 	<artifactId>vetclinic</artifactId>
-	<version>0.3.3-SNAPSHOT</version>
+	<version>0.3.4-SNAPSHOT</version>
 	<name>VetClinic</name>
 	<description>Vet Clinic project</description>
 	<properties>
@@ -20,10 +20,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
