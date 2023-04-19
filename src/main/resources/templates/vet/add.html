@@ -29,13 +29,24 @@
       <label for="name">Name:</label>
       <input type="text" id="name" th:field="*{name}" required>
     </div>
+    <div th:if="${#fields.hasErrors('name')}">
+      <p th:errors="*{name}">Please provide correct name</p>
+    </div>
     <div>
       <label for="email">Email:</label>
       <input type="email" id="email" th:field="*{email}" required>
     </div>
+    <div th:if="${#fields.hasErrors('email')}">
+      <p th:errors="*{email}">Please provide correct email</p>
+    </div>
+    <div th:if="${duplicatedMail}">
+      <p th:text="${duplicatedMail}"></p></div>
     <div>
       <label for="password">Password:</label>
       <input type="password" id="password" th:field="*{password}" required>
+    </div>
+    <div th:if="${#fields.hasErrors('password')}">
+      <p th:errors="*{password}">Password must have min. 8 signs/letters</p>
     </div>
     <button type="submit">Register new User</button>
   </form>

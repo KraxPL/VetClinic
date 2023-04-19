@@ -12,45 +12,55 @@
   <div>
     <label for="name">Name:</label>
     <input type="text" th:field="*{name}" id="name" required/>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
   </div>
   <div>
     <label for="dateOfBirth">Date of Birth:</label>
-    <input type="date" th:field="*{dateOfBirth}" id="dateOfBirth" required/>
+    <input type="date" th:field="*{dateOfBirth}" id="dateOfBirth"/>
+    <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="error"></span>
   </div>
   <div>
     <label>Species:</label>
     <input type="radio" th:field="*{species}" value="Dog"/>Dog
     <input type="radio" th:field="*{species}" value="Cat"/>Cat
+    <span th:if="${#fields.hasErrors('species')}" th:errors="*{species}" class="error"></span>
   </div>
   <div>
     <label for="breed">Breed:</label>
     <input type="text" th:field="*{breed}" id="breed"/>
+    <span th:if="${#fields.hasErrors('breed')}" th:errors="*{breed}" class="error"></span>
   </div>
   <div>
     <label >Gender:</label>
     <input type="radio" th:field="*{gender}" value="Tom"/>Tom(M)
     <input type="radio" th:field="*{gender}" value="Dam"/>Dam(F)
+    <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="error"></span>
   </div>
   <div>
     <label for="distinctiveMarks">Distinctive Marks:</label>
     <input type="text" id="distinctiveMarks" th:field="*{distinctiveMarks}"/>
+    <span th:if="${#fields.hasErrors('distinctiveMarks')}" th:errors="*{distinctiveMarks}" class="error"></span>
   </div>
   <div>
     <label for="colour">Colour:</label>
     <input type="text" id="colour" th:field="*{colour}"/>
+    <span th:if="${#fields.hasErrors('colour')}" th:errors="*{colour}" class="error"></span>
   </div>
   <div>
     <label>Animal Kind:</label>
     <input type="radio" th:field="*{animalKind}" value="Domestic"/>Domestic animal
     <input type="radio" th:field="*{animalKind}" value="Wild"/>Wild animal
+    <span th:if="${#fields.hasErrors('animalKind')}" th:errors="*{animalKind}" class="error"></span>
   </div>
   <div>
     <label for="chipNumber">Chip Number:</label>
     <input type="text" id="chipNumber" th:field="*{chipNumber}"/>
+    <span th:if="${#fields.hasErrors('chipNumber')}" th:errors="*{chipNumber}" class="error"></span>
   </div>
   <div>
     <label for="weight">Weight:</label>
-    <input type="number" id="weight" th:field="*{weight}" required/>
+    <input type="number" step="0.01" th:field="*{weight}" id="weight">
+    <span th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}" class="error"></span>
   </div>
   <button type="submit">Save</button>
 </form>

@@ -15,6 +15,8 @@ import pl.krax.vetclinic.repository.PaymentRecordRepository;
 import pl.krax.vetclinic.service.AnimalService;
 import pl.krax.vetclinic.service.PetOwnerService;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/animals")
@@ -47,11 +49,14 @@ public class AnimalController {
             model.addAttribute("pet", new AnimalDto());
             return "/animal/add";
         }
-        return "redirect:/owners/save";
+        return "redirect:/owners/" + ownerId;
     }
     @PostMapping("/add")
-    public String addPet(@Valid AnimalDto animalDto, BindingResult bindingResult, @RequestParam Long ownerId){
+    public String addPet(@ModelAttribute("pet") @Valid AnimalDto animalDto,
+                         BindingResult bindingResult, @RequestParam Long ownerId, Model model){
         if (bindingResult.hasErrors()){
+            PetOwnerDto petOwnerDto = ownerService.findById(ownerId);
+            model.addAttribute("PetOwner", petOwnerDto);
             return "/animal/add";
         }
         PetOwnerDto ownerDto = ownerService.findById(ownerId);
@@ -69,12 +74,16 @@ public class AnimalController {
         return "redirect:/animals/" + petId;
     }
     @PostMapping("/edit")
-    public String editPet(@Valid AnimalDto animalDto, BindingResult bindingResult){
+    public String editPet(@ModelAttribute("pet") @Valid AnimalDto animalDto, BindingResult bindingResult,
+                          Model model){
         if (bindingResult.hasErrors()){
+            model.addAttribute("pet", animalDto);
             return "/animal/edit";
         }
+        PetOwnerDto ownerDto = ownerService.findById(animalDto.getOwner().getId());
+        animalDto.setOwner(ownerMapper.fromDto(ownerDto, animalRepository, medicalHistoryRepository, paymentRecordRepository));
         animalService.update(animalDto);
-        return "redirect:/animals/" + animalDto.getOwner().getId();
+        return "redirect:/owners/" + ownerDto.getId();
     }
     @PostMapping("/delete/{petId}")
     public String deletePetOwner(@PathVariable Long petId, Model model){
@@ -89,5 +98,14 @@ public class AnimalController {
         }
         animalService.deleteById(petId);
         return "redirect:/animals";
+    }
+    @PostMapping
+    public String searchedAnimalList(@RequestParam(defaultValue = "name") String searchField,
+                                       @RequestParam(required = false) String searchPhrase,
+                                       @RequestParam(defaultValue = "50")int limit,
+                                       Model model){
+        List<AnimalDto> searchedAnimals = animalService.findBySearchedPhraseAndField(searchPhrase, searchField, limit);
+        model.addAttribute("pets", searchedAnimals);
+        return "/animal/list";
     }
 }

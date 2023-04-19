@@ -10,30 +10,35 @@
 
 <div class="container">
     <h1>New Visit Record</h1>
-    <form method="post" th:action="@{/visit/edit}">
+    <form method="post" th:action="@{/visit/edit}" th:object="${visit}">
         <input type="hidden" id="animalId" th:value="${petId}" name="animalId">
-        <input type="hidden" id="historyId" th:field="${visit.id}">
-        <input type="hidden" id="visitDateTime" th:field="${visit.dateTimeOfVisit}">
+        <input type="hidden" id="historyId" th:field="*{id}">
+        <input type="hidden" id="visitDateTime" th:field="*{dateTimeOfVisit}">
         <input type="hidden" id="vetId" th:value="${#authentication.principal.user.id}" name="vetId"/>
         <div class="form-group">
             <label for="anamnesis">Anamnesis:</label>
-            <textarea id="anamnesis" th:field="${visit.anamnesis}" rows="5"></textarea>
+            <textarea id="anamnesis" th:field="*{anamnesis}" rows="5" class="form-control"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('anamnesis')}" th:errors="*{anamnesis}">Anamnesis is too long</div>
         </div>
         <div class="form-group">
             <label for="vetExamination">Veterinary Examination:</label>
-            <textarea id="vetExamination" th:field="${visit.vetExamination}" rows="5"></textarea>
+            <textarea id="vetExamination" th:field="*{vetExamination}" rows="5" class="form-control"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('vetExamination')}" th:errors="*{vetExamination}">Veterinary examination is too long</div>
         </div>
         <div class="form-group">
             <label for="diagnosis">Diagnosis:</label>
-            <textarea id="diagnosis" th:field="${visit.diagnosis}" rows="5"></textarea>
+            <textarea id="diagnosis" th:field="*{diagnosis}" rows="5" class="form-control" required></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('diagnosis')}" th:errors="*{diagnosis}">Diagnosis is required or is too long</div>
         </div>
         <div class="form-group">
             <label for="usedMedication">Medication Used:</label>
-            <textarea id="usedMedication" th:field="${visit.usedMedication}" rows="5"></textarea>
+            <textarea id="usedMedication" th:field="*{usedMedication}" rows="5" class="form-control"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('usedMedication')}" th:errors="*{usedMedication}">Medication used is too long</div>
         </div>
         <div class="form-group">
             <label for="prescription">Prescription:</label>
-            <textarea id="prescription" th:field="${visit.prescription}" rows="5"></textarea>
+            <textarea id="prescription" th:field="*{prescription}" rows="5" class="form-control"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('prescription')}" th:errors="*{prescription}">Prescription is too long</div>
         </div>
         <button type="submit" class="btn">Edit</button>
     </form>

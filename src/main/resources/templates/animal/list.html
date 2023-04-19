@@ -10,19 +10,45 @@
 
 <div class="container">
   <h1>Pets List</h1>
-  <table class="table">
+  <form method="POST" th:action="@{/animals}">
+    <div class="form-group">
+      <label for="searchPhrase">Search Phrase:</label>
+      <input type="text" id="searchPhrase" name="searchPhrase" placeholder="Enter search phrase">
+    </div>
+    <div class="form-group">
+      <label for="searchField">Search Field:</label>
+      <select id="searchField" name="searchField">
+        <option value="name">Name</option>
+        <option value="breed">Breed</option>
+        <option value="distinctiveMarks">Distinctive Marks</option>
+        <option value="chipNo">Chip No.</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="limit">Results Limit:</label>
+      <select id="limit" name="limit">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="500">500</option>
+      </select>
+    </div>
+    <button type="submit">Search</button>
+  </form>
+  <table class="table" id="table">
     <thead>
     <tr>
-      <th>Name</th>
-      <th>Species</th>
-      <th>Breed</th>
-      <th>Gender</th>
-      <th>Birth Date</th>
-      <th>Colour</th>
-      <th>Distinctive Marks</th>
-      <th>Chip No.</th>
-      <th>Weight</th>
-      <th>Kind</th>
+      <th data-sort="name">Name</th>
+      <th data-sort="species">Species</th>
+      <th data-sort="breed">Breed</th>
+      <th data-sort="gender">Gender</th>
+      <th data-sort="birthDate">Birth Date</th>
+      <th data-sort="colour">Colour</th>
+      <th data-sort="distinctiveMarks">Distinctive Marks</th>
+      <th data-sort="chipNo">Chip No.</th>
+      <th data-sort="weight">Weight</th>
+      <th data-sort="kind">Kind</th>
       <th>Details</th>
       <th>New Visit</th>
     </tr>
@@ -30,16 +56,16 @@
     <tbody>
     <tr th:each="pet : ${pets}">
       <td th:hidden="${pet.id}"></td>
-      <td th:text="${pet.name}"></td>
-      <td th:text="${pet.species}"></td>
-      <td th:text="${pet.breed}"/>
-      <td th:text="${pet.gender}"/>
-      <td th:text="${pet.dateOfBirth}"></td>
-      <td th:text="${pet.colour}"></td>
-      <td th:text="${pet.distinctiveMarks}"></td>
-      <td th:text="${pet.chipNumber}"></td>
-      <td th:text="${pet.weight} + 'kg'"></td>
-      <td th:text="${pet.animalKind}"></td>
+      <td data-sort="name" th:text="${pet.name}"></td>
+      <td data-sort="species" th:text="${pet.species}"></td>
+      <td data-sort="breed" th:text="${pet.breed}"/>
+      <td data-sort="gender" th:text="${pet.gender}"/>
+      <td data-sort="birthDate" th:text="${pet.dateOfBirth}"></td>
+      <td data-sort="colour" th:text="${pet.colour}"></td>
+      <td data-sort="distinctiveMarks" th:text="${pet.distinctiveMarks}"></td>
+      <td data-sort="chipNo" th:text="${pet.chipNumber}"></td>
+      <td data-sort="weight" th:text="${pet.weight} + 'kg'"></td>
+      <td data-sort="kind" th:text="${pet.animalKind}"></td>
       <td><a th:href="@{/animals/{animalId}(animalId=${pet.id})}"><button>Details</button></a></td>
       <td><a th:href="@{/visit/new/{animalId}(animalId=${pet.id})}"><button>New Visit</button></a></td>
     </tr>
@@ -48,5 +74,6 @@
 </div>
 
 <footer th:replace="fragments/footer :: footer"></footer>
+<script th:src="@{/js/sortByColumn.js}"></script>
 </body>
 </html>

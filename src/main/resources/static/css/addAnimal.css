@@ -63,7 +63,7 @@ select {
     margin-bottom: 20px;
 }
 
-.error-message {
+.error {
     color: red;
     font-size: 14px;
     margin-top: 5px;

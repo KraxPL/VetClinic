@@ -19,20 +19,20 @@
         <button class="add-vet-btn">Add Vet</button>
         </a>
       </div>
-      <table>
+      <table class="table">
         <thead>
         <tr>
-          <th>Degree</th>
-          <th>Name</th>
-          <th>Email</th>
+          <th data-sort="degree">Degree</th>
+          <th data-sort="name">Name</th>
+          <th data-sort="email">Email</th>
           <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="vet : ${vets}">
-          <td th:text="${vet.degree}"></td>
-          <td th:text="${vet.name}"></td>
-          <td th:text="${vet.email}"></td>
+          <td data-sort="degree" th:text="${vet.degree}"></td>
+          <td data-sort="name" th:text="${vet.name}"></td>
+          <td data-sort="email" th:text="${vet.email}"></td>
           <td>
             <a th:href="@{'/vets/edit/' + ${vet.id}}">
             <button class="edit-vet-btn">Edit</button>
@@ -47,6 +47,6 @@
 </main>
 
 <div th:replace="~{/fragments/footer :: footer}"></div>
-
+<script th:src="@{/js/sortByColumn.js}"></script>
 </body>
 </html>

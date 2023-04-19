@@ -12,33 +12,44 @@
   <input type="hidden" id="ownerId" th:value="${PetOwner.id}" name="ownerId">
   <label for="name">Name:</label>
   <input type="text" th:field="*{name}" id="name">
+  <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
   <br>
   <label for="dateOfBirth">Date of Birth:</label>
   <input type="date" th:field="*{dateOfBirth}" id="dateOfBirth">
+  <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="error"></span>
   <br>
-  <label for="species">Species:</label>
-  <input type="text" th:field="*{species}" id="species">
+  <label>Species:</label>
+  <input type="radio" th:field="*{species}" value="Dog"/>Dog
+  <input type="radio" th:field="*{species}" value="Cat"/>Cat
+  <span th:if="${#fields.hasErrors('species')}" th:errors="*{species}" class="error"></span>
   <br>
   <label for="breed">Breed:</label>
   <input type="text" th:field="*{breed}" id="breed">
+  <span th:if="${#fields.hasErrors('breed')}" th:errors="*{breed}" class="error"></span>
   <br>
   <label for="gender">Gender:</label>
   <input type="text" th:field="*{gender}" id="gender">
+  <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="error"></span>
   <br>
   <label for="distinctiveMarks">Distinctive Marks:</label>
   <input type="text" th:field="*{distinctiveMarks}" id="distinctiveMarks">
+  <span th:if="${#fields.hasErrors('distinctiveMarks')}" th:errors="*{distinctiveMarks}" class="error"></span>
   <br>
   <label for="colour">Colour:</label>
   <input type="text" th:field="*{colour}" id="colour">
+  <span th:if="${#fields.hasErrors('colour')}" th:errors="*{colour}" class="error"></span>
   <br>
   <label for="animalKind">Animal Kind:</label>
   <input type="text" th:field="*{animalKind}" id="animalKind">
+  <span th:if="${#fields.hasErrors('animalKind')}" th:errors="*{animalKind}" class="error"></span>
   <br>
   <label for="chipNumber">Chip Number:</label>
   <input type="text" th:field="*{chipNumber}" id="chipNumber">
+  <span th:if="${#fields.hasErrors('chipNumber')}" th:errors="*{chipNumber}" class="error"></span>
   <br>
   <label for="weight">Weight:</label>
   <input type="number" step="0.01" th:field="*{weight}" id="weight">
+  <span th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}" class="error"></span>
   <br>
   <input type="submit" value="Add Pet">
 </form>

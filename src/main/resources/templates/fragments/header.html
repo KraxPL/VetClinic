@@ -1,10 +1,10 @@
-<header>
+<header class="vet-header">
   <link th:href="@{/css/headerStyles.css}" rel="stylesheet" />
   <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
   <html>
-  <div class="logo">
+  <div class="vet-logo">
     <a th:href="@{/index}">
-    <img src="/images/logo.png" alt="Vet Clinic">
+      <img src="/images/logo.png" alt="Vet Clinic">
     </a>
   </div>
   <div class="user-menu">
@@ -17,19 +17,21 @@
         <li><a href="/index">Main menu</a></li>
         <li><a href="#">Settings</a></li>
         <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/vets">Users</a></li>
-        <li><a>
-          <form th:action="@{/logout}" method="post">
-          <input class="fa fa-id-badge" type="submit" value="Log out">
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-          </form>
-        </a>
+        <li>
+          <a>
+            <form th:action="@{/logout}" method="post">
+              <input class="fa fa-id-badge" type="submit" value="Log out">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
+          </a>
         </li>
       </ul>
     </div>
   </div>
 
 
-<script>
+
+  <script>
   const menuButton = document.querySelector('.menu-button');
   const menuOptions = document.querySelector('.menu-options');
 

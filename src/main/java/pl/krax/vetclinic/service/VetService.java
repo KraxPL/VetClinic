@@ -1,10 +1,10 @@
 package pl.krax.vetclinic.service;
 
+import org.springframework.stereotype.Service;
 import pl.krax.vetclinic.dto.VetDto;
 import pl.krax.vetclinic.entities.Vet;
 
 import java.util.List;
-
 public interface VetService {
     void save(Vet vet);
 
@@ -15,4 +15,5 @@ public interface VetService {
     void update(VetDto vetDto);
     Vet findByVetEmail(String email);
     Vet findEntityById(Long vetId);
+    VetDto findVetDtoByEmail(String email);
 }

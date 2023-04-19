@@ -31,7 +31,7 @@ public class VetServiceImpl implements VetService {
     @Override
     public VetDto findById(Long vetId) {
         Vet vet = vetRepository.findById(vetId)
-                .orElseThrow(() -> new RuntimeException("Vet not found"));
+                .orElse(null);
         return vetMapper.vetToDto(vet);
     }
 
@@ -62,5 +62,10 @@ public class VetServiceImpl implements VetService {
     public Vet findEntityById(Long vetId) {
         return vetRepository.findById(vetId)
                 .orElse(null);
+    }
+
+    @Override
+    public VetDto findVetDtoByEmail(String email) {
+        return vetMapper.vetToDto(vetRepository.findByEmail(email));
     }
 }

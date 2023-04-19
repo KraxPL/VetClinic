@@ -19,6 +19,7 @@ import java.util.List;
 @RequestMapping("/vets")
 @RequiredArgsConstructor
 public class VetController {
+    public static final String THIS_EMAIL_IS_ALREADY_USED = "This email is already used!";
     private final VetService vetService;
     private final RoleRepository roleRepository;
     private final List<String> degrees = Arrays.asList("tech. wet.", "lek. wet.", "dr n. wet.", "dr hab. n. wet.", "prof. dr hab.");
@@ -35,8 +36,12 @@ public class VetController {
     }
 
     @PostMapping("/add")
-    public String addNewVet(@Valid Vet vet, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public String addNewVet(@ModelAttribute("newVet") @Valid Vet vet,
+                            BindingResult bindingResult, Model model){
+        VetDto duplicatedVet = vetService.findVetDtoByEmail(vet.getEmail());
+        if (bindingResult.hasErrors() || duplicatedVet != null){
+            degreesAndRolesInModel(model);
+            model.addAttribute("duplicatedMail", THIS_EMAIL_IS_ALREADY_USED);
             return "/vet/add";
         }
         vetService.save(vet);
@@ -47,15 +52,18 @@ public class VetController {
     @GetMapping("/edit/{vetId}")
     public String editVetForm(@PathVariable Long vetId, Model model){
         VetDto vetDto = vetService.findById(vetId);
-        if (vetDto != null) { //try with resources needed in the future
+        if (vetDto != null) {
             model.addAttribute("vet", vetDto);
             degreesAndRolesInModel(model);
         }
         return "/vet/edit";
     }
     @PostMapping("/edit")
-    public String editVet(@Valid VetDto vetDto, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public String editVet(@ModelAttribute("vet") @Valid VetDto vetDto, BindingResult bindingResult, Model model){
+        VetDto duplicatedVet = vetService.findVetDtoByEmail(vetDto.getEmail());
+        if (bindingResult.hasErrors() || (duplicatedVet != null && !duplicatedVet.getId().equals(vetDto.getId()))){
+            model.addAttribute("duplicatedMail", THIS_EMAIL_IS_ALREADY_USED);
+            degreesAndRolesInModel(model);
             return "/vet/edit";
         }
         vetService.update(vetDto);

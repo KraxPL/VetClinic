@@ -11,25 +11,32 @@
 <form th:action="@{/owners/edit}" th:object="${owner}" method="post">
     <input type="hidden" th:field="*{id}">
     <label for="name">Name:</label>
-    <input type="text" th:field="*{name}" id="name">
+    <input type="text" th:field="*{name}" id="name" required>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
     <br>
     <label for="postCode">Post Code:</label>
-    <input type="text" th:field="*{postCode}" id="postCode">
+    <input type="text" th:field="*{postCode}" id="postCode" pattern="[0-9]{2}-[0-9]{3}">
+    <span th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}"></span>
     <br>
     <label for="city">City:</label>
     <input type="text" th:field="*{city}" id="city">
+    <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
     <br>
     <label for="street">Street:</label>
     <input type="text" th:field="*{street}" id="street">
+    <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}"></span>
     <br>
     <label for="nip">NIP:</label>
-    <input type="text" th:field="*{nip}" id="nip">
+    <input type="text" th:field="*{nip}" id="nip" pattern="[0-9]{15}">
+    <span th:if="${#fields.hasErrors('nip')}" th:errors="*{nip}"></span>
     <br>
     <label for="phoneNumber">Phone Number:</label>
-    <input type="text" th:field="*{phoneNumber}" id="phoneNumber">
+    <input type="text" th:field="*{phoneNumber}" id="phoneNumber" pattern="[0-9]{9}">
+    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
     <br>
     <label for="email">Email:</label>
     <input type="email" th:field="*{email}" id="email">
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
     <br>
     <label for="extraInfo">Extra Info:</label>
     <textarea th:field="*{extraInfo}" id="extraInfo"></textarea>
