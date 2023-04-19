@@ -3,7 +3,9 @@ package pl.krax.vetclinic.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -16,8 +18,9 @@ public class VetSchedule {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vet_id")
     private Vet vet;
-    private LocalDateTime workStartDateTime;
-    private LocalDateTime workEndDateTime;
+    private DayOfWeek dayOfWeek;
+    private LocalTime workStartTime;
+    private LocalTime workEndTime;
     private int visitTime;
     @OneToMany(mappedBy = "vetSchedule", cascade = CascadeType.ALL)
     private List<Appointment> appointmentList;
