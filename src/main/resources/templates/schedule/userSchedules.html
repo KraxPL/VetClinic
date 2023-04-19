@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Veterinarian Schedule</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/userSchedulesStyles.css}">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<h1>Veterinarian Schedule</h1>
+<div>
+    <form th:action="@{/schedule}" th:method="post" th:object="${scheduleDto}">
+        <input type="hidden" id="id" name="id" th:value="${scheduleDto.id}"/>
+
+        <div>
+            <button type="submit" name="week" value="${week.minusWeeks(1)}">&lt;&lt; Previous week</button>
+            <button type="submit" name="week" value="${week.plusWeeks(1)}">Next week &gt;&gt;</button>
+        </div>
+
+        <p id="week"
+               th:text="${#temporals.format(week, 'EEEE, dd/MM/yyyy') + ' - ' + #temporals.format(week.plusDays(6), 'EEEE, dd/MM/yyyy')}"/>
+
+        <label for="vetId">Select Veterinarian:</label>
+        <select id="vetId" name="vetId">
+            <option th:each="vet : ${vets}"
+                    th:value="${vet.id}"
+                    th:selected="${vet.id == scheduleDto.vetId}">
+                <span th:text="${vet.degree + ' ' + vet.name}"></span>
+            </option>
+        </select>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Day</th>
+                <th>Working Hours</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="day : ${days}">
+                <td th:text="${day + ' - ' + day.getDayOfWeek()}"></td>
+                <td>
+
+                    <input type="time" name="startTimes[]" th:value="${dayScheduleMap.get(day)?.workStartTime}"/>
+                    -
+                    <input type="time" name="endTimes[]" th:value="${dayScheduleMap.get(day)?.workEndTime}"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <label for="visitTime">Standard visit time:</label>
+        <input type="number" id="visitTime" name="visitTime" th:value="${scheduleDto.visitTime != 0 ? scheduleDto.visitTime : 30}" th:attr="value=${scheduleDto.visitTime != 0 ? scheduleDto.visitTime : 30}"/>
+
+
+        <button type="submit">Save</button>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

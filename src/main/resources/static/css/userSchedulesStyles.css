@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    text-align: left;
+    background-color: #009903;
+    color: #fff;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="week"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 5px #ddd;
+}
+
+input[type="time"],
+input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 5px #ddd;
+}
+
+button[type="submit"] {
+    background-color: #4f9900;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #fff;
+    color: #059900;
+    box-shadow: 0 0 5px #009903;
+}

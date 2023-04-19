@@ -54,7 +54,7 @@
             </a>
         </div>
         <div class="col-sm-3 my-3">
-            <a th:href="@{#}">
+            <a th:href="@{/schedule/{vetId} (vetId=${#authentication.principal.user.id})}">
                 <div class="tile search-tile">
                     <img class="tile-img" th:src="@{/images/computerIcon.png}" alt="icon">
                     <span class="tile-label">My schedule</span>
