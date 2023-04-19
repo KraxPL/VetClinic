@@ -41,7 +41,7 @@ public class Vet {
     @NotEmpty
     private Set<Role> roles;
     @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
-    private List<VetSchedule> vetScheduleList;
+    private List<VetDailySchedule> vetScheduleList;
     @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
     private List<Appointment> appointmentList;
 }

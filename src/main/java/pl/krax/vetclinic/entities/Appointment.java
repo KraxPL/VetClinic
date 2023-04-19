@@ -17,7 +17,7 @@ public class Appointment {
     private Vet vet;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id")
-    private VetSchedule vetSchedule;
+    private VetDailySchedule vetSchedule;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private String visitType;

@@ -14,3 +14,4 @@ INSERT INTO VetClinic.animals(animal_kind, breed, chip_number, colour, date_of_b
 INSERT INTO VetClinic.medical_records(anamnesis, date_time_of_visit, diagnosis, prescription, used_medication, vet_examination, animal_id, pet_owner_id, vet_id) VALUES ('wywiad', NOW(), 'diagnoza', 'nic nie zalecono', 'simparica', 'W omacywaniu nic nie stwierdzono', '1', '1', 2), ('wywiad 2 ', NOW(), 'diagnoza', 'nic nie zalecono', 'simparica', 'W omacywaniu nic nie stwierdzono', 1, 1, 2), ('wywiad 3 ', NOW(), 'diagnoza3', 'nic nie zalecono3', 'kocimiętka', 'Osłuchowo git', 2, 2, 1);
 INSERT INTO VetClinic.roles(name) VALUES ('ROLE_USER'), ('ROLE_ADMIN');
 INSERT INTO VetClinic.veterinarians_roles(vet_id, role_id) VALUES (1,2), (2,1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', (now()), 30, '20:00:00', '8:00:00', 1);
