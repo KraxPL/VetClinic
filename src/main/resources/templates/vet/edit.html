@@ -28,10 +28,13 @@
     <div>
       <label for="name">Name:</label>
       <input type="text" id="name" th:field="*{name}" required>
+      <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
     </div>
     <div>
       <label for="email">Email:</label>
       <input type="email" id="email" th:field="*{email}" required>
+      <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</p>
+      <p th:if="${duplicatedMail}">User with this email already exists!</p>
     </div>
     <input type="hidden" th:field="*{id}">
     <button type="submit">Edit User</button>
