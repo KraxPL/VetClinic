@@ -40,5 +40,9 @@ public class Vet {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @NotEmpty
     private Set<Role> roles;
+    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
+    private List<VetSchedule> vetScheduleList;
+    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
+    private List<Appointment> appointmentList;
 }
 
