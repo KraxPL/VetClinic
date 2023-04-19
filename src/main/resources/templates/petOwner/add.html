@@ -15,12 +15,14 @@
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" th:field="*{name}" class="form-control" required>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="postCode">Post Code:</label>
                     <input type="text" id="postCode" th:field="*{postCode}" class="form-control">
+                    <span th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}" class="error"></span>
                 </div>
             </div>
         </div>
@@ -28,13 +30,15 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="city">City:</label>
-                    <input type="text" id="city" th:field="*{city}" class="form-control" required>
+                    <input type="text" id="city" th:field="*{city}" class="form-control">
+                    <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="error"></span>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="street">Street:</label>
-                    <input type="text" id="street" th:field="*{street}" class="form-control" required>
+                    <input type="text" id="street" th:field="*{street}" class="form-control">
+                    <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="error"></span>
                 </div>
             </div>
         </div>
@@ -43,12 +47,14 @@
                 <div class="form-group">
                     <label for="nip">NIP:</label>
                     <input type="text" id="nip" th:field="*{nip}" class="form-control">
+                    <span th:if="${#fields.hasErrors('nip')}" th:errors="*{nip}" class="error"></span>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="phoneNumber">Phone Number:</label>
                     <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control" required>
+                    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></span>
                 </div>
             </div>
         </div>
@@ -57,12 +63,14 @@
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" th:field="*{email}" class="form-control">
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="extraInfo">Extra Info:</label>
                     <textarea id="extraInfo" th:field="*{extraInfo}" class="form-control"></textarea>
+                    <span th:if="${#fields.hasErrors('extraInfo')}" th:errors="*{extraInfo}" class="error"></span>
                 </div>
             </div>
         </div>

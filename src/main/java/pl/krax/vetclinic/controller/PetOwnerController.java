@@ -23,12 +23,8 @@ public class PetOwnerController {
     private final AnimalService animalService;
 
     @GetMapping
-    public String listAll(Model model, @RequestParam(required = false) Long ownerId) {
+    public String listAll(Model model) {
         model.addAttribute("petOwners", petOwnerService.findAll());
-//        if (ownerId != null) {
-//            List<PetDto> pets = petService.getPetsByOwnerId(ownerId);
-//            model.addAttribute("pets", pets);
-//        }
         return "/petOwner/list";
     }
     @GetMapping("/save")
@@ -37,7 +33,7 @@ public class PetOwnerController {
         return "/petOwner/add";
     }
     @PostMapping("/save")
-    public String addOwner(@Valid PetOwnerDto petOwnerDto, BindingResult bindingResult){
+    public String addOwner(@ModelAttribute("owner") @Valid PetOwnerDto petOwnerDto, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "/petOwner/add";
         }
@@ -77,7 +73,7 @@ public class PetOwnerController {
         return "redirect:/owners";
     }
     @PostMapping("/edit")
-    public String editPetOwner(@Valid PetOwnerDto petOwnerDto, BindingResult bindingResult){
+    public String editPetOwner(@ModelAttribute("owner") @Valid PetOwnerDto petOwnerDto, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "/petOwner/edit";
         }
