@@ -46,17 +46,19 @@
                 <th>Birth Date</th>
                 <th>Breed</th>
                 <th>Weight</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <tr th:if="${#lists.isEmpty(owner.animalsIds)}">
-                <td colspan="4">No animals found.</td>
+                <td colspan="5">No animals found.</td>
             </tr>
             <tr th:each="animalId : ${owner.animalsIds}">
                 <td><span th:text="${animalService.findById(animalId)?.getName() ?: ''}"></span></td>
                 <td><span th:text="${animalService.findById(animalId)?.getDateOfBirth() ?: ''}"></span></td>
                 <td><span th:text="${animalService.findById(animalId)?.getBreed() ?: ''}"></span></td>
                 <td><span th:text="${animalService.findById(animalId)?.getWeight() ?: ''} + 'kg'"></span></td>
+                <td><span><a th:href="@{/animals/edit/{petId}(petId=${animalId})}"><button>Edit</button></a></span></td>
             </tr>
             </tbody>
         </table>

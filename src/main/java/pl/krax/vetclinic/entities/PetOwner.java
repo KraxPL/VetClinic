@@ -27,6 +27,7 @@ public class PetOwner {
     private int visitCount;
     private LocalDate lastVisit;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Animal> animalList;
     @OneToMany(mappedBy = "petOwner", cascade = CascadeType.ALL)
     private List<MedicalHistory> medicalHistoryList;
