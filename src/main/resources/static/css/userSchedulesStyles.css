@@ -55,7 +55,8 @@ input[type="number"] {
     box-shadow: 0 0 5px #ddd;
 }
 
-button[type="submit"] {
+button[type="submit"],
+button[type="button"] {
     background-color: #4f9900;
     color: #fff;
     padding: 10px 20px;
