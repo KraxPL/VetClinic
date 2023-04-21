@@ -9,12 +9,12 @@
 
 <h1>Veterinarian Schedule</h1>
 <div>
-    <form th:action="@{/schedule}" th:method="post" th:object="${scheduleDto}">
-        <input type="hidden" id="id" name="id" th:value="${scheduleDto.id}"/>
+    <form th:action="@{/schedule}" th:method="POST" th:object="${scheduleDto}">
+        <input type="hidden" id="monday" name="monday" th:value="${week}">
 
         <div>
-            <button type="submit" name="week" value="${week.minusWeeks(1)}">&lt;&lt; Previous week</button>
-            <button type="submit" name="week" value="${week.plusWeeks(1)}">Next week &gt;&gt;</button>
+            <button type="button" onclick="const d = new Date(document.getElementById('monday').value); d.setDate(d.getDate() - 7); window.location.href='/schedule/' + document.getElementById('vetId').value + '?week=' + d.toISOString().substring(0, 10)"><< Previous week</button>
+            <button type="button" onclick="const d = new Date(document.getElementById('monday').value); d.setDate(d.getDate() + 7); window.location.href='/schedule/' + document.getElementById('vetId').value + '?week=' + d.toISOString().substring(0, 10)">Next week &gt;&gt;</button>
         </div>
 
         <p id="week"
@@ -24,10 +24,12 @@
         <select id="vetId" name="vetId">
             <option th:each="vet : ${vets}"
                     th:value="${vet.id}"
-                    th:selected="${vet.id == scheduleDto.vetId}">
+                    th:selected="${vet.id == userId}">
                 <span th:text="${vet.degree + ' ' + vet.name}"></span>
             </option>
         </select>
+
+        <button type="button" onclick="window.location.href='/schedule/' + document.getElementById('vetId').value">View Schedule</button>
 
         <table>
             <thead>
@@ -40,18 +42,20 @@
             <tr th:each="day : ${days}">
                 <td th:text="${day + ' - ' + day.getDayOfWeek()}"></td>
                 <td>
-
-                    <input type="time" name="startTimes[]" th:value="${dayScheduleMap.get(day)?.workStartTime}"/>
+                    <input type="hidden" name="id" th:value="${dayScheduleMap.get(day)?.id}" />
+                    <input type="hidden" name="veterinarianId" th:value="${userId}" />
+                    <input type="hidden" name="date" th:value="${day}" />
+                    <input type="time" name="workStartTime" th:value="${dayScheduleMap.get(day)?.workStartTime}" />
                     -
-                    <input type="time" name="endTimes[]" th:value="${dayScheduleMap.get(day)?.workEndTime}"/>
+                    <input type="time" name="workEndTime" th:value="${dayScheduleMap.get(day)?.workEndTime}" />
                 </td>
             </tr>
             </tbody>
         </table>
 
+
         <label for="visitTime">Standard visit time:</label>
         <input type="number" id="visitTime" name="visitTime" th:value="${scheduleDto.visitTime != 0 ? scheduleDto.visitTime : 30}" th:attr="value=${scheduleDto.visitTime != 0 ? scheduleDto.visitTime : 30}"/>
-
 
         <button type="submit">Save</button>
     </form>

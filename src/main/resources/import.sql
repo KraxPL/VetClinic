@@ -15,3 +15,9 @@ INSERT INTO VetClinic.medical_records(anamnesis, date_time_of_visit, diagnosis, 
 INSERT INTO VetClinic.roles(name) VALUES ('ROLE_USER'), ('ROLE_ADMIN');
 INSERT INTO VetClinic.veterinarians_roles(vet_id, role_id) VALUES (1,2), (2,1);
 INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', (now()), 30, '20:00:00', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', '2023-04-20', 30, '20:00:00', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', '2023-04-22', 30, '20:00:00', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', '2023-04-23', 30, '20:00:00', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', '2023-04-19', 30, '20:00:00', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', '2023-04-18', 30, '20:00:00', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', '2023-04-17', 30, '20:00:00', '8:00:00', 1);
