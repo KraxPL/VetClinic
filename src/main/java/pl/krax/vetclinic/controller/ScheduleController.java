@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.krax.vetclinic.dto.DailyScheduleDto;
-import pl.krax.vetclinic.mappers.ScheduleMapper;
 import pl.krax.vetclinic.service.VetDailyScheduleService;
 import pl.krax.vetclinic.service.VetService;
 

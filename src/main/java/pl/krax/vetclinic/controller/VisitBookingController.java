@@ -39,34 +39,36 @@ public class VisitBookingController {
     public Map<String, List<String>> getVetSchedule(@RequestParam Long vetId) {
         List<DailyScheduleDto> schedulesDtos = scheduleService.showAllSchedulesForVet(vetId);
 
-        // create a map of available hours for each day of the week
         Map<String, List<String>> scheduleMap = new HashMap<>();
-        for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
-            List<String> availableHours = new ArrayList<>();
-            for (DailyScheduleDto scheduleDto : schedulesDtos) {
-                if (scheduleDto.getDate().getDayOfWeek() == dayOfWeek) {
-                    availableHours.addAll(getAvailableHours(scheduleDto));
-                }
-            }
+        for (DailyScheduleDto scheduleDto : schedulesDtos) {
+            String date = scheduleDto.getDate().toString();
+            List<String> availableHours = getAvailableHours(scheduleDto);
             Collections.sort(availableHours);
-            scheduleMap.put(dayOfWeek.toString(), availableHours);
+            scheduleMap.put(date, availableHours);
         }
         return scheduleMap;
     }
+
 
     private List<String> getAvailableHours(DailyScheduleDto scheduleDto) {
         List<Long> appointmentsIds = scheduleDto.getAppointmentIdsList();
         List<AppointmentDto> appointmentsDtos = appointmentService.findAppointmentsByIds(appointmentsIds);
         List<String> availableHours = new ArrayList<>();
         LocalTime currentTime = scheduleDto.getWorkStartTime();
+        LocalDateTime now = LocalDateTime.now().minusHours(2);
         while (currentTime.plusMinutes(scheduleDto.getVisitTime()).isBefore(scheduleDto.getWorkEndTime())) {
+            LocalDateTime currentDateTime = LocalDateTime.of(scheduleDto.getDate(), currentTime).minusHours(2);
+            if (currentDateTime.isBefore(now)) {
+                currentTime = currentTime.plusMinutes(scheduleDto.getVisitTime());
+                continue;
+            }
             boolean hourIsOccupied = false;
             for (AppointmentDto appointmentDto : appointmentsDtos) {
-                LocalDateTime appointmentStartTime = appointmentDto.getStartDateTime();
-                LocalDateTime appointmentEndTime = appointmentDto.getEndDateTime();
+                LocalDateTime appointmentStartTime = appointmentDto.getStartDateTime().minusHours(2);
+                LocalDateTime appointmentEndTime = appointmentDto.getEndDateTime().minusHours(2);
                 if (scheduleDto.getDate().equals(appointmentStartTime.toLocalDate())
                         && currentTime.isBefore(appointmentEndTime.toLocalTime())
-                        && currentTime.plusMinutes(scheduleDto.getVisitTime()).isAfter(appointmentStartTime.toLocalTime())) {
+                        && appointmentStartTime.toLocalTime().isBefore(currentTime.plusMinutes(scheduleDto.getVisitTime()))) {
                     hourIsOccupied = true;
                     break;
                 }
@@ -78,6 +80,7 @@ public class VisitBookingController {
         }
         return availableHours;
     }
+
 
     @PostMapping("/appointment")
     public String saveAppointment(@ModelAttribute("appointment") Appointment appointment) {
