@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Veterinarian Schedule</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bookingStyles.css}">
+</head>
+<body>
+
+<header>
+    <link rel="stylesheet" href="/css/headerStyles.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+    <div class="vet-logo">
+        <a href="/index">
+            <img src="/images/logo.png" alt="Vet Clinic">
+        </a>
+    </div>
+</header>
+
+<label for="vetSelect">Select Veterinarian:</label>
+<select id="vetSelect" name="vetSelect" onchange="loadSchedule()">
+    <option value="">Select Veterinarian</option>
+    <option th:each="vet : ${vets}" th:value="${vet.id}">
+        <span th:text="${vet.degree + ' ' + vet.name}"></span>
+    </option>
+</select>
+
+<div>
+    <label for="monday">Displaying week of:</label>
+    <input type="date" id="monday" name="monday" value="">
+</div>
+<div>
+    <div class="schedule-nav">
+        <button type="button" onclick="prevWeek()">&lt;&lt; Previous week</button>
+        <button type="button" onclick="nextWeek()">Next week &gt;&gt;</button>
+    </div>
+</div>
+
+<table id="scheduleTable">
+</table>
+
+<script th:src="@{/js/scheduleLoader.js}"></script>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
