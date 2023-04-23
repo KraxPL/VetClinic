@@ -44,8 +44,9 @@ public class VetDailyScheduleImpl implements VetDailyScheduleService {
     }
 
     @Override
-    public VetDailySchedule findById(Long scheduleId) {
-        return null;
+    public DailyScheduleDto findById(Long scheduleId) {
+        return scheduleMapper.toDto(scheduleRepository.findById(scheduleId)
+                .orElse(null));
     }
 
     @Override

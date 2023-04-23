@@ -12,6 +12,6 @@ public interface VetDailyScheduleService {
     void updateScheduleForVet(Long vetId, DailyScheduleDto scheduleDto);
 
     void deleteById(Long scheduleId);
-    VetDailySchedule findById(Long scheduleId);
+    DailyScheduleDto findById(Long scheduleId);
     DailyScheduleDto findByDateAndVetId(LocalDate date, Long vetId);
 }

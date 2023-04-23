@@ -43,6 +43,16 @@ function loadSchedule() {
                     button.innerHTML = hour;
                     if (!hoursArray || !hoursArray.includes(hour)) {
                         button.disabled = true;
+                    } else {
+                        const date = new Date(dateStr);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const appointmentDate = `${year}-${month}-${day}`;
+                        const time = hour + ":00";
+                        button.addEventListener("click", () => {
+                            window.location.href = `/booking/appointment/${vetId}/${appointmentDate}/${time}`;
+                        });
                     }
                     hourCell.appendChild(button);
                     hourRow.appendChild(hourCell);
@@ -65,6 +75,7 @@ function loadSchedule() {
     xhttp.send();
 
 }
+
 
 function prevWeek() {
     const monday = new Date(document.getElementById("monday").value);

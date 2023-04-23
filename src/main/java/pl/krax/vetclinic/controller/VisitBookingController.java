@@ -1,14 +1,17 @@
 package pl.krax.vetclinic.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.krax.vetclinic.dto.AppointmentDto;
 import pl.krax.vetclinic.dto.DailyScheduleDto;
 import pl.krax.vetclinic.dto.VetDto;
 import pl.krax.vetclinic.entities.Appointment;
 
+import pl.krax.vetclinic.entities.VetDailySchedule;
 import pl.krax.vetclinic.service.AppointmentService;
 import pl.krax.vetclinic.service.VetDailyScheduleService;
 import pl.krax.vetclinic.service.VetService;
@@ -43,11 +46,8 @@ public class VisitBookingController {
         List<DailyScheduleDto> schedulesDtos = scheduleService.showAllSchedulesForVet(vetId);
 
         LocalDate monday;
-        if (dateOfWeek == null) {
-            monday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        } else {
-            monday = dateOfWeek.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        }
+        monday = Objects.requireNonNullElseGet(dateOfWeek, LocalDate::now)
+                .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
         Map<String, List<String>> scheduleMap = new HashMap<>();
         for (DailyScheduleDto scheduleDto : schedulesDtos) {
@@ -62,17 +62,43 @@ public class VisitBookingController {
         }
         return scheduleMap;
     }
+    @GetMapping("/appointment/{vetId}/{appointmentDate}/{appointmentTime}")
+    public String saveAppointmentForm(@PathVariable Long vetId,
+                                      @PathVariable LocalDate appointmentDate,
+                                      @PathVariable(name = "appointmentTime") LocalTime time,
+                                      Model model){
+        DailyScheduleDto scheduleDto = scheduleService.findByDateAndVetId(appointmentDate, vetId);
+        Long scheduleId = scheduleDto.getId();
+        int visitTime = scheduleDto.getVisitTime();
+        LocalDateTime appointmentDateTime = appointmentDate.atTime(time);
+        AppointmentDto appointmentDto = AppointmentDto.builder()
+                .vetId(vetId)
+                .vetScheduleId(scheduleId)
+                .startDateTime(appointmentDateTime.plusHours(2))
+                .endDateTime(appointmentDateTime.plusMinutes(visitTime).plusHours(2))
+                .build();
+        model.addAttribute("appointmentDto", appointmentDto);
+        return "booking/create";
+    }
 
 
-
+    @PostMapping("/appointment")
+    public String saveAppointment(@ModelAttribute("appointmentDto")@Valid AppointmentDto appointmentDto,
+                                  BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "booking/create";
+        }
+        appointmentService.save(appointmentDto);
+        return "redirect:/booking/form";
+    }
     private List<String> getAvailableHours(DailyScheduleDto scheduleDto) {
         List<Long> appointmentsIds = scheduleDto.getAppointmentIdsList();
         List<AppointmentDto> appointmentsDtos = appointmentService.findAppointmentsByIds(appointmentsIds);
         List<String> availableHours = new ArrayList<>();
         LocalTime currentTime = scheduleDto.getWorkStartTime();
-        LocalDateTime now = LocalDateTime.now().minusHours(2);
+        LocalDateTime now = LocalDateTime.now();
         while (currentTime.plusMinutes(scheduleDto.getVisitTime()).isBefore(scheduleDto.getWorkEndTime())) {
-            LocalDateTime currentDateTime = LocalDateTime.of(scheduleDto.getDate(), currentTime).minusHours(2);
+            LocalDateTime currentDateTime = LocalDateTime.of(scheduleDto.getDate(), currentTime);
             if (currentDateTime.isBefore(now)) {
                 currentTime = currentTime.plusMinutes(scheduleDto.getVisitTime());
                 continue;
@@ -94,12 +120,5 @@ public class VisitBookingController {
             currentTime = currentTime.plusMinutes(scheduleDto.getVisitTime());
         }
         return availableHours;
-    }
-
-
-    @PostMapping("/appointment")
-    public String saveAppointment(@ModelAttribute("appointment") Appointment appointment) {
-        // Save appointment to database
-        return "redirect:/";
     }
 }
