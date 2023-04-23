@@ -43,6 +43,16 @@ function loadSchedule() {
                     button.innerHTML = hour;
                     if (!hoursArray || !hoursArray.includes(hour)) {
                         button.disabled = true;
+                    } else {
+                        const date = new Date(dateStr);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const appointmentDate = `${year}-${month}-${day}`;
+                        const time = hour + ":00";
+                        button.addEventListener("click", () => {
+                            window.location.href = `/booking/appointment/${vetId}/${appointmentDate}/${time}`;
+                        });
                     }
                     hourCell.appendChild(button);
                     hourRow.appendChild(hourCell);
@@ -55,9 +65,17 @@ function loadSchedule() {
             mondayInput.valueAsDate = mondayDate;
         }
     };
-    xhttp.open("GET", "/booking?vetId=" + vetId, true);
+    if (mondayInput.value) {
+        const isoDate = mondayInput.valueAsDate.toISOString();
+        const dateOnly = isoDate.slice(0, 10);
+        xhttp.open("GET", "/booking?vetId=" + vetId + "&week=" + dateOnly, true);
+    } else {
+        xhttp.open("GET", "/booking?vetId=" + vetId, true);
+    }
     xhttp.send();
+
 }
+
 
 function prevWeek() {
     const monday = new Date(document.getElementById("monday").value);

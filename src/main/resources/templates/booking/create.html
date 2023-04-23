@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointment reservation</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bookingStyles.css}">
+</head>
+<body>
+
+<header>
+    <link rel="stylesheet" href="/css/headerStyles.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+    <div class="vet-logo">
+        <a href="/index">
+            <img src="/images/logo.png" alt="Vet Clinic">
+        </a>
+    </div>
+</header>
+
+<h1>Book Appointment</h1>
+<form method="post" th:action="@{/booking/appointment}">
+  <input type="hidden" name="vetId" th:value="${appointmentDto.vetId}">
+  <input type="hidden" name="vetScheduleId" th:value="${appointmentDto.vetScheduleId}">
+  <input type="hidden" name="startDateTime" th:value="${appointmentDto.startDateTime}">
+  <input type="hidden" name="endDateTime" th:value="${appointmentDto.endDateTime}">
+  <p>
+    <label>Date: </label>
+    <span th:text="${appointmentDto.startDateTime.toLocalDate()}" th:readonly="readonly"></span>
+  </p>
+  <p>
+    <label>Time: </label>
+    <span th:text="${#temporals.format(appointmentDto.startDateTime, 'HH:mm')}" th:readonly="readonly"></span>
+  </p>
+  <p>
+    <label>Visit Type: </label>
+    <select id="visitType" th:field="${appointmentDto.visitType}" required>
+      <option value="checkup">Checkup</option>
+      <option value="vaccination">Vaccination</option>
+      <option value="surgery">Surgery</option>
+    </select>
+  </p>
+  <p>
+    <label>Message: </label>
+    <textarea name="message" rows="5" cols="40" th:text="${appointmentDto.message}"></textarea>
+  </p>
+  <p>
+    <label>Email: </label>
+    <input type="email" name="email" th:value="${appointmentDto.email}">
+  </p>
+  <p>
+    <label>Phone Number: </label>
+    <input type="text" name="phoneNumber" th:value="${appointmentDto.phoneNumber}">
+  </p>
+  <p>
+    <label>Last Name: </label>
+    <input type="text" name="lastName" th:value="${appointmentDto.lastName}">
+  </p>
+  <p>
+    <label>First Name: </label>
+    <input type="text" name="firstName" th:value="${appointmentDto.firstName}">
+  </p>
+  <p>
+    <label>Animal Name: </label>
+    <input type="text" name="animalName" th:value="${appointmentDto.animalName}">
+  </p>
+  <button type="submit">Submit</button>
+</form>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

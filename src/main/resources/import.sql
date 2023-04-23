@@ -21,4 +21,11 @@ INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, w
 INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', '2023-04-19', 30, '20:00:01', '8:00:00', 1);
 INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', '2023-04-18', 30, '20:00:01', '8:00:00', 1);
 INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES ('2023-04-19 20:00:33', '2023-04-17', 30, '20:00:01', '8:00:00', 1);
-INSERT INTO VetClinic.appointments(animal_name, email, end_date_time, first_name, last_name, message, phone_number, start_date_time, visit_type, vet_id, schedule_id) VALUES ('Sara', 'jan.kowal@onet.pl', '2023-04-23 08:30:00', 'Jan', 'Kowal', 'Coś tam się dzieje', '666000999', '2023-04-23 08:00:00', 'kontrola', 1, 4);
+INSERT INTO VetClinic.appointments(animal_name, email, end_date_time, first_name, last_name, message, phone_number, start_date_time, visit_type, vet_id, schedule_id) VALUES ('Sara', 'jan.kowal@onet.pl', '2023-04-23 18:00:00', 'Jan', 'Kowal', 'Coś tam się dzieje', '666000999', '2023-04-23 17:30:00', 'kontrola', 1, 4);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES (null, '2023-04-24', 30, '16:00:01', '10:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES (null, '2023-04-25', 30, '20:00:01', '15:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES (null, '2023-04-26', 30, '20:00:01', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES (null, '2023-04-27', 30, '20:00:01', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES (null, '2023-04-28', 30, '20:00:01', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES (null, '2023-04-29', 30, '20:00:01', '8:00:00', 1);
+INSERT INTO VetClinic.schedules(closest_available_date_time, date, visit_time, work_end_time, work_start_time, vet_id) VALUES (null, '2023-04-30', 30, '20:00:01', '8:00:00', 1);
