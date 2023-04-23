@@ -15,8 +15,10 @@ import pl.krax.vetclinic.service.VetService;
 
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 @Controller
@@ -36,18 +38,31 @@ public class VisitBookingController {
 
     @GetMapping
     @ResponseBody
-    public Map<String, List<String>> getVetSchedule(@RequestParam Long vetId) {
+    public Map<String, List<String>> getVetSchedule(@RequestParam Long vetId,
+                                                    @RequestParam(name = "week", required = false) LocalDate dateOfWeek) {
         List<DailyScheduleDto> schedulesDtos = scheduleService.showAllSchedulesForVet(vetId);
+
+        LocalDate monday;
+        if (dateOfWeek == null) {
+            monday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        } else {
+            monday = dateOfWeek.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        }
 
         Map<String, List<String>> scheduleMap = new HashMap<>();
         for (DailyScheduleDto scheduleDto : schedulesDtos) {
-            String date = scheduleDto.getDate().toString();
+            LocalDate date = scheduleDto.getDate();
+            if (date.isBefore(monday) || date.isAfter(monday.plusDays(6))) {
+                continue;
+            }
+            String dateStr = date.toString();
             List<String> availableHours = getAvailableHours(scheduleDto);
             Collections.sort(availableHours);
-            scheduleMap.put(date, availableHours);
+            scheduleMap.put(dateStr, availableHours);
         }
         return scheduleMap;
     }
+
 
 
     private List<String> getAvailableHours(DailyScheduleDto scheduleDto) {

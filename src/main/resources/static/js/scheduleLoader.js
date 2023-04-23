@@ -55,8 +55,15 @@ function loadSchedule() {
             mondayInput.valueAsDate = mondayDate;
         }
     };
-    xhttp.open("GET", "/booking?vetId=" + vetId, true);
+    if (mondayInput.value) {
+        const isoDate = mondayInput.valueAsDate.toISOString();
+        const dateOnly = isoDate.slice(0, 10);
+        xhttp.open("GET", "/booking?vetId=" + vetId + "&week=" + dateOnly, true);
+    } else {
+        xhttp.open("GET", "/booking?vetId=" + vetId, true);
+    }
     xhttp.send();
+
 }
 
 function prevWeek() {
