@@ -27,4 +27,5 @@ public class Appointment {
     private String animalName;
     private String lastName;
     private String firstName;
+    private int isActive;
 }
