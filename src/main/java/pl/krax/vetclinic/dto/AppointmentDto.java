@@ -23,4 +23,6 @@ public class AppointmentDto {
     private String animalName;
     private String lastName;
     private String firstName;
+    private int isActive;
+    private int colspan;
 }

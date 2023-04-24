@@ -9,6 +9,7 @@ import pl.krax.vetclinic.mappers.AppointmentMapper;
 import pl.krax.vetclinic.repository.AppointmentRepository;
 import pl.krax.vetclinic.service.AppointmentService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +22,21 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     @Override
     public void save(AppointmentDto appointmentDto) {
+        appointmentDto.setIsActive(0);
         appointmentRepository.save(appointmentMapper.toEntity(appointmentDto));
     }
 
     @Override
     public List<AppointmentDto> findAppointmentsByIds(List<Long> ids) {
         List<Appointment> appointments = appointmentRepository.findAllAppointmentsByIds(ids);
+        return appointments.stream()
+                .map(appointmentMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppointmentDto> getAppointmentsByDate(LocalDate date) {
+        List<Appointment> appointments = appointmentRepository.getAppointmentsByDate(date.atStartOfDay(), date.atTime(23, 59, 59 ,999));
         return appointments.stream()
                 .map(appointmentMapper::toDto)
                 .collect(Collectors.toList());

@@ -54,4 +54,5 @@ public class VetDailyScheduleImpl implements VetDailyScheduleService {
         VetDailySchedule vetDailySchedule = scheduleRepository.findByDateAndVetId(date, vetId);
         return scheduleMapper.toDto(vetDailySchedule);
     }
+
 }
