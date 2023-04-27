@@ -14,6 +14,7 @@ public interface AppointmentMapper {
 
     @Mapping(source = "vet.id", target = "vetId")
     @Mapping(source = "vetSchedule.id", target = "vetScheduleId")
+    @Mapping(expression = "java((int) java.time.Duration.between(appointment.getStartDateTime(), appointment.getEndDateTime()).toMinutes())", target = "durationInMin")
     AppointmentDto toDto(Appointment appointment);
 
     @Mapping(source = "vetId", target = "vet.id")

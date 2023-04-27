@@ -24,5 +24,5 @@ public class AppointmentDto {
     private String lastName;
     private String firstName;
     private int isActive;
-    private int colspan;
+    private int durationInMin;
 }

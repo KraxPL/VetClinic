@@ -25,7 +25,7 @@ class SpringSecurityConfiguration {
                         authorization
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/booking/**").permitAll()
-                                .requestMatchers("/booking/appointments").permitAll() // for test only!
+                                .requestMatchers("/booking/appointments/**").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/vets/**").hasRole("ADMIN")
                                 .anyRequest()
                                 .authenticated())

@@ -3,45 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>Appointments</title>
+  <link rel="stylesheet" href="/css/addStyles.css" th:href="@{/css/appointmentsStyles.css}">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 
-<h1>Appointments for Day: <span th:text="${date}"></span></h1>
+<h1>Appointments for Day: <span th:text="${date + ' ' + date.dayOfWeek} "></span></h1>
 <div>
   <button onclick="prevDay()">Previous Day</button>
   <input type="date" id="datepicker" value="" onchange="changeDate()">
   <button onclick="nextDay()">Next Day</button>
+  <select id="vetId" name="vetId" onchange="updateSelectedVetId(this)">
+    <option th:each="vet : ${availableVets}"
+            th:value="${vet.id}"
+            th:selected="${vet.id == vetId}">
+      <span th:text="${vet.name}"></span>
+    </option>
+  </select>
+
 </div>
 <table>
   <thead>
   <tr>
-    <th></th>
-    <th th:each="vet : ${vets}" th:text="${vet.name}"></th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Phone Number</th>
+    <th>Animal Name</th>
+    <th>Owner Name</th>
+    <th>Message</th>
+    <th>Action</th>
   </tr>
   </thead>
   <tbody>
-  <tr th:each="hour : ${hours}">
-    <td th:text="${hour}"></td>
-    <td th:each="vet : ${vets}">
-      <div th:if="${appointments}">
-        <div th:each="appointment : ${appointments}" th:if="${appointment.vetId == vet.id and appointment.startDateTime.toLocalTime().toString() == hour}">
-          <div th:if="${appointment.isActive == 0}" style="background-color:red" th:attr="colspan=${appointment.colspan}">
-            <span th:text="${appointment.animalName}"></span>
-          </div>
-          <div th:if="${appointment.isActive == 1}" style="background-color:green">
-            <span th:text="${appointment.animalName}"></span>
-          </div>
-        </div>
-      </div>
+  <tr th:each="appointment : ${appointmentsForSelectedVetAndDay}"
+      th:class="${appointment.isActive == 0} ? 'inactive-appointment' : ''">
+    <td th:text="${#temporals.format(appointment.startDateTime, 'HH:mm')}"></td>
+    <td th:text="${#temporals.format(appointment.endDateTime, 'HH:mm')}"></td>
+    <td th:text="${appointment.phoneNumber}"></td>
+    <td th:text="${appointment.animalName}"></td>
+    <td th:text="${appointment.firstName} + ' ' + ${appointment.lastName}"></td>
+    <td th:text="${appointment.message}"></td>
+    <td>
+      <button th:if="${appointment.isActive == 0}" class="accept">Accept</button>
+      <button th:if="${appointment.isActive == 0}" class="reject">Reject</button>
     </td>
   </tr>
+
   </tbody>
 </table>
-
-
-
-
 
 <div th:replace="fragments/footer :: footer"></div>
 <script src="/js/listOfAppointments.js"></script>

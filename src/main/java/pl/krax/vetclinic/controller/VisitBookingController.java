@@ -21,6 +21,7 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/booking")
@@ -89,64 +90,31 @@ public class VisitBookingController {
         appointmentService.save(appointmentDto);
         return "redirect:/booking/form";
     }
-    @GetMapping("/appointments")
-    public String showAppointments(Model model, @RequestParam(required = false) LocalDate date) {
-        List<VetDto> vets = vetService.findAll();
+    @GetMapping("/appointments/{vetId}")
+    public String showAppointments(Model model, @RequestParam(required = false) LocalDate date,
+                                   @PathVariable Long vetId) {
         if (date == null) {
             date = LocalDate.now();
         }
 
-        int slotDurationMinutes = 30;
-        int slotsPerHour = 60 / slotDurationMinutes;
-        List<String> hours = new ArrayList<>();
-        for (int i = 0; i < 24 * slotsPerHour; i++) {
-            int hour = i / slotsPerHour;
-            int minute = (i % slotsPerHour) * slotDurationMinutes;
-            String hourString = String.format("%02d:%02d", hour, minute);
-            hours.add(hourString);
-        }
-
-        Map<Long, Map<String, Integer>> slotsNeeded = new HashMap<>();
-        Map<Long, List<AppointmentDto>> spanningAppointments = new HashMap<>();
+        List<VetDto> availableVets = vetService.findAll();
         List<AppointmentDto> appointments = appointmentService.getAppointmentsByDate(date);
 
-        for (AppointmentDto appointment : appointments) {
-            Long vetId = appointment.getVetId();
-            LocalDateTime startDateTime = appointment.getStartDateTime();
-            LocalDateTime endDateTime = appointment.getEndDateTime();
+        LocalDate finalDate = date;
+        List<AppointmentDto> appointmentsForSelectedVetAndDay = appointments.stream()
+                .filter(appointment -> appointment.getVetId().equals(vetId))
+                .filter(appointment -> appointment.getStartDateTime().toLocalDate().equals(finalDate))
+                .sorted(Comparator.comparing(AppointmentDto::getStartDateTime))
+                .toList();
 
-            int slotsNeededForAppointment = (int) ChronoUnit.MINUTES.between(startDateTime, endDateTime) / slotDurationMinutes;
-            appointment.setColspan(slotsNeededForAppointment);
+        appointmentsForSelectedVetAndDay.forEach(appointment -> {
+            appointment.setStartDateTime(appointment.getStartDateTime().minusHours(2));
+            appointment.setEndDateTime(appointment.getEndDateTime().minusHours(2));
+        });
 
-            for (int i = 0; i < slotsNeededForAppointment; i++) {
-                LocalDateTime slotStartDateTime = startDateTime.plusMinutes(i * slotDurationMinutes);
-                String slotStartHour = slotStartDateTime.toLocalTime().toString();
-                if (!slotsNeeded.containsKey(vetId)) {
-                    slotsNeeded.put(vetId, new HashMap<>());
-                }
-                Map<String, Integer> vetSlots = slotsNeeded.get(vetId);
-                if (!vetSlots.containsKey(slotStartHour)) {
-                    vetSlots.put(slotStartHour, 0);
-                }
-                vetSlots.put(slotStartHour, vetSlots.get(slotStartHour) + 1);
-
-                if (i == slotsNeededForAppointment - 1 && slotsNeededForAppointment > 1) {
-                    if (!spanningAppointments.containsKey(vetId)) {
-                        spanningAppointments.put(vetId, new ArrayList<>());
-                    }
-                    List<AppointmentDto> vetSpanningAppointments = spanningAppointments.get(vetId);
-                    vetSpanningAppointments.add(appointment);
-                }
-            }
-        }
-
-        model.addAttribute("vets", vets);
-        model.addAttribute("hours", hours);
-        model.addAttribute("slotsNeeded", slotsNeeded);
+        model.addAttribute("availableVets", availableVets);
         model.addAttribute("date", date);
-        model.addAttribute("today", LocalDate.now());
-        model.addAttribute("appointments", appointments);
-        model.addAttribute("spanningAppointments", spanningAppointments); // add the new map to the model attribute
+        model.addAttribute("appointmentsForSelectedVetAndDay", appointmentsForSelectedVetAndDay);
 
         return "booking/listOfAppointmentsForSelectedDay";
     }
