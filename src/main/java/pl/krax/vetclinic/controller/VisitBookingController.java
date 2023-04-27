@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.krax.vetclinic.dto.AppointmentDto;
 import pl.krax.vetclinic.dto.DailyScheduleDto;
 import pl.krax.vetclinic.dto.VetDto;
@@ -118,6 +119,29 @@ public class VisitBookingController {
 
         return "booking/listOfAppointmentsForSelectedDay";
     }
+    @PostMapping("/appointments/reject/{appointmentId}")
+    public String rejectAppointmentRequest(@PathVariable Long appointmentId, RedirectAttributes redirectAttributes){
+        Long vetId = appointmentService.findById(appointmentId).getVetId();
+        boolean isDeleted = appointmentService.deleteById(appointmentId);
+        if (isDeleted) {
+            redirectAttributes.addFlashAttribute("message", "Appointment rejected successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Appointment not found!");
+        }
+        return "redirect:/booking/appointments/" + vetId;
+    }
+
+    @PostMapping("/appointments/accept/{appointmentId}")
+    public String acceptAppointmentRequest(@PathVariable Long appointmentId, RedirectAttributes redirectAttributes){
+        AppointmentDto appointmentDto = appointmentService.findById(appointmentId);
+        Long vetId = appointmentDto.getVetId();
+        appointmentDto.setIsActive(1);
+        appointmentService.update(appointmentDto);
+        redirectAttributes.addFlashAttribute("message", "Appointment accepted successfully!");
+        return "redirect:/booking/appointments/" + vetId;
+    }
+
+
 
 
 

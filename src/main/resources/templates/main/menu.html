@@ -46,10 +46,10 @@
             </a>
         </div>
         <div class="col-sm-3 my-3">
-            <a th:href="@{#}">
+            <a th:href="@{/booking/appointments/{vetId}(vetId=${#authentication.principal.user.id})}">
                 <div class="tile specialty-tile">
                     <img class="tile-img" th:src="@{/images/documentsIcon.png}" alt="icon">
-                    <span class="tile-label">Documents</span>
+                    <span class="tile-label">Appointments</span>
                 </div>
             </a>
         </div>

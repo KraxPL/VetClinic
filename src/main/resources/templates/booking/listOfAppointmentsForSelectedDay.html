@@ -20,8 +20,9 @@
       <span th:text="${vet.name}"></span>
     </option>
   </select>
-
 </div>
+<div th:if="${message != null}" th:text="${message}" class="message"></div>
+
 <table>
   <thead>
   <tr>
@@ -44,8 +45,14 @@
     <td th:text="${appointment.firstName} + ' ' + ${appointment.lastName}"></td>
     <td th:text="${appointment.message}"></td>
     <td>
-      <button th:if="${appointment.isActive == 0}" class="accept">Accept</button>
-      <button th:if="${appointment.isActive == 0}" class="reject">Reject</button>
+      <form method="POST" th:if="${appointment.isActive == 0}" th:action="@{/booking/appointments/accept/{appointmentId}(appointmentId=${appointment.id})}">
+        <button type="submit" class="accept">Accept</button>
+      </form>
+      <form method="POST" th:if="${appointment.isActive == 0}" th:action="@{/booking/appointments/reject/{appointmentId}(appointmentId=${appointment.id})}">
+        <button th:if="${appointment.isActive == 0}" class="reject" onclick="if (confirm('Are you sure you want to reject this appointment?')) { window.location.href='/booking/appointments/reject/' + ${appointment.id}; }">Reject</button>
+
+      </form>
+
     </td>
   </tr>
 
