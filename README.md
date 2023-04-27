@@ -7,6 +7,7 @@ Features
     Manage patient records
     Manage owner's records
     Manage veterinarians
+    Customers can request an appointment
 
 Getting Started
 Prerequisites
@@ -55,6 +56,9 @@ To log in as a regular user, use the following credentials:
 
 Once you are logged in, you will have access to the features of the web application based on your user role. 
 For now Admin has access to user management and creation over the regular user.
+
+If you would like to check how customer may request appointment, open http://localhost:2020/booking/form , select Veterinarian and available hour from plan and create an appointment. 
+Then log in as a user or admin and check "appointments" tile. As you can see you can now accept your visit or reject it.
 
 
 Technologies Used
