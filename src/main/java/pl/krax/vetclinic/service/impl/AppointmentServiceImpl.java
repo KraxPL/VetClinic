@@ -2,6 +2,7 @@ package pl.krax.vetclinic.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import pl.krax.vetclinic.dto.AppointmentDto;
 import pl.krax.vetclinic.entities.Appointment;
@@ -40,6 +41,35 @@ public class AppointmentServiceImpl implements AppointmentService{
         return appointments.stream()
                 .map(appointmentMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AppointmentDto findById(Long id) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElse(null);
+        return appointmentMapper.toDto(appointment);
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        try {
+            appointmentRepository.deleteById(id);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public void update(AppointmentDto appointmentDto) {
+        Appointment appointment = appointmentMapper.toEntity(appointmentDto);
+        appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public void saveByVet(AppointmentDto appointmentDto) {
+        appointmentDto.setIsActive(1);
+        appointmentRepository.save(appointmentMapper.toEntity(appointmentDto));
     }
 
 }

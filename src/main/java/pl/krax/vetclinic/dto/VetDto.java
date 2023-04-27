@@ -28,4 +28,5 @@ public class VetDto {
     private List<Long> medicalHistoryIds;
     @NotEmpty
     private Set<Role> roles;
+    private int activeAccount;
 }

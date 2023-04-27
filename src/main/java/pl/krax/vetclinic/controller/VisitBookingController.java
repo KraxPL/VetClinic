@@ -1,11 +1,16 @@
 package pl.krax.vetclinic.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.krax.vetclinic.dto.AnimalDto;
 import pl.krax.vetclinic.dto.AppointmentDto;
 import pl.krax.vetclinic.dto.DailyScheduleDto;
 import pl.krax.vetclinic.dto.VetDto;
@@ -21,6 +26,7 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/booking")
@@ -89,70 +95,100 @@ public class VisitBookingController {
         appointmentService.save(appointmentDto);
         return "redirect:/booking/form";
     }
-    @GetMapping("/appointments")
-    public String showAppointments(Model model, @RequestParam(required = false) LocalDate date) {
-        List<VetDto> vets = vetService.findAll();
-        if (date == null) {
-            date = LocalDate.now();
-        }
+    @GetMapping("/appointments/{vetId}")
+    public String showAppointments(Model model, @RequestParam(required = false) LocalDate date,
+                                   @PathVariable Long vetId) {
+        date = forNullDateReturnNow(date);
 
-        int slotDurationMinutes = 30;
-        int slotsPerHour = 60 / slotDurationMinutes;
-        List<String> hours = new ArrayList<>();
-        for (int i = 0; i < 24 * slotsPerHour; i++) {
-            int hour = i / slotsPerHour;
-            int minute = (i % slotsPerHour) * slotDurationMinutes;
-            String hourString = String.format("%02d:%02d", hour, minute);
-            hours.add(hourString);
-        }
-
-        Map<Long, Map<String, Integer>> slotsNeeded = new HashMap<>();
-        Map<Long, List<AppointmentDto>> spanningAppointments = new HashMap<>();
+        List<VetDto> availableVets = vetService.findAll();
         List<AppointmentDto> appointments = appointmentService.getAppointmentsByDate(date);
 
-        for (AppointmentDto appointment : appointments) {
-            Long vetId = appointment.getVetId();
-            LocalDateTime startDateTime = appointment.getStartDateTime();
-            LocalDateTime endDateTime = appointment.getEndDateTime();
+        LocalDate finalDate = date;
+        List<AppointmentDto> appointmentsForSelectedVetAndDay = appointments.stream()
+                .filter(appointment -> appointment.getVetId().equals(vetId))
+                .filter(appointment -> appointment.getStartDateTime().toLocalDate().equals(finalDate))
+                .sorted(Comparator.comparing(AppointmentDto::getStartDateTime))
+                .toList();
 
-            int slotsNeededForAppointment = (int) ChronoUnit.MINUTES.between(startDateTime, endDateTime) / slotDurationMinutes;
-            appointment.setColspan(slotsNeededForAppointment);
+        appointmentsForSelectedVetAndDay.forEach(appointment -> {
+            appointment.setStartDateTime(appointment.getStartDateTime().minusHours(2));
+            appointment.setEndDateTime(appointment.getEndDateTime().minusHours(2));
+        });
 
-            for (int i = 0; i < slotsNeededForAppointment; i++) {
-                LocalDateTime slotStartDateTime = startDateTime.plusMinutes(i * slotDurationMinutes);
-                String slotStartHour = slotStartDateTime.toLocalTime().toString();
-                if (!slotsNeeded.containsKey(vetId)) {
-                    slotsNeeded.put(vetId, new HashMap<>());
-                }
-                Map<String, Integer> vetSlots = slotsNeeded.get(vetId);
-                if (!vetSlots.containsKey(slotStartHour)) {
-                    vetSlots.put(slotStartHour, 0);
-                }
-                vetSlots.put(slotStartHour, vetSlots.get(slotStartHour) + 1);
-
-                if (i == slotsNeededForAppointment - 1 && slotsNeededForAppointment > 1) {
-                    if (!spanningAppointments.containsKey(vetId)) {
-                        spanningAppointments.put(vetId, new ArrayList<>());
-                    }
-                    List<AppointmentDto> vetSpanningAppointments = spanningAppointments.get(vetId);
-                    vetSpanningAppointments.add(appointment);
-                }
-            }
-        }
-
-        model.addAttribute("vets", vets);
-        model.addAttribute("hours", hours);
-        model.addAttribute("slotsNeeded", slotsNeeded);
+        model.addAttribute("availableVets", availableVets);
         model.addAttribute("date", date);
-        model.addAttribute("today", LocalDate.now());
-        model.addAttribute("appointments", appointments);
-        model.addAttribute("spanningAppointments", spanningAppointments); // add the new map to the model attribute
+        model.addAttribute("appointmentsForSelectedVetAndDay", appointmentsForSelectedVetAndDay);
 
         return "booking/listOfAppointmentsForSelectedDay";
     }
+    @PostMapping("/appointments/reject/{appointmentId}")
+    public String rejectAppointmentRequest(@PathVariable Long appointmentId, RedirectAttributes redirectAttributes){
+        Long vetId = appointmentService.findById(appointmentId).getVetId();
+        boolean isDeleted = appointmentService.deleteById(appointmentId);
+        if (isDeleted) {
+            redirectAttributes.addFlashAttribute("message", "Appointment rejected successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Appointment not found!");
+        }
+        return "redirect:/booking/appointments/" + vetId;
+    }
+
+    @PostMapping("/appointments/accept/{appointmentId}")
+    public String acceptAppointmentRequest(@PathVariable Long appointmentId, RedirectAttributes redirectAttributes){
+        AppointmentDto appointmentDto = appointmentService.findById(appointmentId);
+        Long vetId = appointmentDto.getVetId();
+        appointmentDto.setIsActive(1);
+        appointmentService.update(appointmentDto);
+        redirectAttributes.addFlashAttribute("message", "Appointment accepted successfully!");
+        return "redirect:/booking/appointments/" + vetId;
+    }
+    @GetMapping("/appointments/create/{vetId}")
+    public String newAppointmentByVetFrom(@PathVariable Long vetId, @RequestParam(required = false) LocalDate date, Model model){
+        date = forNullDateReturnNow(date);
+        model.addAttribute("appointmentDto", new AppointmentDto());
+        model.addAttribute("vets", vetService.findAll());
+        model.addAttribute("vetId", vetId);
+        model.addAttribute("defaultDate", date);
+        return "/booking/createAppointmentByVet";
+    }
+
+    private LocalDate forNullDateReturnNow(LocalDate date) {
+        if (date == null){
+            date = LocalDate.now();
+        }
+        return date;
+    }
+
+    @PostMapping("/appointments/create")
+    public String newAppointmentByVet(@ModelAttribute("appointmentDto") @Valid AppointmentDto appointmentDto,
+                                      BindingResult bindingResult, Model model,
+                                      @RequestParam LocalDate date, @RequestParam LocalTime startTime,
+                                      @RequestParam LocalTime endTime){
+
+        Long vetId = appointmentDto.getVetId();
+
+        if (bindingResult.hasErrors() || !workPlanExists(date, vetId)) {
+            model.addAttribute("vets", vetService.findAll());
+            model.addAttribute("vetId", vetId);
+
+            if (!workPlanExists(date, vetId)) {
+                bindingResult.addError(new ObjectError("workPlanMissing", "You cannot create an appointment if you did not provide a work plan for that day first!"));
+            }
+            return "/booking/createAppointmentByVet";
+        }
+        appointmentDto.setVetScheduleId(scheduleService.findByDateAndVetId(date, vetId).getId());
+        appointmentDto.setStartDateTime(date.atTime(startTime));
+        appointmentDto.setEndDateTime(date.atTime(endTime.minusSeconds(1)));
+
+        appointmentService.saveByVet(appointmentDto);
+        return "redirect:/booking/appointments/" + vetId;
+    }
 
 
-
+    private boolean workPlanExists(LocalDate date, Long vetId) {
+        DailyScheduleDto schedule = scheduleService.findByDateAndVetId(date, vetId);
+        return schedule != null;
+    }
     private List<String> getAvailableHours(DailyScheduleDto scheduleDto) {
         List<Long> appointmentsIds = scheduleDto.getAppointmentIdsList();
         List<AppointmentDto> appointmentsDtos = appointmentService.findAppointmentsByIds(appointmentsIds);
@@ -167,8 +203,8 @@ public class VisitBookingController {
             }
             boolean hourIsOccupied = false;
             for (AppointmentDto appointmentDto : appointmentsDtos) {
-                LocalDateTime appointmentStartTime = appointmentDto.getStartDateTime().minusHours(2);
-                LocalDateTime appointmentEndTime = appointmentDto.getEndDateTime().minusHours(2);
+                LocalDateTime appointmentStartTime = appointmentDto.getStartDateTime();
+                LocalDateTime appointmentEndTime = appointmentDto.getEndDateTime();
                 if (scheduleDto.getDate().equals(appointmentStartTime.toLocalDate())
                         && currentTime.isBefore(appointmentEndTime.toLocalTime())
                         && appointmentStartTime.toLocalTime().isBefore(currentTime.plusMinutes(scheduleDto.getVisitTime()))) {
