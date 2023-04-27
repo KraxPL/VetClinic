@@ -12,4 +12,5 @@ public interface AppointmentService {
     AppointmentDto findById(Long id);
     boolean deleteById(Long id);
     void update(AppointmentDto appointmentDto);
+    void saveByVet(AppointmentDto appointmentDto);
 }

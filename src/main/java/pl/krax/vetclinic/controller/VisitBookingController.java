@@ -1,12 +1,16 @@
 package pl.krax.vetclinic.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.krax.vetclinic.dto.AnimalDto;
 import pl.krax.vetclinic.dto.AppointmentDto;
 import pl.krax.vetclinic.dto.DailyScheduleDto;
 import pl.krax.vetclinic.dto.VetDto;
@@ -94,9 +98,7 @@ public class VisitBookingController {
     @GetMapping("/appointments/{vetId}")
     public String showAppointments(Model model, @RequestParam(required = false) LocalDate date,
                                    @PathVariable Long vetId) {
-        if (date == null) {
-            date = LocalDate.now();
-        }
+        date = forNullDateReturnNow(date);
 
         List<VetDto> availableVets = vetService.findAll();
         List<AppointmentDto> appointments = appointmentService.getAppointmentsByDate(date);
@@ -140,11 +142,53 @@ public class VisitBookingController {
         redirectAttributes.addFlashAttribute("message", "Appointment accepted successfully!");
         return "redirect:/booking/appointments/" + vetId;
     }
+    @GetMapping("/appointments/create/{vetId}")
+    public String newAppointmentByVetFrom(@PathVariable Long vetId, @RequestParam(required = false) LocalDate date, Model model){
+        date = forNullDateReturnNow(date);
+        model.addAttribute("appointmentDto", new AppointmentDto());
+        model.addAttribute("vets", vetService.findAll());
+        model.addAttribute("vetId", vetId);
+        model.addAttribute("defaultDate", date);
+        return "/booking/createAppointmentByVet";
+    }
+
+    private LocalDate forNullDateReturnNow(LocalDate date) {
+        if (date == null){
+            date = LocalDate.now();
+        }
+        return date;
+    }
+
+    @PostMapping("/appointments/create")
+    public String newAppointmentByVet(@ModelAttribute("appointmentDto") @Valid AppointmentDto appointmentDto,
+                                      BindingResult bindingResult, Model model,
+                                      @RequestParam LocalDate date, @RequestParam LocalTime startTime,
+                                      @RequestParam LocalTime endTime){
+
+        Long vetId = appointmentDto.getVetId();
+
+        if (bindingResult.hasErrors() || !workPlanExists(date, vetId)) {
+            model.addAttribute("vets", vetService.findAll());
+            model.addAttribute("vetId", vetId);
+
+            if (!workPlanExists(date, vetId)) {
+                bindingResult.addError(new ObjectError("workPlanMissing", "You cannot create an appointment if you did not provide a work plan for that day first!"));
+            }
+            return "/booking/createAppointmentByVet";
+        }
+        appointmentDto.setVetScheduleId(scheduleService.findByDateAndVetId(date, vetId).getId());
+        appointmentDto.setStartDateTime(date.atTime(startTime));
+        appointmentDto.setEndDateTime(date.atTime(endTime.minusSeconds(1)));
+
+        appointmentService.saveByVet(appointmentDto);
+        return "redirect:/booking/appointments/" + vetId;
+    }
 
 
-
-
-
+    private boolean workPlanExists(LocalDate date, Long vetId) {
+        DailyScheduleDto schedule = scheduleService.findByDateAndVetId(date, vetId);
+        return schedule != null;
+    }
     private List<String> getAvailableHours(DailyScheduleDto scheduleDto) {
         List<Long> appointmentsIds = scheduleDto.getAppointmentIdsList();
         List<AppointmentDto> appointmentsDtos = appointmentService.findAppointmentsByIds(appointmentsIds);
@@ -159,8 +203,8 @@ public class VisitBookingController {
             }
             boolean hourIsOccupied = false;
             for (AppointmentDto appointmentDto : appointmentsDtos) {
-                LocalDateTime appointmentStartTime = appointmentDto.getStartDateTime().minusHours(2);
-                LocalDateTime appointmentEndTime = appointmentDto.getEndDateTime().minusHours(2);
+                LocalDateTime appointmentStartTime = appointmentDto.getStartDateTime();
+                LocalDateTime appointmentEndTime = appointmentDto.getEndDateTime();
                 if (scheduleDto.getDate().equals(appointmentStartTime.toLocalDate())
                         && currentTime.isBefore(appointmentEndTime.toLocalTime())
                         && appointmentStartTime.toLocalTime().isBefore(currentTime.plusMinutes(scheduleDto.getVisitTime()))) {

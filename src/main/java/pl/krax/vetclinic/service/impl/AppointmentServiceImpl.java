@@ -66,4 +66,10 @@ public class AppointmentServiceImpl implements AppointmentService{
         appointmentRepository.save(appointment);
     }
 
+    @Override
+    public void saveByVet(AppointmentDto appointmentDto) {
+        appointmentDto.setIsActive(1);
+        appointmentRepository.save(appointmentMapper.toEntity(appointmentDto));
+    }
+
 }

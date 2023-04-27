@@ -9,6 +9,7 @@
 <div th:replace="fragments/header :: header"></div>
 
 <h1>Appointments for Day: <span th:text="${date + ' ' + date.dayOfWeek} "></span></h1>
+<a th:href="@{/booking/appointments/create/{vetId}(vetId=${#authentication.principal.user.id})}"><button type="button">New Appointment</button></a>
 <div>
   <button onclick="prevDay()">Previous Day</button>
   <input type="date" id="datepicker" value="" onchange="changeDate()">

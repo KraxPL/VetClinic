@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/addStyles.css" th:href="@{/css/bookingStyles.css}">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<form th:action="@{/booking/appointments/create}" method="post" th:object="${appointmentDto}">
+    <div>
+        <label for="vetId">Select a Vet:</label>
+        <select id="vetId" name="vetId" th:field="*{vetId}">
+            <option th:each="vet : ${vets}"
+                    th:value="${vet.id}"
+                    th:selected="${vet.id == appointmentDto.vetId}">
+                <span th:text="${vet.name}"></span>
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label for="date-picker">Select a Date:</label>
+        <input type="date" id="date-picker" name="date" th:value="${defaultDate}">
+    </div>
+
+    <div>
+        <label for="start-time">Start Time:</label>
+        <input type="time" id="start-time" name="startTime" required>
+    </div>
+
+    <div>
+        <label for="end-time">End Time:</label>
+        <input type="time" id="end-time" name="endTime" required>
+    </div>
+
+    <div>
+        <label for="animalName">Animal Name:</label>
+        <input type="text" id="animalName" name="animalName" th:field="*{animalName}" required>
+    </div>
+
+    <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" th:field="*{lastName}">
+    </div>
+
+    <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" th:field="*{firstName}">
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" th:field="*{email}">
+    </div>
+
+    <div>
+        <label for="phone">Phone number:</label>
+        <input type="text" id="phone" name="phoneNumber" th:field="*{phoneNumber}">
+    </div>
+
+    <div>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" th:field="*{message}" required></textarea>
+    </div>
+
+    <div th:if="${#fields.hasErrors()}">
+        <p>Please correct the following errors:</p>
+        <ul>
+            <li th:each="err : ${#fields.errors()}" th:text="${err}"></li>
+        </ul>
+    </div>
+
+    <button type="submit">Create Appointment</button>
+</form>
+
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
