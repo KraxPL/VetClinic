@@ -1,5 +1,6 @@
 package pl.krax.vetclinic.controller;
 
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,8 @@ import pl.krax.vetclinic.service.VetService;
 
 
 import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/booking")
@@ -145,45 +144,58 @@ public class VisitBookingController {
     @GetMapping("/appointments/create/{vetId}")
     public String newAppointmentByVetFrom(@PathVariable Long vetId, @RequestParam(required = false) LocalDate date, Model model){
         date = forNullDateReturnNow(date);
-        model.addAttribute("appointmentDto", new AppointmentDto());
+        AppointmentDto appointmentDto = new AppointmentDto();
+        appointmentDto.setVetId(vetId);
+        model.addAttribute("appointmentDto", appointmentDto);
         model.addAttribute("vets", vetService.findAll());
         model.addAttribute("vetId", vetId);
         model.addAttribute("defaultDate", date);
         return "/booking/createAppointmentByVet";
     }
 
-    private LocalDate forNullDateReturnNow(LocalDate date) {
-        if (date == null){
-            date = LocalDate.now();
-        }
-        return date;
-    }
-
     @PostMapping("/appointments/create")
     public String newAppointmentByVet(@ModelAttribute("appointmentDto") @Valid AppointmentDto appointmentDto,
-                                      BindingResult bindingResult, Model model,
-                                      @RequestParam LocalDate date, @RequestParam LocalTime startTime,
-                                      @RequestParam LocalTime endTime){
+                                      BindingResult bindingResult, Model model){
 
         Long vetId = appointmentDto.getVetId();
+        LocalDate date = appointmentDto.getStartDateTime().toLocalDate();
 
         if (bindingResult.hasErrors() || !workPlanExists(date, vetId)) {
             model.addAttribute("vets", vetService.findAll());
             model.addAttribute("vetId", vetId);
 
             if (!workPlanExists(date, vetId)) {
-                bindingResult.addError(new ObjectError("workPlanMissing", "You cannot create an appointment if you did not provide a work plan for that day first!"));
+                bindingResult.addError(new ObjectError("workPlanMissing",
+                        "You cannot create an appointment if you did not provide a work plan for that day first!"));
             }
             return "/booking/createAppointmentByVet";
         }
-        appointmentDto.setVetScheduleId(scheduleService.findByDateAndVetId(date, vetId).getId());
-        appointmentDto.setStartDateTime(date.atTime(startTime));
-        appointmentDto.setEndDateTime(date.atTime(endTime.minusSeconds(1)));
 
         appointmentService.saveByVet(appointmentDto);
         return "redirect:/booking/appointments/" + vetId;
     }
-
+    @GetMapping("/appointments/edit/{appointmentId}")
+    public String editAppointmentForm(@PathVariable Long appointmentId, Model model){
+        model.addAttribute("appointmentDto", appointmentService.findById(appointmentId));
+        model.addAttribute("vets", vetService.findAll());
+        return "/booking/edit";
+    }
+    @PostMapping("/appointments/edit")
+    public String editAppointment(@Valid AppointmentDto appointmentDto, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("appointmentDto", appointmentService.findById(appointmentDto.getId()));
+            model.addAttribute("vets", vetService.findAll());
+            return "/booking/edit";
+        }
+        appointmentService.update(appointmentDto);
+        return "redirect:/booking/appointments/" + appointmentDto.getVetId();
+    }
+    private LocalDate forNullDateReturnNow(LocalDate date) {
+        if (date == null){
+            date = LocalDate.now();
+        }
+        return date;
+    }
 
     private boolean workPlanExists(LocalDate date, Long vetId) {
         DailyScheduleDto schedule = scheduleService.findByDateAndVetId(date, vetId);

@@ -51,9 +51,10 @@
       </form>
       <form method="POST" th:if="${appointment.isActive == 0}" th:action="@{/booking/appointments/reject/{appointmentId}(appointmentId=${appointment.id})}">
         <button th:if="${appointment.isActive == 0}" class="reject" onclick="if (confirm('Are you sure you want to reject this appointment?')) { window.location.href='/booking/appointments/reject/' + ${appointment.id}; }">Reject</button>
-
       </form>
-
+      <form th:if="${appointment.isActive == 1}" th:action="@{/booking/appointments/edit/{appointmentId}(appointmentId=${appointment.id})}">
+        <button type="submit" class="edit">Edit</button>
+      </form>
     </td>
   </tr>
 

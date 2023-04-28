@@ -62,6 +62,7 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     @Override
     public void update(AppointmentDto appointmentDto) {
+        appointmentDto.setIsActive(1);
         Appointment appointment = appointmentMapper.toEntity(appointmentDto);
         appointmentRepository.save(appointment);
     }
@@ -69,6 +70,8 @@ public class AppointmentServiceImpl implements AppointmentService{
     @Override
     public void saveByVet(AppointmentDto appointmentDto) {
         appointmentDto.setIsActive(1);
+        appointmentDto.setStartDateTime(appointmentDto.getStartDateTime());
+        appointmentDto.setEndDateTime(appointmentDto.getEndDateTime().minusSeconds(1));
         appointmentRepository.save(appointmentMapper.toEntity(appointmentDto));
     }
 

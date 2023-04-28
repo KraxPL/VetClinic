@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create appointment</title>
+    <title>Appointment edition</title>
     <link rel="stylesheet" href="/css/addStyles.css" th:href="@{/css/bookingStyles.css}">
 </head>
 <body>
 
 <div th:replace="fragments/header :: header"></div>
 
-<form th:action="@{/booking/appointments/create}" method="post" th:object="${appointmentDto}">
+<form th:action="@{/booking/appointments/edit}" method="post" th:object="${appointmentDto}">
+    <input type="hidden" id="id" name="id" th:value="${appointmentDto.id}">
     <div>
         <label for="vetId">Select a Vet:</label>
         <select id="vetId" name="vetId" th:field="*{vetId}">
@@ -23,42 +24,42 @@
 
     <div>
         <label for="start-date">Start Date & Time:</label>
-        <input type="datetime-local" id="start-date" name="startDateTime" th:field="${appointmentDto.startDateTime}" required>
+        <input type="datetime-local" id="start-date" name="startDateTime" th:value="${appointmentDto.startDateTime}" required>
     </div>
 
     <div>
         <label for="end-time">End Date & Time:</label>
-        <input type="datetime-local" id="end-time" name="endDateTime" th:field="${appointmentDto.endDateTime}" required>
+        <input type="datetime-local" id="end-time" name="endDateTime" th:value="${appointmentDto.endDateTime}" required>
     </div>
 
     <div>
         <label for="animalName">Animal Name:</label>
-        <input type="text" id="animalName" name="animalName" th:field="*{animalName}" required>
+        <input type="text" id="animalName" name="animalName" th:field="*{animalName}" th:value="${appointmentDto.animalName}" required>
     </div>
 
     <div>
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" th:field="*{lastName}">
+        <input type="text" id="lastName" name="lastName" th:field="*{lastName}" th:value="${appointmentDto.lastName}">
     </div>
 
     <div>
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" th:field="*{firstName}">
+        <input type="text" id="firstName" name="firstName" th:field="*{firstName}" th:value="${appointmentDto.firstName}">
     </div>
 
     <div>
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" th:field="*{email}">
+        <input type="email" id="email" name="email" th:field="*{email}" th:value="${appointmentDto.email}">
     </div>
 
     <div>
         <label for="phone">Phone number:</label>
-        <input type="text" id="phone" name="phoneNumber" th:field="*{phoneNumber}">
+        <input type="text" id="phone" name="phoneNumber" th:field="*{phoneNumber}" th:value="${appointmentDto.phoneNumber}">
     </div>
 
     <div>
         <label for="message">Message:</label>
-        <textarea id="message" name="message" th:field="*{message}" required></textarea>
+        <textarea id="message" name="message" th:field="*{message}" th:value="${appointmentDto.message}" required></textarea>
     </div>
 
     <div th:if="${#fields.hasErrors()}">
@@ -68,8 +69,9 @@
         </ul>
     </div>
 
-    <button type="submit">Create Appointment</button>
+    <button type="submit">Update Appointment</button>
 </form>
+
 
 
 <div th:replace="fragments/footer :: footer"></div>
