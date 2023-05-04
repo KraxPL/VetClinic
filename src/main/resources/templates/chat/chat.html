@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Veterinary Clinic Chat</title>
+    <link rel="stylesheet" th:href="@{/css/chatStyles.css}">
+</head>
+<body onload="connect()">
+<div class="chat-window">
+    <div class="chat-bubble user-bubble">
+        Hello, can you help me with my dog's vaccination schedule?
+    </div>
+    <div class="chat-bubble vet-bubble">
+        Sure! When was your dog last vaccinated?
+    </div>
+    <div class="chat-bubble user-bubble">
+        It was about a year ago, I think.
+    </div>
+    <div class="chat-bubble vet-bubble">
+        Okay, we'll need to schedule an appointment to update your dog's vaccinations. How about next Tuesday at 3pm?
+    </div>
+</div>
+<div class="message-input">
+    <input class="text-input" id="username" type="text" placeholder="Your first and lastname...">
+    <input class="text-input" id="message" type="text" placeholder="Type a message...">
+    <button class="submit-button">Send</button>
+</div>
+<script src="/js/stomp.js"></script>
+<script src="/js/js.js"></script>
+</body>
+</html>
