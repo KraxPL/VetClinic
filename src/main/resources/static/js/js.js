@@ -2,7 +2,7 @@ let client = null;
 
 let mostRecentMessage = '';
 
-function showMessage(value, sender) {
+function showMessage(value, user, sender, dateTime) {
     if (value === mostRecentMessage) {
         return;
     }
@@ -17,28 +17,32 @@ function showMessage(value, sender) {
         chatBubble.classList.add('vet-bubble');
     }
 
-    chatBubble.innerText = value;
+    const formattedDateTime = new Date(dateTime).toLocaleString();
+    chatBubble.innerText = `${user}: ${value}\n${formattedDateTime}`;
     chatWindow.appendChild(chatBubble);
 
     mostRecentMessage = value;
 }
+
 
 function connect() {
     client = Stomp.client('ws://localhost:2020/chat');
     client.connect({}, function (frame) {
         client.subscribe('/topic/messages', function (message) {
             const data = JSON.parse(message.body);
-            showMessage(data.value, 'user');
+            showMessage(data.value, data.user, 'user', data.dateTime);
         });
     });
 }
 
 function sendMessage() {
-    const textInput = document.querySelector('.text-input');
-    const message = textInput.value.trim();
+    const usernameInput = document.querySelector('#username');
+    const messageInput = document.querySelector('#message');
+    const username = usernameInput.value.trim();
+    const message = messageInput.value.trim();
     if (message !== '') {
-        client.send('/app/chat', {}, JSON.stringify({ value: message }));
-        textInput.value = '';
+        client.send('/app/chat', {}, JSON.stringify({ value: message, user: username }));
+        messageInput.value = '';
     }
 }
 
