@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Form</title>
+  <link rel="stylesheet" href="/css/vetSelectionStyles.css">
+</head>
+<body>
+<form id="select-veterinarian-form" action="/create-chat-room" method="post">
+  <div>
+    <label for="veterinarian">Select Veterinarian:</label>
+    <select id="veterinarian" name="veterinarian">
+      <option th:each="vet : ${vets}" th:value="${vet.id}">
+        <span th:text="${vet.degree + ' ' + vet.name}"></span>
+      </option>
+    </select>
+  </div>
+  <div>
+    <label for="name">Enter Your Full Name:</label>
+    <input type="text" id="name" name="name">
+  </div>
+  <button type="submit">Start Chat</button>
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+<script src="/js/selectVeterinarian.js"></script>
+</body>
+</html>
