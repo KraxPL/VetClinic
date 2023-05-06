@@ -33,9 +33,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .orElse(null);
     }
 
-
-    public List<ChatRoom> findChatRoomsByVeterinarian(String veterinarian) {
-//        return chatRoomRepository.findByVeterinarian(veterinarian);
-        return null;
+    @Override
+    public List<ChatRoom> findChatRoomsByVeterinarian(Long vetId) {
+        return chatRoomRepository.findChatRoomsByVetId(vetId);
     }
 }

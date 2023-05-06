@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet Owner Details</title>
+  <link rel="stylesheet" href="/css/byDate.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container mt-5">
+  <h1>All Chats</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Customer Name</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="chatRoom, row : ${chatRooms}">
+      <th scope="row" th:text="${row.index + 1}"></th>
+      <td th:text="${chatRoom.customer}"></td>
+      <td><a th:href="@{#}"><button type="button">Open</button></a></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
