@@ -41,6 +41,7 @@ class SpringSecurityConfiguration {
                 .and().authenticationProvider(authenticationProvider());
         return httpSecurity.build();
     }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
