@@ -1,9 +1,10 @@
 let client = null;
-
 let mostRecentMessage = '';
+const vetId = document.getElementById('vetId').value;
+const username = document.getElementById('username').value;
 
-function showMessage(value, user, sender, dateTime) {
-    if (value === mostRecentMessage) {
+function showMessage(content, sender, timestamp) {
+    if (content === mostRecentMessage) {
         return;
     }
 
@@ -11,42 +12,52 @@ function showMessage(value, user, sender, dateTime) {
     const chatBubble = document.createElement('div');
     chatBubble.classList.add('chat-bubble');
 
-    if (sender === 'user') {
+    if (sender === username) {
         chatBubble.classList.add('user-bubble');
-    } else if (sender === 'vet') {
+    } else {
         chatBubble.classList.add('vet-bubble');
     }
 
-    const formattedDateTime = new Date(dateTime).toLocaleString();
-    chatBubble.innerText = `${user}: ${value}\n${formattedDateTime}`;
+    const date = new Date(timestamp);
+    const formattedTime = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+    chatBubble.innerText = `${sender}: ${content}\n${date.toLocaleDateString()} ${formattedTime}`;
     chatWindow.appendChild(chatBubble);
 
-    mostRecentMessage = value;
+    mostRecentMessage = content;
 }
 
 
 function connect() {
-    client = Stomp.client('ws://localhost:2020/chat');
-    client.connect({}, function (frame) {
-        client.subscribe('/topic/messages', function (message) {
+    const chatRoomId = document.querySelector('#chatRoomId').value;
+    const socket = new SockJS('/chat');
+    client = Stomp.over(socket);
+    client.connect({}, function(frame) {
+        client.subscribe('/topic/messages/' + chatRoomId, function(message) {
             const data = JSON.parse(message.body);
-            showMessage(data.value, data.user, 'user', data.dateTime);
+            showMessage(data.content, data.sender, data.timestamp);
         });
     });
 }
 
+connect();
+
 function sendMessage() {
-    const usernameInput = document.querySelector('#username');
     const messageInput = document.querySelector('#message');
-    const username = usernameInput.value.trim();
+    const sender = document.querySelector('#username').value;
     const message = messageInput.value.trim();
-    if (message !== '') {
-        client.send('/app/chat', {}, JSON.stringify({ value: message, user: username }));
+    const chatRoomId = document.querySelector('#chatRoomId').value;
+    if (message !== '' && chatRoomId) {
+        const chatMessage = {
+            sender: sender,
+            content: message
+        };
+        const payload = JSON.stringify(chatMessage);
+        client.send('/chat/' + chatRoomId, {}, payload);
         messageInput.value = '';
     }
 }
 
-connect();
+
 
 const submitButton = document.querySelector('.submit-button');
 submitButton.addEventListener('click', sendMessage);

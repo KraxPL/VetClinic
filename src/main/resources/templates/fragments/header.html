@@ -17,6 +17,7 @@
         <li><a href="/index">Main menu</a></li>
         <li><a href="#">Settings</a></li>
         <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/vets">Users</a></li>
+        <li><a href="#">Chat</a></li>
         <li>
           <a>
             <form th:action="@{/logout}" method="post">
