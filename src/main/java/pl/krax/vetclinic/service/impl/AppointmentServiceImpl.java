@@ -51,9 +51,9 @@ public class AppointmentServiceImpl implements AppointmentService{
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public boolean delete(AppointmentDto appointmentDto) {
         try {
-            appointmentRepository.deleteById(id);
+            appointmentRepository.delete(appointmentMapper.toEntity(appointmentDto));
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;

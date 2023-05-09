@@ -10,7 +10,7 @@ public interface AppointmentService {
     List<AppointmentDto> findAppointmentsByIds(List<Long> ids);
     List<AppointmentDto> getAppointmentsByDate(LocalDate date);
     AppointmentDto findById(Long id);
-    boolean deleteById(Long id);
+    boolean delete(AppointmentDto appointmentDto);
     void update(AppointmentDto appointmentDto);
     void saveByVet(AppointmentDto appointmentDto);
 }
