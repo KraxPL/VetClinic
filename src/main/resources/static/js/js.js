@@ -2,6 +2,9 @@ let client = null;
 let mostRecentMessage = '';
 const vetId = document.getElementById('vetId').value;
 const username = document.getElementById('username').value;
+if (username === null){
+    const vetName = document.getElementById('vetName').value;
+}
 
 function showMessage(content, sender, timestamp) {
     if (content === mostRecentMessage) {
@@ -56,7 +59,6 @@ function sendMessage() {
         messageInput.value = '';
     }
 }
-
 
 
 const submitButton = document.querySelector('.submit-button');

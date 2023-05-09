@@ -7,4 +7,5 @@ import java.util.List;
 public interface ChatMessageService {
     void save(ChatMessage chatMessage);
     List<ChatMessage> getChatMessagesByChatRoomId(Long chatRoomId);
+    List<ChatMessage> findByChatRoomIdOrderByTimestampAsc(Long chatRoomId);
 }

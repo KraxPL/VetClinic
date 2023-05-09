@@ -24,4 +24,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     public List<ChatMessage> getChatMessagesByChatRoomId(Long chatRoomId) {
         return chatMessageRepository.findByChatRoomId(chatRoomId);
     }
+
+    @Override
+    public List<ChatMessage> findByChatRoomIdOrderByTimestampAsc(Long chatRoomId) {
+        return chatMessageRepository.findByChatRoomIdOrderByTimestampAsc(chatRoomId);
+    }
 }
