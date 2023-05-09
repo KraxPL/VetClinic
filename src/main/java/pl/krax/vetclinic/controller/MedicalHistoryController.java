@@ -15,6 +15,7 @@ import pl.krax.vetclinic.service.VetService;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/visit")
@@ -125,26 +126,24 @@ public class MedicalHistoryController {
         model.addAttribute("animalService", animalService);
     }
     private String getVisitDtoIntoModelAndReturnViewFromMedicalHistoryDtoList(Model model, List<MedicalHistoryDto> visits) {
-        List<VisitDto> visitsDto = new ArrayList<>();
+        List<VisitDto> visitsDto = visits.stream()
+                .map(visit -> VisitDto.builder()
+                        .id(visit.getId())
+                        .dateTimeOfVisit(visit.getDateTimeOfVisit())
+                        .animalName(animalService.findById(visit.getAnimalId()).getName())
+                        .animalBreed(animalService.findById(visit.getAnimalId()).getBreed())
+                        .dateOfBirth(animalService.findById(visit.getAnimalId()).getDateOfBirth())
+                        .animalGender(animalService.findById(visit.getAnimalId()).getGender())
+                        .vetDegree(vetService.findById(visit.getVetId()).getDegree())
+                        .vetName(vetService.findById(visit.getVetId()).getName())
+                        .anamnesis(visit.getAnamnesis())
+                        .vetExamination(visit.getVetExamination())
+                        .diagnosis(visit.getDiagnosis())
+                        .usedMedication(visit.getUsedMedication())
+                        .prescription(visit.getPrescription())
+                        .build())
+                .collect(Collectors.toList());
 
-        for (MedicalHistoryDto visit : visits) {
-            VisitDto visitDto = VisitDto.builder()
-                    .id(visit.getId())
-                    .dateTimeOfVisit(visit.getDateTimeOfVisit())
-                    .animalName(animalService.findById(visit.getAnimalId()).getName())
-                    .animalBreed(animalService.findById(visit.getAnimalId()).getBreed())
-                    .dateOfBirth(animalService.findById(visit.getAnimalId()).getDateOfBirth())
-                    .animalGender(animalService.findById(visit.getAnimalId()).getGender())
-                    .vetDegree(vetService.findById(visit.getVetId()).getDegree())
-                    .vetName(vetService.findById(visit.getVetId()).getName())
-                    .anamnesis(visit.getAnamnesis())
-                    .vetExamination(visit.getVetExamination())
-                    .diagnosis(visit.getDiagnosis())
-                    .usedMedication(visit.getUsedMedication())
-                    .prescription(visit.getPrescription())
-                    .build();
-            visitsDto.add(visitDto);
-        }
 
         model.addAttribute("visits", visitsDto);
         return "/visit/all";
