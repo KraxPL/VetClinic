@@ -4,17 +4,8 @@
     <title>Appointment reservation</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bookingStyles.css}">
 </head>
+<header th:replace="fragments/customersHeader :: header"></header>
 <body>
-
-<header>
-    <link rel="stylesheet" href="/css/headerStyles.css"/>
-    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
-    <div class="vet-logo">
-        <a href="/index">
-            <img src="/images/logo.png" alt="Vet Clinic">
-        </a>
-    </div>
-</header>
 
 <h1>Book Appointment</h1>
 <form method="post" th:action="@{/booking/appointment}">

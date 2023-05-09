@@ -5,10 +5,13 @@
     <link rel="stylesheet" th:href="@{/css/chatStyles.css}">
 </head>
 <body onload="connect()">
-<div class="chat-window">
-    <div th:each="message : ${chatMessages}"
-         th:class="${message.sender == username} ? 'chat-bubble user-bubble' : 'chat-bubble vet-bubble'">
-        <span th:text="${message.sender} + ': ' + ${message.content} + '       ' + ${#temporals.format(message.timestamp, 'h:mm a', T(java.time.ZoneId).of('Europe/Warsaw'))}"></span>
+<header th:replace="fragments/customersHeader :: header"></header>
+<div class="chat-window-container">
+    <div class="chat-window">
+        <div th:each="message : ${chatMessages}"
+             th:class="${message.sender == username} ? 'chat-bubble user-bubble' : 'chat-bubble vet-bubble'">
+            <span th:text="${message.sender} + ': ' + ${message.content} + '       ' + ${#temporals.format(message.timestamp, 'h:mm a', T(java.time.ZoneId).of('Europe/Warsaw'))}"></span>
+        </div>
     </div>
 </div>
 <div class="message-input">
@@ -21,5 +24,6 @@
 <script src="/js/stomp.js"></script>
 <script src="/js/sockjs.min.js"></script>
 <script src="/js/js.js"></script>
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

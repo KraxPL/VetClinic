@@ -5,6 +5,7 @@
   <title>Chat Form</title>
   <link rel="stylesheet" href="/css/vetSelectionStyles.css">
 </head>
+<header th:replace="fragments/customersHeader :: header"></header>
 <body>
 <form id="select-veterinarian-form" action="/create-chat-room" method="post">
   <div>
@@ -23,5 +24,6 @@
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
 <script src="/js/selectVeterinarian.js"></script>
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
