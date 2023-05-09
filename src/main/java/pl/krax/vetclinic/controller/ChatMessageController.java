@@ -1,4 +1,4 @@
-package pl.krax.vetclinic.chat;
+package pl.krax.vetclinic.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.krax.vetclinic.entities.ChatMessage;
 import pl.krax.vetclinic.entities.ChatRoom;
@@ -19,6 +18,7 @@ import pl.krax.vetclinic.service.VetService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -64,19 +64,22 @@ public class ChatMessageController {
         String url = "/viewChatRoom?chatRoomId=" + chatRoomId + "&name=" + name + "&vetId=" + vetId;
         return ResponseEntity.ok(url);
     }
-
-
-    @PostMapping("/chat")
-    public String sendMessage(@RequestParam("chatRoomId") Long chatRoomId,
-                              @RequestParam("sender") String sender,
-                              @RequestParam("message") String message) {
-        ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setChatRoom(chatRoomService.findChatRoomById(chatRoomId));
-        chatMessage.setSender(sender);
-        chatMessage.setContent(message);
-        chatMessage.setTimestamp(LocalDateTime.now());
-        chatMessageService.save(chatMessage);
-        messagingTemplate.convertAndSend("/topic/messages/" + chatRoomId, chatMessage);
-        return "redirect:/viewChatRoom?chatRoomId=" + chatRoomId;
+    @GetMapping("/chats/{vetId}")
+    public String vetChatList(@PathVariable Long vetId, Model model){
+        List<ChatRoom> chatRooms = chatRoomService.findChatRoomsByVeterinarian(vetId);
+        model.addAttribute("chatRooms", chatRooms);
+        return "/chat/vetChatsList";
+    }
+    @GetMapping("/chats/{vetId}/{id}")
+    public String getChatRoom(@PathVariable Long vetId,
+                              @PathVariable Long id, Model model) {
+        ChatRoom chatRoom = chatRoomService.findChatRoomById(id);
+        if (!Objects.equals(chatRoom.getVetId(), vetId)){
+            return "redirect:/chats/" + vetId;
+        }
+        model.addAttribute("chatRoom", chatRoom);
+        model.addAttribute("vetName", vetService.findById(vetId)
+                .getName());
+        return "/chat/vetChat";
     }
 }

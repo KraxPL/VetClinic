@@ -1,4 +1,4 @@
-package pl.krax.vetclinic.chat;
+package pl.krax.vetclinic.chat.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

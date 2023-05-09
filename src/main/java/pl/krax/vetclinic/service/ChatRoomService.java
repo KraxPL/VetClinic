@@ -7,5 +7,5 @@ import java.util.List;
 public interface ChatRoomService {
     ChatRoom getOrCreateChatRoom(Long vetId, String customer);
     ChatRoom findChatRoomById(Long id);
-    List<ChatRoom> findChatRoomsByVeterinarian(String veterinarian);
+    List<ChatRoom> findChatRoomsByVeterinarian(Long vetId);
 }
