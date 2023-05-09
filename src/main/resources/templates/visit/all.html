@@ -13,12 +13,12 @@
     <div class="medical-history-item" th:each="visit : ${visits}">
         <div class="medical-history-item__header">
             <h2>Visit ID: <span th:text="${visit.id}"></span></h2>
-            <h2>Date and Time: <span th:text="${visit.dateTimeOfVisit}"></span></h2>
+            <h2>Date and Time: <span th:text="${#temporals.format(visit.dateTimeOfVisit, 'dd.MM.yyyy HH:mm', 'Europe/Warsaw')}"></span></h2>
             <p><span><a th:href="@{/visit/edit/{visitId} (visitId=${visit.id})}"><button>Edit</button></a> </span></p>
         </div>
         <div class="medical-history-item__details">
-            <p>Animal: <span th:text="${animalService.findById(visit.animalId)?.name ?:''} + ', ' + ${animalService.findById(visit.animalId)?.breed ?:''} + ', ' + ${animalService.findById(visit.animalId)?.dateOfBirth ?:''} + ', ' + ${animalService.findById(visit.animalId)?.gender ?:''}"></span></p>
-            <p>Vet: <span th:text="${vetService.findById(visit.vetId)?.degree ?:''} + ' ' + ${vetService.findById(visit.vetId)?.name ?:''}"></span></p>
+            <p>Animal: <span th:text="${visit.animalName} + ', ' + ${visit.animalBreed} + ', ' + ${visit.dateOfBirth} + ', ' + ${visit.animalGender}"></span></p>
+            <p>Vet: <span th:text="${visit.vetDegree} + ' ' + ${visit.vetName}"></span></p>
             <p>Anamnesis: <span th:text="${visit.anamnesis}"></span></p>
             <p>Vet Examination: <span th:text="${visit.vetExamination}"></span></p>
             <p>Diagnosis: <span th:text="${visit.diagnosis}"></span></p>
@@ -27,6 +27,7 @@
         </div>
     </div>
 </div>
+
 
 <div th:replace="fragments/footer :: footer"></div>
 

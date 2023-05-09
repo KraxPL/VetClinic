@@ -1,23 +1,17 @@
 package pl.krax.vetclinic.controller;
 
-import jakarta.persistence.EntityManager;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.krax.vetclinic.dto.AnimalDto;
 import pl.krax.vetclinic.dto.AppointmentDto;
 import pl.krax.vetclinic.dto.DailyScheduleDto;
 import pl.krax.vetclinic.dto.VetDto;
-import pl.krax.vetclinic.entities.Appointment;
 
-import pl.krax.vetclinic.entities.VetDailySchedule;
 import pl.krax.vetclinic.service.AppointmentService;
 import pl.krax.vetclinic.service.VetDailyScheduleService;
 import pl.krax.vetclinic.service.VetService;
@@ -122,14 +116,14 @@ public class VisitBookingController {
     }
     @PostMapping("/appointments/reject/{appointmentId}")
     public String rejectAppointmentRequest(@PathVariable Long appointmentId, RedirectAttributes redirectAttributes){
-        Long vetId = appointmentService.findById(appointmentId).getVetId();
-        boolean isDeleted = appointmentService.deleteById(appointmentId);
+        AppointmentDto appointmentDto = appointmentService.findById(appointmentId);
+        boolean isDeleted = appointmentService.delete(appointmentDto);
         if (isDeleted) {
             redirectAttributes.addFlashAttribute("message", "Appointment rejected successfully!");
         } else {
             redirectAttributes.addFlashAttribute("message", "Appointment not found!");
         }
-        return "redirect:/booking/appointments/" + vetId;
+        return "redirect:/booking/appointments/" + appointmentDto.getVetId();
     }
 
     @PostMapping("/appointments/accept/{appointmentId}")
