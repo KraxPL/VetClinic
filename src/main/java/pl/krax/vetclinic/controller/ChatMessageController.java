@@ -77,9 +77,11 @@ public class ChatMessageController {
         if (!Objects.equals(chatRoom.getVetId(), vetId)){
             return "redirect:/chats/" + vetId;
         }
+        List<ChatMessage> chatMessages = chatMessageService.getChatMessagesByChatRoomId(chatRoom.getId());
         model.addAttribute("chatRoom", chatRoom);
         model.addAttribute("vetName", vetService.findById(vetId)
                 .getName());
+        model.addAttribute("chatMessages", chatMessages);
         return "/chat/vetChat";
     }
 }

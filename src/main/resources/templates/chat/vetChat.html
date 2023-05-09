@@ -1,25 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Veterinary Clinic Chat</title>
+    <title>Chat with customer</title>
     <link rel="stylesheet" th:href="@{/css/chatStyles.css}">
 </head>
 <body onload="connect()">
 <div class="chat-window">
     <div th:each="message : ${chatMessages}"
-         th:class="${message.sender == username} ? 'chat-bubble user-bubble' : 'chat-bubble vet-bubble'">
+         th:class="${message.sender == vetName} ? 'chat-bubble user-bubble' : 'chat-bubble vet-bubble'">
         <span th:text="${message.sender} + ': ' + ${message.content} + '       ' + ${#temporals.format(message.timestamp, 'h:mm a', T(java.time.ZoneId).of('Europe/Warsaw'))}"></span>
     </div>
+
 </div>
 <div class="message-input">
-    <input type="hidden" id="username" th:value="${username}">
-    <input type="hidden" id="vetId" th:value="${vetId}">
-    <input type="hidden" id="chatRoomId" th:value="${param.chatRoomId}">
+    <input type="hidden" id="vetName" th:value="${vetName}">
+    <input type="hidden" id="vetId" th:value="${chatRoom.vetId}">
+    <input type="hidden" id="chatRoomId" th:value="${chatRoom.id}">
     <input class="text-input" id="message" type="text" placeholder="Type a message...">
-    <button class="submit-button">Send</button>
+    <button id="submitButton" class="submit-button">Send</button>
 </div>
 <script src="/js/stomp.js"></script>
 <script src="/js/sockjs.min.js"></script>
-<script src="/js/js.js"></script>
+<script src="/js/vetChat.js"></script>
 </body>
 </html>

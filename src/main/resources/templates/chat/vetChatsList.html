@@ -21,7 +21,7 @@
     <tr th:each="chatRoom, row : ${chatRooms}">
       <th scope="row" th:text="${row.index + 1}"></th>
       <td th:text="${chatRoom.customer}"></td>
-      <td><a th:href="@{#}"><button type="button">Open</button></a></td>
+      <td><a th:href="@{/chats/{vetId}/{id}(vetId=${vetId},id=${chatRoom.id})}"><button type="button">Open</button></a></td>
     </tr>
     </tbody>
   </table>
