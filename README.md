@@ -8,6 +8,7 @@ Features
     Manage owner's records
     Manage veterinarians
     Customers can request an appointment
+    Customers can engage in one-to-one chats with veterinarians
 
 Getting Started
 Prerequisites
@@ -60,6 +61,8 @@ For now Admin has access to user management and creation over the regular user.
 If you would like to check how customer may request appointment, open http://localhost:2020/booking/form , select Veterinarian and available hour from plan and create an appointment. 
 Then log in as a user or admin and check "appointments" tile. As you can see you can now accept your visit or reject it.
 
+To engage in a one-to-one chat with a veterinarian, navigate to http://localhost:2020/selectVet, choose a veterinarian from the list, and click "Start chat". Veterinarians will see a list of active chats and can respond to customers in real-time.
+
 
 Technologies Used
 
@@ -74,3 +77,5 @@ Technologies Used
     Lombok
     Thymeleaf
     MapStruct
+    WebSocket
+    JavaScript
