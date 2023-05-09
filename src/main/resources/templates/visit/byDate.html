@@ -32,20 +32,22 @@
   </thead>
   <tbody>
   <tr th:each="visit, index : ${visits}">
-    <td th:text="${visit.dateTimeOfVisit}"></td>
-    <td th:text="${animalService.findById(visit.animalId)?.owner?.name ?: ''}"></td>
-    <td th:text="${animalService.findById(visit.animalId)?.name ?: ''}"></td>
-    <td th:text="${visit.id}"></td>
-    <td th:text="${visit.diagnosis ?: ''}"></td>
-    <td th:text="${vetService.findById(visit.vetId)?.degree ?: ''} + ' ' + ${vetService.findById(visit.vetId)?.name ?: ''}"></td>
-    <td><a th:href="@{/visit/{visitId} (visitId=${visit.id})}"><button type="button">Details</button></a>
-      <a th:href="@{/visit/edit/{visitId} (visitId=${visit.id})}"><button type="button">Edit</button></a>
+    <td th:text="${visit.getDateTimeOfVisit()}"></td>
+    <td th:text="${visit.getOwnerName()}"></td>
+    <td th:text="${visit.getAnimalName()}"></td>
+    <td th:text="${visit.getId()}"></td>
+    <td th:text="${visit.getDiagnosis() ?: ''}"></td>
+    <td th:text="${visit.getVetName()}"></td>
+    <td>
+      <a th:href="@{/visit/{visitId} (visitId=${visit.getId()})}"><button type="button">Details</button></a>
+      <a th:href="@{/visit/edit/{visitId} (visitId=${visit.getId()})}"><button type="button">Edit</button></a>
     </td>
   </tr>
   </tbody>
 </table>
 
 <p>Total visits: <span th:text="${#lists.size(visits)}"></span></p>
+
 
 <div th:replace="fragments/footer :: footer"></div>
 

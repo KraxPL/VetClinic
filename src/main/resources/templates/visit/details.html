@@ -17,19 +17,24 @@
   </tr>
   <tr>
     <td>Date/Time of Visit:</td>
-    <td th:text="${visit.dateTimeOfVisit ?: ''}"></td>
+    <td th:text="${#temporals.format(visit.dateTimeOfVisit, 'dd.MM.yyyy HH:mm', 'Europe/Warsaw')}"></td>
+  </tr>
+  <tr>
+    <td>Pet Owner:</td>
+    <td th:text="${petOwner.name ?: ''} + ', ' + ${petOwner.city ?: ''} + ' ' + ${petOwner.street ?: ''} + ', ' +
+    ${petOwner.phoneNumber ?: ''} + ', ' + ${petOwner.extraInfo ?: ''}"></td>
   </tr>
   <tr>
     <td>Animal:</td>
-    <td th:text="${animalService.findById(visit.animalId)?.name ?: ''} + ', ' +
-    ${animalService.findById(visit.animalId)?.gender ?: ''} + ', ' +
-    ${animalService.findById(visit.animalId)?.breed ?: ''} + ', ' +
-    ${animalService.findById(visit.animalId)?.dateOfBirth ?: ''} + ', ' +
-    ${animalService.findById(visit.animalId)?.species ?: ''}"></td>
+    <td th:text="${animal.name ?: ''} + ', ' +
+    ${animal.gender ?: ''} + ', ' +
+    ${animal.breed ?: ''} + ', ' +
+    ${animal.dateOfBirth ?: ''} + ', ' +
+    ${animal.species ?: ''}"></td>
   </tr>
   <tr>
     <td>Vet:</td>
-    <td th:text="${vetService.findById(visit.vetId)?.degree ?: ''} + ' ' + ${vetService.findById(visit.vetId)?.name ?: ''}"></td>
+    <td th:text="${vet.degree} + ' ' + ${vet.name}"></td>
   </tr>
   <tr>
     <td>Anamnesis:</td>
