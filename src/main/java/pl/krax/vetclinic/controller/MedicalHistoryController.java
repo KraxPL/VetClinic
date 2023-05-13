@@ -120,11 +120,6 @@ public class MedicalHistoryController {
     private void ownerIdFromPetIdIntoModel(Model model, Long petId) {
         model.addAttribute("ownerId", animalService.findById(petId).getOwner().getId());
     }
-
-    private void vetAndAnimalServicesIntoModel(Model model) {
-        model.addAttribute("vetService", vetService);
-        model.addAttribute("animalService", animalService);
-    }
     private String getVisitDtoIntoModelAndReturnViewFromMedicalHistoryDtoList(Model model, List<MedicalHistoryDto> visits) {
         List<VisitDto> visitsDto = visits.stream()
                 .map(visit -> VisitDto.builder()
