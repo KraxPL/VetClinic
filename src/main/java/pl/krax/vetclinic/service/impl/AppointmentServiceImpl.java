@@ -74,5 +74,4 @@ public class AppointmentServiceImpl implements AppointmentService{
         appointmentDto.setEndDateTime(appointmentDto.getEndDateTime().minusSeconds(1));
         appointmentRepository.save(appointmentMapper.toEntity(appointmentDto));
     }
-
 }
