@@ -22,7 +22,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class AppointmentServiceImplTest {
+class AppointmentServiceImplTest {
 
     @Mock
     private AppointmentRepository appointmentRepository;
