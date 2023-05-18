@@ -37,7 +37,7 @@ public class PetOwner {
     @Size(max = 500)
     private String extraInfo;
     private int visitCount;
-    @Past
+    @PastOrPresent
     private LocalDate lastVisit;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     @ToString.Exclude
