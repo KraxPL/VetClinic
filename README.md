@@ -63,6 +63,8 @@ Then log in as a user or admin and check "appointments" tile. As you can see you
 
 To engage in a one-to-one chat with a veterinarian, navigate to http://localhost:2020/selectVet, choose a veterinarian from the list, and click "Start chat". Veterinarians will see a list of active chats and can respond to customers in real-time.
 
+VetClinic web application includes unit tests and mock tests to ensure the reliability and correctness of its functionality. The tests are implemented using JUnit 5 and Mockito, industry-standard testing frameworks for Java.
+
 
 Technologies Used
 
@@ -79,3 +81,5 @@ Technologies Used
     MapStruct
     WebSocket
     JavaScript
+    JUnit 5
+    Mockito
