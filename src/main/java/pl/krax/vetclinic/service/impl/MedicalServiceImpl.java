@@ -55,7 +55,7 @@ public class MedicalServiceImpl implements MedicalHistoryService {
 
     @Override
     public void update(MedicalHistoryDto historyDto) {
-                medicalHistoryRepository.save(medicalHistoryMapper.fromDto(historyDto));
+        medicalHistoryRepository.save(medicalHistoryMapper.fromDto(historyDto));
     }
 
     @Override
