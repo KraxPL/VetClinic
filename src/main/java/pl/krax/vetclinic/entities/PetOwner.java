@@ -3,7 +3,9 @@ package pl.krax.vetclinic.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.validator.constraints.pl.NIP;
 
@@ -12,6 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "pet_owners")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PetOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
