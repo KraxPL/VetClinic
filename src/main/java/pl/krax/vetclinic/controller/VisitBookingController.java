@@ -71,8 +71,8 @@ public class VisitBookingController {
         AppointmentDto appointmentDto = AppointmentDto.builder()
                 .vetId(vetId)
                 .vetScheduleId(scheduleId)
-                .startDateTime(appointmentDateTime.plusHours(2))
-                .endDateTime(appointmentDateTime.plusMinutes(visitTime).plusHours(2))
+                .startDateTime(appointmentDateTime)
+                .endDateTime(appointmentDateTime.plusMinutes(visitTime))
                 .build();
         model.addAttribute("appointmentDto", appointmentDto);
         return "booking/create";
