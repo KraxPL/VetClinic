@@ -53,12 +53,12 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     @Override
     public boolean delete(AppointmentDto appointmentDto) {
-        Appointment appointmentEntity = appointmentMapper.toEntity(appointmentDto);
-        if (appointmentRepository.existsById(appointmentEntity.getId())) {
-            appointmentRepository.delete(appointmentEntity);
+        try {
+            appointmentRepository.delete(appointmentMapper.toEntity(appointmentDto));
             return true;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
         }
-        return false;
     }
 
     @Override
