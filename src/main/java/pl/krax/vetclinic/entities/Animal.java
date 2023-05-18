@@ -2,7 +2,7 @@ package pl.krax.vetclinic.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public class Animal {
     @NotNull
     @Size(min = 3, max = 30)
     private String name;
-    @Past
+    @PastOrPresent
     private LocalDate dateOfBirth;
     @Size(max = 50)
     private String species;
@@ -48,6 +48,6 @@ public class Animal {
     private List<MedicalHistory> medicalHistoryList;
     private double weight;
     private int visitCount;
-    @Past
+    @PastOrPresent
     private LocalDate lastVisit;
 }

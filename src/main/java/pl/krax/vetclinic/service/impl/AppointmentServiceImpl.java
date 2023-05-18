@@ -24,7 +24,8 @@ public class AppointmentServiceImpl implements AppointmentService{
     @Override
     public void save(AppointmentDto appointmentDto) {
         appointmentDto.setIsActive(0);
-        appointmentRepository.save(appointmentMapper.toEntity(appointmentDto));
+        Appointment appointment = appointmentMapper.toEntity(appointmentDto);
+        appointmentRepository.save(appointment);
     }
 
     @Override
@@ -52,12 +53,12 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     @Override
     public boolean delete(AppointmentDto appointmentDto) {
-        try {
-            appointmentRepository.delete(appointmentMapper.toEntity(appointmentDto));
+        Appointment appointmentEntity = appointmentMapper.toEntity(appointmentDto);
+        if (appointmentRepository.existsById(appointmentEntity.getId())) {
+            appointmentRepository.delete(appointmentEntity);
             return true;
-        } catch (EmptyResultDataAccessException e) {
-            return false;
         }
+        return false;
     }
 
     @Override

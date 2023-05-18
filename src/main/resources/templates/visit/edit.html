@@ -13,6 +13,7 @@
     <form method="post" th:action="@{/visit/edit}" th:object="${visit}">
         <input type="hidden" id="animalId" th:value="${petId}" name="animalId">
         <input type="hidden" id="historyId" th:field="*{id}">
+        <input type="hidden" id="ownerId" th:field="*{ownerId}">
         <input type="hidden" id="visitDateTime" th:field="*{dateTimeOfVisit}">
         <input type="hidden" id="vetId" th:value="${#authentication.principal.user.id}" name="vetId"/>
         <div class="form-group">

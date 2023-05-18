@@ -1,7 +1,7 @@
 package pl.krax.vetclinic.dto;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import pl.krax.vetclinic.entities.PetOwner;
@@ -18,7 +18,7 @@ public class AnimalDto {
     @NotNull
     @Size(min = 3, max = 30)
     private String name;
-    @Past
+    @PastOrPresent
     private LocalDate dateOfBirth;
     @Size(max = 50)
     private String species;
