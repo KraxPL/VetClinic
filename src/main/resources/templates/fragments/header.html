@@ -15,7 +15,7 @@
     <div class="menu-options">
       <ul>
         <li><a href="/index">Main menu</a></li>
-        <li><a href="#">Settings</a></li>
+        <li><a th:href="@{/changePassword}">Settings</a></li>
         <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/vets">Users</a></li>
         <li><a th:href="@{/chats/{id}(id=${#authentication.principal.user.id})}">Chat</a></li>
         <li>

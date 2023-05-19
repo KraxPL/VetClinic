@@ -11,6 +11,7 @@ import pl.krax.vetclinic.repository.VetRepository;
 import pl.krax.vetclinic.service.VetService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,5 +68,23 @@ public class VetServiceImpl implements VetService {
     @Override
     public VetDto findVetDtoByEmail(String email) {
         return vetMapper.vetToDto(vetRepository.findByEmail(email));
+    }
+
+    @Override
+    public boolean checkPasswordRepeat(String newPassword, String confirmPassword){
+        return Objects.equals(newPassword, confirmPassword);
+    }
+
+    @Override
+    public boolean checkCurrentPassword(String currentPassword, Long vetId) {
+        Vet vet = findEntityById(vetId);
+        return passwordEncoder.matches(currentPassword, vet.getPassword());
+    }
+
+    @Override
+    public void changePassword(String newPassword, Long vetId) {
+        Vet vet = findEntityById(vetId);
+        vet.setPassword(passwordEncoder.encode(newPassword));
+        vetRepository.save(vet);
     }
 }
