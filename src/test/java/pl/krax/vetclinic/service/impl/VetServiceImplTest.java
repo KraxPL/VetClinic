@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.krax.vetclinic.dto.VetDto;
@@ -167,4 +168,47 @@ class VetServiceImplTest {
                 .collect(Collectors.toList());
     }
 
+    @Test
+    public void testCheckPasswordRepeat() {
+        String password = "password";
+        boolean result = vetService.checkPasswordRepeat(password, password);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testCheckCurrentPassword() {
+        Long vetId = 1L;
+        String currentPassword = "currentPassword";
+        String encodedPassword = "encodedPassword";
+
+        Vet vet = new Vet();
+        vet.setId(vetId);
+        vet.setPassword(encodedPassword);
+
+        Mockito.when(vetRepository.findById(vetId)).thenReturn(Optional.of(vet));
+        Mockito.when(passwordEncoder.matches(currentPassword, encodedPassword)).thenReturn(true);
+
+        boolean result = vetService.checkCurrentPassword(currentPassword, vetId);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void testChangePassword() {
+        Long vetId = 1L;
+        String newPassword = "newPassword";
+        String encodedPassword = "encodedPassword";
+
+        Vet vet = new Vet();
+        vet.setId(vetId);
+        vet.setPassword(encodedPassword);
+
+        Mockito.when(vetRepository.findById(vetId)).thenReturn(Optional.of(vet));
+        Mockito.when(passwordEncoder.encode(newPassword)).thenReturn("encodedNewPassword");
+        Mockito.when(vetRepository.save(Mockito.any(Vet.class))).thenReturn(vet);
+
+        vetService.changePassword(newPassword, vetId);
+
+        Mockito.verify(vetRepository).save(vet);
+        Assertions.assertEquals("encodedNewPassword", vet.getPassword());
+    }
 }
